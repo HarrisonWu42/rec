@@ -16,7 +16,6 @@ import java.util.List;
 @Document(indexName= "song", type= "song")
 public class Song {
     @Id
-    //111
     @Field(type = FieldType.Integer)
     private Integer id;
     @Field(type = FieldType.Keyword)
@@ -30,7 +29,7 @@ public class Song {
     @Field(type = FieldType.Integer)
     private Integer year;
     @Field(type = FieldType.Keyword)
-    private  String pic_Url;
+    private  String pic_url;
     @Field(type = FieldType.Keyword)
     private String artist_id;
     @Field(type = FieldType.Keyword)

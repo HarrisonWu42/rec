@@ -44,6 +44,8 @@ public class User {
     private UserCollect collect;
     @Field(type = FieldType.Nested)
     private UserRec rec;
+    @Field(type = FieldType.Nested)
+    private UserRecord record;
 
 
 
