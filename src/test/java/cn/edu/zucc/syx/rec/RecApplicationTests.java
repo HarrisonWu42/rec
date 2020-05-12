@@ -2,7 +2,6 @@ package cn.edu.zucc.syx.rec;
 
 import cn.edu.zucc.syx.rec.entity.User;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;//导入包
