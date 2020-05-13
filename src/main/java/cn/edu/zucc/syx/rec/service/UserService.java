@@ -1,9 +1,12 @@
 package cn.edu.zucc.syx.rec.service;
 
 import cn.edu.zucc.syx.rec.entity.User;
+import cn.edu.zucc.syx.rec.form.UserEditForm;
+import cn.edu.zucc.syx.rec.form.UserForm;
 
 public interface UserService {
-    public String add(User user);
+
+    public User create(UserForm user);
 
     //删除
     public String delete(User user);
@@ -11,9 +14,12 @@ public interface UserService {
     //局部更新
     public String update(User user);
 
-    //查询
-    public User queryUser(Long id);
+    User login(String host, String pwd);
 
-    public User queryArticleByNameAndPasswd(String name, String passwd);
+    Boolean isUserExist(String host);
+
+    User queryUser(String host);
+
+    User editUser(UserEditForm user);
 
 }
