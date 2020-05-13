@@ -2,7 +2,7 @@ var path = require('path');
 //导入插件
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var VueLoaderPlugin=require('vue-loader/lib/plugin');
+var VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 var config = {
     entry: {
@@ -26,6 +26,10 @@ var config = {
                         })
                     }
                 }
+            },
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader?limit=1024'
             },
             {
                 test: /\.js$/,
