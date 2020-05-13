@@ -20,6 +20,8 @@ class RecApplicationTests {
     @Test
     void contextLoads() {
     }
+
+
     @Test
     public  void  createIndex(){
         // 创建索引，会根据Item类的@Document注解信息来创建
@@ -37,6 +39,9 @@ class RecApplicationTests {
         esTemplate.putMapping(Sheet.class);
 
     }
+
+
+
         @Test
     public void testAdd() {
 //        KeyArtists keyArtists= new KeyArtists("ARM","XX");
@@ -52,7 +57,7 @@ class RecApplicationTests {
 //        UserRec userRec = new UserRec(keySong,keyArtists);
 //        User user= new User(2,"kk","syx","123456","1","20","@","159888",userCollect,userRec);
         User user= new User();
-        user.setId(1);
+//        user.setId(1);
         user.setName("syx");
         user.setEmail("@qq.com");
         user.setPassword("1234");
@@ -74,7 +79,7 @@ class RecApplicationTests {
 //        UserRec userRec = new UserRec(keySong,keyArtists);
 //        User user= new User(2,"kk","syx","123456","1","20","@","159888",userCollect,userRec);
         User user= new User();
-        user.setId(1);
+//        user.setId(1);
         user.setName("syx");
         user.setEmail("@qq.com");
         user.setPassword("123");
@@ -84,11 +89,11 @@ class RecApplicationTests {
     @Test
     public void delete() {
         User user= new User();
-        user.setId(1);
+//        user.setId(1);
 //        user.setName("syx");
 //        user.setEmail("@qq.com");
 //        user.setPassword("123");
-        userRepository.deleteById(user.getId());
+//        userRepository.deleteById(user.getId());
 
     }
 }

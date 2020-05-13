@@ -16,20 +16,24 @@ import java.util.List;
 @Document(indexName= "artist", type= "artist")
 public class Artist {
     @Id
-    @Field(type = FieldType.Integer)
-    private  Integer id;
     @Field(type = FieldType.Keyword)
     private String artist_id;
+
     @Field(type = FieldType.Keyword)
     private  String artist_name;
+
     @Field(type = FieldType.Float)
     private  Float artist_familiarity;
+
     @Field(type = FieldType.Float)
     private  Float artist_hotttnesss;
+
     @Field(type = FieldType.Nested)
     private List<ArtistsTags> tags;
+
     @Field(type = FieldType.Nested)
-    private List<Similar> similar;
+    private List<KeyArtists> similar;
+
     @Field(type = FieldType.Nested)
     private List<KeySong> songs;
 

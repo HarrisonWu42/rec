@@ -12,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class KeyTags {
     @Field(type = FieldType.Keyword)
     private  String tag;
+
     @Field(type = FieldType.Integer)
     private Integer value;
 }
