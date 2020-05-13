@@ -11,11 +11,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCollect {
+public class UserCollection {
     @Field(type = FieldType.Nested)
     private List<KeySong> songs;
-    @Field(type = FieldType.Nested)
-    private List<UserSheets> sheets;
+
     @Field(type = FieldType.Nested)
     private List<KeyArtists> artists;
+
+    @Field(type = FieldType.Nested)
+    private List<UserSheets> sheets;
+
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -26,6 +26,7 @@ public class UserController {
             return "fail";
         }
     }
+
 
     @RequestMapping("/login/{name}/{passwd}")
     public String Login(@PathVariable("name") String name, @PathVariable("passwd") String passwd) throws Exception {
@@ -48,5 +49,7 @@ public class UserController {
 //        }return null;
 
     }
+
+
 
 }

@@ -12,8 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class KeyArtists {
     @Field(type = FieldType.Keyword)
     private String artist_id;
+
     @Field(type = FieldType.Keyword)
     private String artist_name;
-
-
 }

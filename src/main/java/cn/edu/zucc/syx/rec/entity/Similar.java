@@ -12,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Similar {
     @Field(type = FieldType.Keyword)
     private String song_id;
+
     @Field(type = FieldType.Float)
     private Float value;
 }
