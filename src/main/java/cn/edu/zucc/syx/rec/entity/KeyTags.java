@@ -1,13 +1,9 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@NoArgsConstructor
-@AllArgsConstructor
 public class KeyTags {
     @Field(type = FieldType.Keyword)
     private  String tag;
@@ -28,6 +24,14 @@ public class KeyTags {
     }
 
     public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public KeyTags() {
+    }
+
+    public KeyTags(String tag, Integer value) {
+        this.tag = tag;
         this.value = value;
     }
 }

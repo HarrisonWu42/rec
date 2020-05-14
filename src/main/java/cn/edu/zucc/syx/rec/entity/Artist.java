@@ -1,8 +1,5 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -11,10 +8,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Document(indexName= "artist", type= "artist")
 public class Artist {
+
     @Id
     @Field(type = FieldType.Keyword)
     private String id;
@@ -36,6 +32,19 @@ public class Artist {
 
     @Field(type = FieldType.Nested)
     private List<KeySong> songs;
+
+    public Artist() {
+    }
+
+    public Artist(String id, String name, Float artist_familiarity, Float artist_hotttnesss, List<ArtistsTags> tags, List<KeyArtists> similar, List<KeySong> songs) {
+        this.id = id;
+        this.name = name;
+        this.artist_familiarity = artist_familiarity;
+        this.artist_hotttnesss = artist_hotttnesss;
+        this.tags = tags;
+        this.similar = similar;
+        this.songs = songs;
+    }
 
     public String getId() {
         return id;
@@ -92,4 +101,6 @@ public class Artist {
     public void setSongs(List<KeySong> songs) {
         this.songs = songs;
     }
+
+
 }

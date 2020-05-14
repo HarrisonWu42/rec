@@ -1,8 +1,5 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -10,8 +7,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Document(indexName= "sheet", type= "sheet")
 public class Sheet {
 
@@ -84,6 +80,19 @@ public class Sheet {
     }
 
     public void setSongs(List<KeySong> songs) {
+        this.songs = songs;
+    }
+
+    public Sheet() {
+    }
+
+    public Sheet(String id, String name, String description, String creator_id, String creator_name, Boolean is_open, List<KeySong> songs) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.creator_id = creator_id;
+        this.creator_name = creator_name;
+        this.is_open = is_open;
         this.songs = songs;
     }
 }

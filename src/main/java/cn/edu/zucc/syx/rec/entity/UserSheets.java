@@ -1,17 +1,10 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserSheets {
     @Field(type = FieldType.Keyword)
     private String sheet_id;
@@ -76,6 +69,18 @@ public class UserSheets {
     }
 
     public void setIs_open(Boolean is_open) {
+        this.is_open = is_open;
+    }
+
+    public UserSheets() {
+    }
+
+    public UserSheets(String sheet_id, String usersheet_name, String description, String creator_id, String creator_name, Boolean is_open) {
+        this.sheet_id = sheet_id;
+        this.usersheet_name = usersheet_name;
+        this.description = description;
+        this.creator_id = creator_id;
+        this.creator_name = creator_name;
         this.is_open = is_open;
     }
 }

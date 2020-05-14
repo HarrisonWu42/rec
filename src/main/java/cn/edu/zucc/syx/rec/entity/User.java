@@ -1,8 +1,5 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -10,12 +7,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
-/**
- * Created by yemengying on 16/1/10.
- */
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Document(indexName= "user", type= "user")
 public class User {
 
@@ -127,6 +118,22 @@ public class User {
     }
 
     public void setRecord(List<UserRecord> record) {
+        this.record = record;
+    }
+
+    public User() {
+    }
+
+    public User(String host, String password, String name, String sex, Integer age, String email, String phone, UserCollection collection, UserRec rec, List<UserRecord> record) {
+        this.host = host;
+        this.password = password;
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.email = email;
+        this.phone = phone;
+        this.collection = collection;
+        this.rec = rec;
         this.record = record;
     }
 }

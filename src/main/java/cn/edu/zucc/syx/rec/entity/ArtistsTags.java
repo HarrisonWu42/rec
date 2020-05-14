@@ -1,13 +1,9 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class ArtistsTags {
     // 歌手标签
     @Field(type = FieldType.Keyword)
@@ -20,6 +16,9 @@ public class ArtistsTags {
     // 标签权重
     @Field(type = FieldType.Float)
     private Float weight;
+
+    public ArtistsTags() {
+    }
 
     public String getTag() {
         return tag;
@@ -42,6 +41,12 @@ public class ArtistsTags {
     }
 
     public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public ArtistsTags(String tag, Float freq, Float weight) {
+        this.tag = tag;
+        this.freq = freq;
         this.weight = weight;
     }
 }

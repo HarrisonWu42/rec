@@ -1,17 +1,12 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Document(indexName= "song", type= "song")
 public class Song {
     @Id
@@ -210,6 +205,30 @@ public class Song {
     }
 
     public void setEnd_of_fade_in(Float end_of_fade_in) {
+        this.end_of_fade_in = end_of_fade_in;
+    }
+
+    public Song() {
+    }
+
+    public Song(String id, String name, Float song_hotttnesss, String release, Integer year, String pic_url, String artist_id, String artist_name, Float artist_hotttnesss, Float artist_familiarity, List<KeyTags> tags, List<Similar> similar, Integer key, Float loudness, Float tempo, Integer time_signature, Float duration, Float end_of_fade_in) {
+        this.id = id;
+        this.name = name;
+        this.song_hotttnesss = song_hotttnesss;
+        this.release = release;
+        this.year = year;
+        this.pic_url = pic_url;
+        this.artist_id = artist_id;
+        this.artist_name = artist_name;
+        this.artist_hotttnesss = artist_hotttnesss;
+        this.artist_familiarity = artist_familiarity;
+        this.tags = tags;
+        this.similar = similar;
+        this.key = key;
+        this.loudness = loudness;
+        this.tempo = tempo;
+        this.time_signature = time_signature;
+        this.duration = duration;
         this.end_of_fade_in = end_of_fade_in;
     }
 }

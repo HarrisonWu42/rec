@@ -18,20 +18,20 @@ public class SheetController {
 
     private JsonUtil util = new JsonUtil();
 
-//    // 创建歌单
-//    @PostMapping("/create")
-//    public JSONObject createSheet(String sheetName, String description, String userId){
-//        JSONObject ret = new JSONObject();
-//        try {
-//            Sheet sheet = sheetService.create(sheetName, description, userId);
-//            ret = util.sheetBrief2Json(sheet);
-//        }catch (Exception e){
-//            ret.put("code", "error");
-//            ret.put("msg", "failed");
-//        }
-//
-//        return ret;
-//    }
+    // 创建歌单
+    @PostMapping("/create")
+    public JSONObject createSheet(String sheetName, String description, String userId){
+        JSONObject ret = new JSONObject();
+        try {
+            Sheet sheet = sheetService.create(sheetName, description, userId);
+            ret = util.sheetBrief2Json(sheet);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
+
+        return ret;
+    }
 
     // 删除歌单
     @GetMapping("delete")

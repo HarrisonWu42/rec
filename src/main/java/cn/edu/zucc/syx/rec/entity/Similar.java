@@ -1,13 +1,9 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Similar {
     @Field(type = FieldType.Keyword)
     private String song_id;
@@ -28,6 +24,14 @@ public class Similar {
     }
 
     public void setValue(Float value) {
+        this.value = value;
+    }
+
+    public Similar() {
+    }
+
+    public Similar(String song_id, Float value) {
+        this.song_id = song_id;
         this.value = value;
     }
 }

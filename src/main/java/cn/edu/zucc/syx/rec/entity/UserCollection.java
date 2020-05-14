@@ -1,15 +1,10 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserCollection {
     @Field(type = FieldType.Nested)
     private List<KeySong> songs;
@@ -41,6 +36,15 @@ public class UserCollection {
     }
 
     public void setSheets(List<UserSheets> sheets) {
+        this.sheets = sheets;
+    }
+
+    public UserCollection() {
+    }
+
+    public UserCollection(List<KeySong> songs, List<KeyArtists> artists, List<UserSheets> sheets) {
+        this.songs = songs;
+        this.artists = artists;
         this.sheets = sheets;
     }
 }

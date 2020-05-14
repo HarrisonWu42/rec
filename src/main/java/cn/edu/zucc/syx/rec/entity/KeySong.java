@@ -1,13 +1,8 @@
 package cn.edu.zucc.syx.rec.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@NoArgsConstructor
-@AllArgsConstructor
 public class KeySong {
     @Field(type = FieldType.Keyword)
     private  String song_id;
@@ -57,6 +52,17 @@ public class KeySong {
     }
 
     public void setRelease(String release) {
+        this.release = release;
+    }
+
+    public KeySong() {
+    }
+
+    public KeySong(String song_id, String song_name, String artist_id, String artist_name, String release) {
+        this.song_id = song_id;
+        this.song_name = song_name;
+        this.artist_id = artist_id;
+        this.artist_name = artist_name;
         this.release = release;
     }
 }
