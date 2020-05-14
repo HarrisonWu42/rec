@@ -14,4 +14,12 @@ import java.util.List;
 public class UserRecord {
     @Field(type = FieldType.Nested)
     private List<KeySong> songs;
+
+    public List<KeySong> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<KeySong> songs) {
+        this.songs = songs;
+    }
 }

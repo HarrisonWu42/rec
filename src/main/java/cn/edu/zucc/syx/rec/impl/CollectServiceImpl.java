@@ -62,6 +62,7 @@ public class CollectServiceImpl implements CollectService {
         elasticsearchTemplate.update(updateQuery);
         return deleted_song;
     }
+
     @Override
     public KeySong addSong(String host, String song_id) {
         User user = userRepository.findUserByHost(host);

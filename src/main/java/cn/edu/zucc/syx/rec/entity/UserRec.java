@@ -17,4 +17,20 @@ public class UserRec {
 
     @Field(type = FieldType.Nested)
     private List<KeyArtists> artists;
+
+    public List<KeySong> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<KeySong> songs) {
+        this.songs = songs;
+    }
+
+    public List<KeyArtists> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<KeyArtists> artists) {
+        this.artists = artists;
+    }
 }

@@ -1,9 +1,7 @@
 package cn.edu.zucc.syx.rec.controller;
 
-import cn.edu.zucc.syx.rec.entity.Artist;
 import cn.edu.zucc.syx.rec.entity.KeyArtists;
 import cn.edu.zucc.syx.rec.entity.KeySong;
-import cn.edu.zucc.syx.rec.entity.User;
 import cn.edu.zucc.syx.rec.impl.CollectServiceImpl;
 import cn.edu.zucc.syx.rec.service.CollectService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;

@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(indexName= "artist", type= "artist")
@@ -37,5 +37,59 @@ public class Artist {
     @Field(type = FieldType.Nested)
     private List<KeySong> songs;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Float getArtist_familiarity() {
+        return artist_familiarity;
+    }
+
+    public void setArtist_familiarity(Float artist_familiarity) {
+        this.artist_familiarity = artist_familiarity;
+    }
+
+    public Float getArtist_hotttnesss() {
+        return artist_hotttnesss;
+    }
+
+    public void setArtist_hotttnesss(Float artist_hotttnesss) {
+        this.artist_hotttnesss = artist_hotttnesss;
+    }
+
+    public List<ArtistsTags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<ArtistsTags> tags) {
+        this.tags = tags;
+    }
+
+    public List<KeyArtists> getSimilar() {
+        return similar;
+    }
+
+    public void setSimilar(List<KeyArtists> similar) {
+        this.similar = similar;
+    }
+
+    public List<KeySong> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<KeySong> songs) {
+        this.songs = songs;
+    }
 }

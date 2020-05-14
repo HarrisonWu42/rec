@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Similar {
@@ -15,4 +14,20 @@ public class Similar {
 
     @Field(type = FieldType.Float)
     private Float value;
+
+    public String getSong_id() {
+        return song_id;
+    }
+
+    public void setSong_id(String song_id) {
+        this.song_id = song_id;
+    }
+
+    public Float getValue() {
+        return value;
+    }
+
+    public void setValue(Float value) {
+        this.value = value;
+    }
 }

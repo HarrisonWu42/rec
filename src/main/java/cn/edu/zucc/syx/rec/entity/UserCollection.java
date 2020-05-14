@@ -8,7 +8,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCollection {
@@ -21,4 +20,27 @@ public class UserCollection {
     @Field(type = FieldType.Nested)
     private List<UserSheets> sheets;
 
+    public List<KeySong> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<KeySong> songs) {
+        this.songs = songs;
+    }
+
+    public List<KeyArtists> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<KeyArtists> artists) {
+        this.artists = artists;
+    }
+
+    public List<UserSheets> getSheets() {
+        return sheets;
+    }
+
+    public void setSheets(List<UserSheets> sheets) {
+        this.sheets = sheets;
+    }
 }
