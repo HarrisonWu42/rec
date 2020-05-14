@@ -120,4 +120,9 @@ public class SheetServiceImpl implements SheetService {
         userRepository.save(user);
         return true;
     }
+
+    @Override
+    public List<Sheet> findByName(String name){
+        return sheetRepository.findByNameLike("%"+name+"%");
+    }
 }

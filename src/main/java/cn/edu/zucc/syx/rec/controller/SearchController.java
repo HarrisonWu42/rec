@@ -1,9 +1,13 @@
 package cn.edu.zucc.syx.rec.controller;
 
 
+import cn.edu.zucc.syx.rec.entity.Artist;
+import cn.edu.zucc.syx.rec.entity.Sheet;
 import cn.edu.zucc.syx.rec.entity.Song;
 import cn.edu.zucc.syx.rec.impl.CollectServiceImpl;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
+import cn.edu.zucc.syx.rec.service.ArtistService;
+import cn.edu.zucc.syx.rec.service.SheetService;
 import cn.edu.zucc.syx.rec.service.SongService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -20,7 +24,10 @@ import java.util.List;
 public class SearchController {
     @Autowired
     private SongService songService;
-
+    @Autowired
+    private SheetService sheetService;
+    @Autowired
+    private ArtistService artistService;
     private JsonUtil util = new JsonUtil();
     @GetMapping("/songs/{song_name}")
     public JSONObject searchSong(@PathVariable("song_name") String song_name){
@@ -29,4 +36,21 @@ public class SearchController {
         ret  = util.Songs2Json(songList);
         return ret;
     }
+
+    @GetMapping("/sheets/{sheet_name}")
+    public JSONObject searchSheet(@PathVariable("sheet_name") String sheet_name){
+        List<Sheet> sheetList =  sheetService.findByName(sheet_name);
+        JSONObject ret = new JSONObject();
+        ret  = util.Sheets2Json(sheetList);
+        return ret;
+    }
+    @GetMapping("/sheets/{artist_name}")
+    public JSONObject searchArtist(@PathVariable("sheet_name") String sheet_name){
+        List<Artist> artistList =  artistService.findByArtistName(sheet_name);
+        JSONObject ret = new JSONObject();
+        ret  = util.Artistss2Json(artistList);
+        return ret;
+    }
+
+
 }

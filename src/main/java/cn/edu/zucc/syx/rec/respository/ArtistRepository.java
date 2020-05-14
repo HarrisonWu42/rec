@@ -6,8 +6,10 @@ import cn.edu.zucc.syx.rec.entity.Sheet;
 import cn.edu.zucc.syx.rec.entity.Song;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.List;
+
 public interface ArtistRepository extends ElasticsearchRepository<Artist,Integer> {
 //    public Sheet
-    Artist queryById(String artist_id);
+    List<Artist> queryByNameLike(String artist_id);
 }
 
