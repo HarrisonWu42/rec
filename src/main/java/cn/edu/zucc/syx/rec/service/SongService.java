@@ -5,6 +5,6 @@ import cn.edu.zucc.syx.rec.entity.Song;
 
 public interface SongService {
 //    public Song searchSongByid(String song_id);
-    public Song searchSongByName(String song_name);
+    public Song searchByName(String name);
 
 }
