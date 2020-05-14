@@ -8,6 +8,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 public interface ArtistRepository extends ElasticsearchRepository<Artist,Integer> {
 //    public Sheet
-    Artist queryByArtist_id(String artist_id);
+    Artist queryById(String artist_id);
 }
 

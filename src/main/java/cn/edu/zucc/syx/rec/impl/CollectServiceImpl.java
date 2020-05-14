@@ -65,10 +65,10 @@ public class CollectServiceImpl implements CollectService {
     @Override
     public KeySong addSong(String host, String song_id) {
         User user = userRepository.findUserByHost(host);
-        Song song  = songRepository.queryBySong_id(song_id);
+        Song song  = songRepository.queryById(song_id);
         KeySong keySong  = new KeySong();
         keySong.setSong_id(song_id);
-        keySong.setSong_name(song.getSong_name());
+        keySong.setSong_name(song.getName());
         keySong.setArtist_name(song.getArtist_name());
         keySong.setRelease(song.getRelease());
         keySong.setArtist_id(song.getArtist_id());
@@ -111,7 +111,7 @@ public class CollectServiceImpl implements CollectService {
         UserCollection userCollection = user.getCollection();
         List<KeyArtists> keyArtistsList = userCollection.getArtists();
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
-        Artist artist =  artistRepository.queryByArtist_id(artist_id);
+        Artist artist =  artistRepository.queryById(artist_id);
         KeyArtists add_artist = null;
 //        for(KeyArtists artist :keyArtistsList){
 //            if(artist.getArtist_id().equals(artist_id)){
@@ -119,8 +119,8 @@ public class CollectServiceImpl implements CollectService {
 //                keyArtistsList.remove(artist);
 //            }
 //        }
-        add_artist.setArtist_id(artist.getArtist_id());
-        add_artist.setArtist_name(artist.getArtist_name());
+        add_artist.setArtist_id(artist.getId());
+        add_artist.setArtist_name(artist.getName());
         keyArtistsList.add(add_artist);
         userCollection.setArtists(keyArtistsList);
         IndexRequest indexRequest = new IndexRequest();
