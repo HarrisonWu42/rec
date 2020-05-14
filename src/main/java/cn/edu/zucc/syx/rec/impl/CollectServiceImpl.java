@@ -126,7 +126,11 @@ public class CollectServiceImpl implements CollectService {
         userCollection.setArtists(keyArtistsList);
         IndexRequest indexRequest = new IndexRequest();
         indexRequest.source("collection", userCollection);
-        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+        UpdateQuery updateQuery = new UpdateQueryBuilder()
+                .withId(user.getHost())
+                .withClass(User.class)
+                .withIndexRequest(indexRequest)
+                .build();
         elasticsearchTemplate.update(updateQuery);
         return add_artist;
     }
