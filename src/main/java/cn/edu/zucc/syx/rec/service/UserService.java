@@ -6,13 +6,13 @@ import cn.edu.zucc.syx.rec.form.UserForm;
 
 public interface UserService {
 
-    public User create(UserForm user);
+    User create(UserForm user);
 
     //删除
-    public String delete(User user);
+    String delete(User user);
 
     //局部更新
-    public String update(User user);
+    String update(User user);
 
     User login(String host, String pwd);
 

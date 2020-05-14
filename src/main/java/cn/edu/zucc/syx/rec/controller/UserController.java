@@ -5,6 +5,7 @@ import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
+import cn.edu.zucc.syx.rec.util.Tool;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,18 @@ public class UserController {
     @PostMapping("/register")
     public JSONObject register(@RequestBody UserForm userForm) {
         JSONObject ret = new JSONObject();
+
+        // host已经存在
+        if (userService.isUserExist(userForm.getHost()) == true) {
+            ret.put("code", "error");
+            ret.put("msg", "该用户已经存在");
+        }
+
+        // 默认name,随机
+        if (userForm.getName() == null){
+            userForm.setName(Tool.getRandomString(8));
+        }
+
         try {
             User user = userService.create(userForm);
             ret = util.user2JSON(user);
@@ -38,6 +51,7 @@ public class UserController {
     @PostMapping("/login/{host}")
     public JSONObject login(@PathVariable("host") String host, @PathParam("password") String pwd) throws Exception {
         JSONObject ret = new JSONObject();
+
 
         if (userService.isUserExist(host) == false){
             ret.put("code", "error");
@@ -63,7 +77,7 @@ public class UserController {
     }
 
     // 获取个人信息
-    @GetMapping("/get_personal_info/{host}")
+    @GetMapping("/{host}/get_personal_info")
     public JSONObject getPersonalInfo(@PathVariable("host") String host) {
         User user = userService.queryUser(host);
         JSONObject ret = util.userInfo2Json(user);
@@ -71,8 +85,8 @@ public class UserController {
     }
 
     // 修改个人信息
-    @PostMapping("/edit_personal_info/{host}")
-    public JSONObject editInfo(@PathVariable("host") String host, @RequestBody UserEditForm userEditForm) {
+    @PostMapping("/edit_personal_info")
+    public JSONObject editInfo(@RequestBody UserEditForm userEditForm) {
         User user = userService.editUser(userEditForm);
         JSONObject ret = util.userInfo2Json(user);
         return ret;

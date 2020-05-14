@@ -5,10 +5,7 @@ import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/sheet")
@@ -19,11 +16,11 @@ public class SheetController {
     private JsonUtil util = new JsonUtil();
 
     // 创建歌单
-    @PostMapping("/create")
-    public JSONObject createSheet(String sheetName, String description, String userId){
+    @PostMapping("/{host}/create")
+    public JSONObject createSheet(@PathVariable String host, String sheetName, String description){
         JSONObject ret = new JSONObject();
         try {
-            Sheet sheet = sheetService.create(sheetName, description, userId);
+            Sheet sheet = sheetService.create(sheetName, description, host);
             ret = util.sheetBrief2Json(sheet);
         }catch (Exception e){
             ret.put("code", "error");
