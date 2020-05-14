@@ -1,6 +1,7 @@
 package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.Sheet;
+import cn.edu.zucc.syx.rec.entity.UserSheets;
 import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
@@ -8,6 +9,8 @@ import cn.edu.zucc.syx.rec.util.Statue;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
@@ -59,9 +62,16 @@ public class SheetController {
     }
 
     // 查询所有歌单
-    @GetMapping("/list")
-    public JSONObject listAll(){
+    @GetMapping("/{host}/list")
+    public JSONObject listAll(@PathVariable String host){
         JSONObject ret = new JSONObject();
+        try {
+            List<UserSheets> sheetsList = sheetService.listAll(host);
+            ret = util.userSheets2Json(sheetsList);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 
@@ -69,6 +79,8 @@ public class SheetController {
     @PostMapping("/add_song")
     public JSONObject addSong(){
         JSONObject ret = new JSONObject();
+
+
         return ret;
     }
 
