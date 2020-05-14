@@ -5,5 +5,6 @@ import cn.edu.zucc.syx.rec.entity.User;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface SongRepository extends ElasticsearchRepository<Song,Integer> {
-    Song queryById(String song_id);
+    Song queryBySong_id(String song_id);
+    Song queryBySong_name(String song_name);
 }
