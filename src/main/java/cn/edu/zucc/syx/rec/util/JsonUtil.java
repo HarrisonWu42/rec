@@ -2,9 +2,8 @@ package cn.edu.zucc.syx.rec.util;
 
 import cn.edu.zucc.syx.rec.entity.KeyArtists;
 import cn.edu.zucc.syx.rec.entity.KeySong;
-import cn.edu.zucc.syx.rec.entity.Sheet;
+import cn.edu.zucc.syx.rec.entity.Song;
 import cn.edu.zucc.syx.rec.entity.User;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
@@ -46,7 +45,15 @@ public class JsonUtil {
     }
     public JSONObject userSong2Json(KeySong keySong){
         JSONObject tmp = new JSONObject();
-        tmp.put("songs",keySong);
+        tmp.put("song",keySong);
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
+    public JSONObject userArtist2Json(KeyArtists keyArtists){
+        JSONObject tmp = new JSONObject();
+        tmp.put("artist",keyArtists);
         JSONObject ret = new JSONObject();
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);
@@ -62,16 +69,13 @@ public class JsonUtil {
         return ret;
     }
 
-    public JSONObject sheetBrief2Json(Sheet sheet){
-        JSONObject tmp = new JSONObject();
-        tmp.put("sheet_id", sheet.getId());
-//        tmp.put("sheet_id", sheet.getId());
-        tmp.put("sheet_name", sheet.getName());
-        tmp.put("user_id", sheet.getCreator_id());
-        JSONObject ret = new JSONObject();
-        ret.put("code", Statue.SUCCESS);
-        ret.put("data", tmp);
-        return ret;
-    }
+//    public JSONObject Song2Json(Song song){
+//        JSONObject tmp = new JSONObject();
+//        tmp.put("songs",keySong);
+//        JSONObject ret = new JSONObject();
+//        ret.put("code", Statue.SUCCESS);
+//        ret.put("data", tmp);
+//        return ret;
+//    }
 
 }
