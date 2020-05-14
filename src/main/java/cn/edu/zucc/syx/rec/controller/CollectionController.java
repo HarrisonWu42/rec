@@ -63,13 +63,14 @@ public class CollectionController {
     @PostMapping("/add_artist/{host}/{artist_id}")
     public JSONObject addArtist(@PathVariable("host") String host, @PathVariable("artist_id") String artist_id){
         JSONObject ret = new JSONObject();
-        try {
+//        try {
             KeyArtists artist = collectService.addArtist(host, artist_id);
+            System.out.println("11111");
             ret = util.userArtist2Json(artist);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "add favorate artist failed");
-        }
+//        } catch (Exception e){
+//            ret.put("code", "error");
+//            ret.put("msg", "add favorate artist failed");
+//        }
         return ret;
     }
     @PostMapping("/delete_artist/{host}/{artist_id}")

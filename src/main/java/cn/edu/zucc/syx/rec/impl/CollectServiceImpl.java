@@ -13,7 +13,9 @@ import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CollectServiceImpl implements CollectService {
@@ -111,27 +113,24 @@ public class CollectServiceImpl implements CollectService {
         User user = userRepository.findUserByHost(host);
         UserCollection userCollection = user.getCollection();
         List<KeyArtists> keyArtistsList = userCollection.getArtists();
-//        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
         Artist artist =  artistRepository.queryById(artist_id);
-        KeyArtists add_artist = null;
-//        for(KeyArtists artist :keyArtistsList){
-//            if(artist.getArtist_id().equals(artist_id)){
-//                deleted_artist = artist;
-//                keyArtistsList.remove(artist);
-//            }
-//        }
+        KeyArtists add_artist = new KeyArtists();
         add_artist.setArtist_id(artist.getId());
         add_artist.setArtist_name(artist.getName());
         keyArtistsList.add(add_artist);
         userCollection.setArtists(keyArtistsList);
-        IndexRequest indexRequest = new IndexRequest();
-        indexRequest.source("collection", userCollection);
-        UpdateQuery updateQuery = new UpdateQueryBuilder()
-                .withId(user.getHost())
-                .withClass(User.class)
-                .withIndexRequest(indexRequest)
-                .build();
-        elasticsearchTemplate.update(updateQuery);
+        user.setCollection(userCollection);
+        userRepository.save(user);
+//        System.out.println("44444444444");
+//        IndexRequest indexRequest = new IndexRequest();
+//        System.out.println("5555555555555");
+//
+//        System.out.println("111");
+//        Map<String,Object> source = new HashMap<>();
+//        source.put("collection",userCollection);
+//        indexRequest.source(source);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
         return add_artist;
     }
 }
