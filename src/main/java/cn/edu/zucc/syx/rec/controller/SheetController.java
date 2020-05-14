@@ -1,6 +1,8 @@
 package cn.edu.zucc.syx.rec.controller;
 
+import cn.edu.zucc.syx.rec.entity.Sheet;
 import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
+import cn.edu.zucc.syx.rec.util.JsonUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +16,22 @@ public class SheetController {
     @Autowired
     private SheetServiceImpl sheetService;
 
-    // 创建歌单
-    @PostMapping("/create")
-    public JSONObject createSheet(String sheetName, String description, String userId){
-        JSONObject ret = new JSONObject();
-        return ret;
-    }
+    private JsonUtil util = new JsonUtil();
+
+//    // 创建歌单
+//    @PostMapping("/create")
+//    public JSONObject createSheet(String sheetName, String description, String userId){
+//        JSONObject ret = new JSONObject();
+//        try {
+//            Sheet sheet = sheetService.create(sheetName, description, userId);
+//            ret = util.sheetBrief2Json(sheet);
+//        }catch (Exception e){
+//            ret.put("code", "error");
+//            ret.put("msg", "failed");
+//        }
+//
+//        return ret;
+//    }
 
     // 删除歌单
     @GetMapping("delete")
@@ -78,8 +90,6 @@ public class SheetController {
         JSONObject ret = new JSONObject();
         return ret;
     }
-
-
 
 
 }

@@ -18,9 +18,9 @@ public class Sheet {
 
     @Id
     @Field(type = FieldType.Keyword)
-    private String sheet_id;
+    private String id;
     @Field(type = FieldType.Keyword)
-    private String sheet_name;
+    private String name;
     @Field(type = FieldType.Text)
     private String description;
     @Field(type = FieldType.Keyword)

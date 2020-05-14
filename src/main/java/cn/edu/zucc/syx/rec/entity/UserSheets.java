@@ -17,7 +17,7 @@ public class UserSheets {
     private String sheet_id;
 
     @Field(type = FieldType.Keyword)
-    private String sheet_name;
+    private String usersheet_name;
 
     @Field(type = FieldType.Text)
     private String description;

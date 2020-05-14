@@ -17,10 +17,10 @@ import java.util.List;
 public class Artist {
     @Id
     @Field(type = FieldType.Keyword)
-    private String artist_id;
+    private String id;
 
     @Field(type = FieldType.Keyword)
-    private  String artist_name;
+    private  String name;
 
     @Field(type = FieldType.Float)
     private  Float artist_familiarity;
