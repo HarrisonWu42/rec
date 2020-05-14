@@ -10,7 +10,7 @@ public class UserSheets {
     private String sheet_id;
 
     @Field(type = FieldType.Keyword)
-    private String usersheet_name;
+    private String sheet_name;
 
     @Field(type = FieldType.Text)
     private String description;
@@ -32,12 +32,12 @@ public class UserSheets {
         this.sheet_id = sheet_id;
     }
 
-    public String getUsersheet_name() {
-        return usersheet_name;
+    public String getSheet_name() {
+        return sheet_name;
     }
 
-    public void setUsersheet_name(String usersheet_name) {
-        this.usersheet_name = usersheet_name;
+    public void setSheet_name(String usersheet_name) {
+        this.sheet_name = usersheet_name;
     }
 
     public String getDescription() {
@@ -75,9 +75,9 @@ public class UserSheets {
     public UserSheets() {
     }
 
-    public UserSheets(String sheet_id, String usersheet_name, String description, String creator_id, String creator_name, Boolean is_open) {
+    public UserSheets(String sheet_id, String sheet_name, String description, String creator_id, String creator_name, Boolean is_open) {
         this.sheet_id = sheet_id;
-        this.usersheet_name = usersheet_name;
+        this.sheet_name = sheet_name;
         this.description = description;
         this.creator_id = creator_id;
         this.creator_name = creator_name;

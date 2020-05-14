@@ -3,6 +3,7 @@ package cn.edu.zucc.syx.rec.util;
 import cn.edu.zucc.syx.rec.entity.*;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonUtil {
@@ -86,13 +87,21 @@ public class JsonUtil {
 
     }
 
-//    public JSONObject Song2Json(Song song){
-//        JSONObject tmp = new JSONObject();
-//        tmp.put("songs",keySong);
-//        JSONObject ret = new JSONObject();
-//        ret.put("code", Statue.SUCCESS);
-//        ret.put("data", tmp);
-//        return ret;
-//    }
+    public JSONObject userSheets2Json(List<UserSheets> sheets){
+        List<JSONObject> jsonSheets = new ArrayList<>();
+        for (UserSheets s:sheets){
+            JSONObject tmp = new JSONObject();
+            tmp.put("sheet_id", s.getSheet_id());
+            tmp.put("sheet_name", s.getSheet_name());
+            jsonSheets.add(tmp);
+        }
+        JSONObject tmp = new JSONObject();
+        tmp.put("sheets", jsonSheets);
+
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
 
 }
