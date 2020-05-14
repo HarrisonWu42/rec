@@ -84,9 +84,9 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
-    public Boolean open(String host, String sheetId) {
+    public Boolean open(String sheetId) {
         Sheet sheet = sheetRepository.findById(sheetId);
-        User user = userRepository.findUserByHost(host);
+        User user = userRepository.findUserByHost(sheet.getCreator_id());
         sheet.setIs_open(true);
         sheetRepository.save(sheet);
         List<UserSheets> userSheets = user.getCollection().getSheets();
@@ -103,9 +103,9 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
-    public Boolean close(String host, String sheetId) {
+    public Boolean close(String sheetId) {
         Sheet sheet = sheetRepository.findById(sheetId);
-        User user = userRepository.findUserByHost(host);
+        User user = userRepository.findUserByHost(sheet.getCreator_id());
         sheet.setIs_open(false);
         sheetRepository.save(sheet);
         List<UserSheets> userSheets = user.getCollection().getSheets();

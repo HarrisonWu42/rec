@@ -81,11 +81,11 @@ public class SheetController {
     }
 
     // 公开歌单
-    @PostMapping("/{host}/open")
-    public JSONObject open(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
+    @PostMapping("/open")
+    public JSONObject open(@RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
         try {
-            Boolean ok = sheetService.open(host, sheetId);
+            Boolean ok = sheetService.open(sheetId);
             ret.put("code", Statue.SUCCESS);
         }catch (Exception e){
             ret.put("code", "error");
@@ -95,11 +95,11 @@ public class SheetController {
     }
 
     // 取消公开歌单
-    @PostMapping("/{host}/close")
-    public JSONObject close(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
+    @PostMapping("/close")
+    public JSONObject close(@RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
         try {
-            Boolean ok = sheetService.close(host, sheetId);
+            Boolean ok = sheetService.close(sheetId);
             ret.put("code", Statue.SUCCESS);
         }catch (Exception e){
             ret.put("code", "error");
