@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
 @RequestMapping("/api/collection")
 public class CollectionController {

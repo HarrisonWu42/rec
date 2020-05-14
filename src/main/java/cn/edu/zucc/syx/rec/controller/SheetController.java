@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
 @RequestMapping("/api/sheet")
 public class SheetController {
