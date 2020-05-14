@@ -9,4 +9,6 @@ public interface UserRepository extends ElasticsearchRepository<User, Integer> {
     User findUserByHost(String host);
 
 
+
+
 }
