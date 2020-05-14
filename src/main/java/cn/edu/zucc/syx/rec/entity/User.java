@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.List;
+
 /**
  * Created by yemengying on 16/1/10.
  */
@@ -47,7 +49,7 @@ public class User {
     private UserRec rec;
 
     @Field(type = FieldType.Nested)
-    private UserRecord record;
+    private List<UserRecord> record;
 
 
 

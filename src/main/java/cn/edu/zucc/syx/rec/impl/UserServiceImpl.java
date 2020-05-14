@@ -51,7 +51,9 @@ public class UserServiceImpl implements UserService {
         UserRecord record = new UserRecord();
         List<KeySong> recordSongs = new ArrayList<>();
         record.setSongs(recordSongs);
-        user.setRecord(record);
+        List<UserRecord> records = new ArrayList<>();
+        records.add(record);
+        user.setRecord(records);
         userRepository.save(user);
         return user;
     }
