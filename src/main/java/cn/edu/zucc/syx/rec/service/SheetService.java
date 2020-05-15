@@ -16,5 +16,9 @@ public interface SheetService {
     Boolean close(String sheetId);
     List<UserSheets> listAll(String host);
     Sheet SheetInfo(String sheetId);
+    Sheet getInfo(String sheetId);
+    Boolean addSong2Sheet(String sheetId, String songId);
+    Boolean deleteSongFromSheet(String sheetId, String songId);
+
 
 }
