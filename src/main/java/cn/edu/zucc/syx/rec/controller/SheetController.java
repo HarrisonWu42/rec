@@ -54,10 +54,17 @@ public class SheetController {
         return ret;
     }
 
-    // 查看歌单详情
+    // 查看歌单详情，要写分页，还没开始写
     @GetMapping("/get_info")
     public JSONObject getInfo(String sheetId){
         JSONObject ret = new JSONObject();
+        try {
+            Sheet sheet = sheetService.getInfo(sheetId);
+            ret.put("code", Statue.SUCCESS);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 
@@ -77,18 +84,43 @@ public class SheetController {
 
     // 添加歌曲到歌单
     @PostMapping("/add_song")
-    public JSONObject addSong(){
+    public JSONObject addSong(@RequestParam("sheet_id") String sheetId,
+                              @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
 
-
+        try {
+            Boolean ok = sheetService.addSong2Sheet(sheetId, songId);
+            JSONObject tmp = new JSONObject();
+            tmp.put("song_id", songId);
+            tmp.put("sheet_id", sheetId);
+            ret.put("code", Statue.SUCCESS);
+            ret.put("data", tmp);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 
 
     // 从歌单中删除歌曲
     @GetMapping("delete_song")
-    public JSONObject deleteSong(){
+    public JSONObject deleteSong(@RequestParam("sheet_id") String sheetId,
+                                 @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
+
+
+        try {
+            Boolean ok = sheetService.deleteSongFromSheet(sheetId, songId);
+            JSONObject tmp = new JSONObject();
+            tmp.put("song_id", songId);
+            tmp.put("sheet_id", sheetId);
+            ret.put("code", Statue.SUCCESS);
+            ret.put("data", tmp);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 

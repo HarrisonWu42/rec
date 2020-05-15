@@ -128,4 +128,20 @@ public class SheetServiceImpl implements SheetService {
         return sheets;
     }
 
+    @Override
+    public Sheet getInfo(String sheetId) {
+        return sheetRepository.findById(sheetId);
+    }
+
+    @Override
+    public Boolean addSong2Sheet(String sheetId, String songId) {
+
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteSongFromSheet(String sheetId, String songId) {
+        return true;
+    }
 }

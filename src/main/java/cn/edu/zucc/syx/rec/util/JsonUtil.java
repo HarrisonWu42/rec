@@ -1,6 +1,7 @@
 package cn.edu.zucc.syx.rec.util;
 
 import cn.edu.zucc.syx.rec.entity.*;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
@@ -101,6 +102,12 @@ public class JsonUtil {
         JSONObject ret = new JSONObject();
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);
+        return ret;
+    }
+
+    // 要写分页
+    public JSONObject sheetInfo2Json(Sheet sheet){
+        JSONObject ret = new JSONObject();
         return ret;
     }
 
