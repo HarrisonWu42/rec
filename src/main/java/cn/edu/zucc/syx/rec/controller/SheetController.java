@@ -108,8 +108,6 @@ public class SheetController {
     public JSONObject deleteSong(@RequestParam("sheet_id") String sheetId,
                                  @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
-
-
         try {
             Boolean ok = sheetService.deleteSongFromSheet(sheetId, songId);
             JSONObject tmp = new JSONObject();
