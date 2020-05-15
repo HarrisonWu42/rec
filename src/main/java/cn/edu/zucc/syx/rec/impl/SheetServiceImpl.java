@@ -86,6 +86,52 @@ public class SheetServiceImpl implements SheetService {
         return sheet;
     }
 
+    @Override
+    public Sheet collect(String host, String sheedId) {
+        Sheet sheet = sheetRepository.findById(sheedId);
+
+        Sheet sheetCopy = new Sheet();
+
+        sheetCopy.setName(sheet.getName());
+        sheetCopy.setDescription(sheet.getDescription());
+        sheetCopy.setCreator_id(host);
+        sheetCopy.setIs_open(false);    // 默认是不开放
+        sheetCopy.setSongs(sheet.getSongs());
+
+        User user = userRepository.findUserByHost(host);
+        sheetCopy.setCreator_name(user.getName());
+
+        Boolean isNotSheetExist = false;
+        String s = Tool.getRandomString(20);
+        while (isNotSheetExist == false){
+            if (sheetRepository.findById(s) == null){
+                isNotSheetExist = true;
+            }else {
+                s = Tool.getRandomString(20);
+            }
+        }
+
+        sheetCopy.setId(s);
+        sheetRepository.save(sheetCopy);
+
+        List<UserSheets> userSheets= user.getCollection().getSheets();
+        UserSheets userSheet = new UserSheets();
+        userSheet.setCreator_id(host);
+        userSheet.setCreator_name(user.getName());
+        userSheet.setDescription(sheetCopy.getDescription());
+        userSheet.setIs_open(false);
+        userSheet.setSheet_id(s);
+        userSheet.setSheet_name(sheetCopy.getName());
+
+        userSheets.add(userSheet);
+
+        UserCollection userCollection = user.getCollection();
+        userCollection.setSheets(userSheets);
+        user.setCollection(userCollection);
+        userRepository.save(user);
+
+        return sheetCopy;
+    }
 
     @Override
     public Boolean open(String sheetId) {
@@ -168,4 +214,5 @@ public class SheetServiceImpl implements SheetService {
     public List<Sheet> findByName(String name){
         return sheetRepository.findByNameLike("%"+name+"%");
     }
+
 }

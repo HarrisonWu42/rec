@@ -102,7 +102,6 @@ public class SheetController {
         return ret;
     }
 
-
     // 从歌单中删除歌曲
     @GetMapping("delete_song")
     public JSONObject deleteSong(@RequestParam("sheet_id") String sheetId,
@@ -152,9 +151,16 @@ public class SheetController {
 
 
     // 收藏他人公开的歌单
-    @PostMapping("collect")
-    public JSONObject collect(String sheet_id, String user_id){
+    @PostMapping("/{host}/collect")
+    public JSONObject collect(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
+        try {
+            Sheet sheet = sheetService.collect(host, sheetId);
+            ret = util.sheetBrief2Json(sheet);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 
