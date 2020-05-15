@@ -19,41 +19,35 @@ public class CollectionController {
 
     private JsonUtil util = new JsonUtil();
 
-    @GetMapping("/songs/{host}")
+    /**
+     * 查看收藏夹（歌曲）（待修改，分页）
+     */
+    @GetMapping("/{host}/songs")
     public JSONObject listSongsCollection(@PathVariable("host") String host){
         List<KeySong> keySongList = collectService.listSongsCollection(host);
-        JSONObject ret = new JSONObject();
-        ret  = util.userSongs2Json(keySongList);
+        JSONObject ret  = util.userSongs2Json(keySongList);
         return ret;
     }
 
-    @GetMapping("/artists/{host}")
+    /**
+     * 查看收藏夹（歌手）(待修改，分页)
+     */
+    @GetMapping("/{host}/artists")
     public JSONObject listArtistsCollection(@PathVariable("host") String host){
-        JSONObject ret = new JSONObject();
         List<KeyArtists> keyArtistsList = collectService.listArtistsCollection(host);
-        ret  = util.userArtist2Json(keyArtistsList);
+        JSONObject ret  = util.userArtist2Json(keyArtistsList);
         return ret;
     }
 
-    @PostMapping("/delete_song/{host}/{song_id}")
-    public JSONObject deleteSong(@PathVariable("host") String host,@PathVariable("song_id") String song_id){
-
+    /**
+     * 收藏歌曲
+     */
+    @PostMapping("/{host}/add_song")
+    public JSONObject addSong(@PathVariable("host") String host,
+                              @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
         try {
-            KeySong keySong = collectService.deleteSong(host, song_id);
-            ret = util.userSong2Json(keySong);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "delete song failed");
-        }
-        return ret;
-    }
-
-    @PostMapping("/add_song/{host}/{song_id}")
-    public JSONObject addSong(@PathVariable("host") String host, @PathVariable("song_id") String song_id){
-        JSONObject ret = new JSONObject();
-        try {
-            KeySong keySong = collectService.addSong(host, song_id);
+            KeySong keySong = collectService.addSong(host, songId);
             ret = util.userSong2Json(keySong);
         } catch (Exception e){
             System.out.println(e);
@@ -63,28 +57,53 @@ public class CollectionController {
         return ret;
     }
 
-    @PostMapping("/add_artist/{host}/{artist_id}")
-    public JSONObject addArtist(@PathVariable("host") String host, @PathVariable("artist_id") String artist_id){
-        JSONObject ret = new JSONObject();
-//        try {
-            KeyArtists artist = collectService.addArtist(host, artist_id);
-            System.out.println("11111");
-            ret = util.userArtist2Json(artist);
-//        } catch (Exception e){
-//            ret.put("code", "error");
-//            ret.put("msg", "add favorate artist failed");
-//        }
-        return ret;
-    }
-    @PostMapping("/delete_artist/{host}/{artist_id}")
-    public JSONObject deleteArtist(@PathVariable("host") String host, @PathVariable("artist_id") String artist_id){
+    /**
+     * 取消收藏歌曲（有bug）
+     */
+    @PostMapping("/{host}/delete_song")
+    public JSONObject deleteSong(@PathVariable("host") String host,
+                                 @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
         try {
-            KeyArtists artist = collectService.deleteArtist(host, artist_id);
+            KeySong keySong = collectService.deleteSong(host, songId);
+            ret = util.userSong2Json(keySong);
+        } catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
+        return ret;
+    }
+
+    /**
+     * 收藏歌手
+     */
+    @PostMapping("/{host}/add_artist")
+    public JSONObject addArtist(@PathVariable("host") String host,
+                                @RequestParam("artist_id") String artistId){
+        JSONObject ret = new JSONObject();
+        try {
+            KeyArtists artist = collectService.addArtist(host, artistId);
             ret = util.userArtist2Json(artist);
         } catch (Exception e){
             ret.put("code", "error");
-            ret.put("msg", "add favorate artist failed");
+            ret.put("msg", "failed");
+        }
+        return ret;
+    }
+
+    /**
+     * 取消收藏歌手（有bug）
+     */
+    @PostMapping("/{host}/delete_artist")
+    public JSONObject deleteArtist(@PathVariable("host") String host,
+                                   @RequestParam("artist_id") String artistId){
+        JSONObject ret = new JSONObject();
+        try {
+            KeyArtists artist = collectService.deleteArtist(host, artistId);
+            ret = util.userArtist2Json(artist);
+        } catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
         }
         return ret;
     }

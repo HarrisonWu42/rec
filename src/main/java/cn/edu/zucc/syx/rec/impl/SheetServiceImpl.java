@@ -179,11 +179,6 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
-    public Sheet getInfo(String sheetId) {
-        return sheetRepository.findById(sheetId);
-    }
-
-    @Override
     public Boolean addSong2Sheet(String sheetId, String songId) {
         Sheet sheet = sheetRepository.findById(sheetId);
         List<KeySong> songs = sheet.getSongs();
@@ -215,4 +210,8 @@ public class SheetServiceImpl implements SheetService {
         return sheetRepository.findByNameLike("%"+name+"%");
     }
 
+    @Override
+    public Sheet getInfo(String sheetId) {
+        return sheetRepository.findById(sheetId);
+    }
 }

@@ -20,7 +20,9 @@ public class UserController {
 
     private JsonUtil util = new JsonUtil();
 
-    // 注册
+    /**
+     *  注册
+     */
     @PostMapping("/register")
     public JSONObject register(@RequestBody UserForm userForm) {
         JSONObject ret = new JSONObject();
@@ -47,11 +49,12 @@ public class UserController {
         return ret;
     }
 
-    // 登陆
+    /**
+     * 登陆
+     */
     @PostMapping("/login/{host}")
     public JSONObject login(@PathVariable("host") String host, @PathParam("password") String pwd) throws Exception {
         JSONObject ret = new JSONObject();
-
 
         if (userService.isUserExist(host) == false){
             ret.put("code", "error");
@@ -76,7 +79,9 @@ public class UserController {
         return ret;
     }
 
-    // 获取个人信息
+    /**
+     * 获取个人信息
+     */
     @GetMapping("/{host}/get_personal_info")
     public JSONObject getPersonalInfo(@PathVariable("host") String host) {
         User user = userService.queryUser(host);
@@ -84,7 +89,10 @@ public class UserController {
         return ret;
     }
 
-    // 修改个人信息
+    /**
+     * 修改个人信息（待修改）
+     * 目前有个问题，就是个人创建的歌单中有个创建者的姓名，现在还没有同步把这个用户名下的所有歌单的创建者姓名同步更改过来
+     */
     @PostMapping("/edit_personal_info")
     public JSONObject editInfo(@RequestBody UserEditForm userEditForm) {
         User user = userService.editUser(userEditForm);

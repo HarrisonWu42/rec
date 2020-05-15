@@ -23,7 +23,9 @@ public class SheetController {
 
     private JsonUtil util = new JsonUtil();
 
-    // 创建歌单
+    /**
+     * 创建歌单
+     */
     @PostMapping("/{host}/create")
     public JSONObject createSheet(@PathVariable String host,
                                   @RequestParam("sheet_name") String sheetName,
@@ -40,7 +42,9 @@ public class SheetController {
         return ret;
     }
 
-    // 删除歌单
+    /**
+     * 删除歌单
+     */
     @GetMapping("/{host}/delete")
     public JSONObject delete(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
@@ -54,22 +58,9 @@ public class SheetController {
         return ret;
     }
 
-    // 查看歌单详情(没写完)
-    @GetMapping("/get_info")
-    public JSONObject getInfo(String sheetId){
-        JSONObject ret = new JSONObject();
-        try {
-            Sheet sheet = sheetService.getInfo(sheetId);
-            ret = util.sheetInfo2Json(sheet);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
-        return ret;
-    }
-
-
-    // 查询所有歌单
+    /**
+     * 查询我的所有歌单
+     */
     @GetMapping("/{host}/list")
     public JSONObject listAll(@PathVariable String host){
         JSONObject ret = new JSONObject();
@@ -83,7 +74,9 @@ public class SheetController {
         return ret;
     }
 
-    // 添加歌曲到歌单
+    /**
+     * 添加歌曲到歌单
+     */
     @PostMapping("/add_song")
     public JSONObject addSong(@RequestParam("sheet_id") String sheetId,
                               @RequestParam("song_id") String songId){
@@ -103,7 +96,9 @@ public class SheetController {
         return ret;
     }
 
-    // 从歌单中删除歌曲
+    /**
+     * 从歌单中删除歌曲
+     */
     @GetMapping("delete_song")
     public JSONObject deleteSong(@RequestParam("sheet_id") String sheetId,
                                  @RequestParam("song_id") String songId){
@@ -122,7 +117,9 @@ public class SheetController {
         return ret;
     }
 
-    // 公开歌单
+    /**
+     * 公开歌单
+      */
     @PostMapping("/open")
     public JSONObject open(@RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
@@ -136,7 +133,9 @@ public class SheetController {
         return ret;
     }
 
-    // 取消公开歌单
+    /**
+     * 取消公开歌单
+      */
     @PostMapping("/close")
     public JSONObject close(@RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
@@ -150,8 +149,9 @@ public class SheetController {
         return ret;
     }
 
-
-    // 收藏他人公开的歌单
+    /**
+     * 收藏他人公开的歌单
+      */
     @PostMapping("/{host}/collect")
     public JSONObject collect(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
@@ -165,5 +165,17 @@ public class SheetController {
         return ret;
     }
 
-
+    // 查看歌单详情(没写完)
+    @GetMapping("/get_info")
+    public JSONObject getInfo(@RequestParam("sheet_id") String sheetId){
+        JSONObject ret = new JSONObject();
+        try {
+            Sheet sheet = sheetService.getInfo(sheetId);
+            ret = util.sheetInfo2Json(sheet);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
+        return ret;
+    }
 }

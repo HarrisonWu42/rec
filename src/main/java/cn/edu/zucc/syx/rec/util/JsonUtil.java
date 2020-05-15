@@ -34,6 +34,7 @@ public class JsonUtil {
 
         return ret;
     }
+
     public JSONObject userSongs2Json(List<KeySong> keySongList){
         JSONObject tmp = new JSONObject();
         tmp.put("songs",keySongList);
@@ -42,6 +43,7 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+
     public JSONObject userSong2Json(KeySong keySong){
         JSONObject tmp = new JSONObject();
         tmp.put("song",keySong);
@@ -50,6 +52,7 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+
     public JSONObject Songs2Json(List<Song> songList){
         JSONObject tmp = new JSONObject();
         tmp.put("songs",songList);
@@ -58,6 +61,7 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+
     public JSONObject Sheets2Json(List<Sheet> sheetList){
         JSONObject tmp = new JSONObject();
         tmp.put("sheets",sheetList);
@@ -66,6 +70,7 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+
     public JSONObject Sheet2Json(Sheet sheet){
         JSONObject tmp = new JSONObject();
         tmp.put("sheet",sheet);
@@ -74,6 +79,7 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+
     public JSONObject Artistss2Json(List<Artist> artistList){
         JSONObject tmp = new JSONObject();
         tmp.put("songs",artistList);
@@ -82,6 +88,7 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+
     public JSONObject userArtist2Json(KeyArtists keyArtists){
         JSONObject tmp = new JSONObject();
         tmp.put("artist",keyArtists);
@@ -104,7 +111,7 @@ public class JsonUtil {
         JSONObject tmp = new JSONObject();
         tmp.put("sheet_id", sheet.getId());
         tmp.put("sheet_name", sheet.getName());
-        tmp.put("user_id", sheet.getCreator_id());
+        tmp.put("host", sheet.getCreator_id());
         JSONObject ret = new JSONObject();
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);
