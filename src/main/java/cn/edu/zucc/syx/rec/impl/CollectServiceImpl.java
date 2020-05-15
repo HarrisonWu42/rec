@@ -54,11 +54,12 @@ public class CollectServiceImpl implements CollectService {
         UserCollection userCollection = user.getCollection();
         List<KeySong> keySongList = userCollection.getSongs();
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
-        KeySong deleted_song = null;
+        KeySong deleted_song = new KeySong();
         for(KeySong keySong :keySongList){
             if(keySong.getSong_id().equals(song_id)){
                 deleted_song = keySong;
                 keySongList.remove(keySong);
+                break;
             }
         }
         userCollection.setSongs(keySongList);
@@ -102,11 +103,12 @@ public class CollectServiceImpl implements CollectService {
         UserCollection userCollection = user.getCollection();
         List<KeyArtists> keyArtistsList = userCollection.getArtists();
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
-        KeyArtists deleted_artist = null;
+        KeyArtists deleted_artist = new KeyArtists();
         for(KeyArtists artist :keyArtistsList){
             if(artist.getArtist_id().equals(artist_id)){
                 deleted_artist = artist;
                 keyArtistsList.remove(artist);
+                break;
             }
         }
         userCollection.setArtists(keyArtistsList);
