@@ -83,6 +83,7 @@ public class SheetServiceImpl implements SheetService {
         return sheet;
     }
 
+
     @Override
     public Boolean open(String sheetId) {
         Sheet sheet = sheetRepository.findById(sheetId);
@@ -143,5 +144,10 @@ public class SheetServiceImpl implements SheetService {
     @Override
     public Boolean deleteSongFromSheet(String sheetId, String songId) {
         return true;
+    }
+
+    @Override
+    public List<Sheet> findByName(String name){
+        return sheetRepository.findByNameLike("%"+name+"%");
     }
 }
