@@ -179,9 +179,10 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
-    public Sheet SheetInfo(String sheetId) {
+    public Sheet getInfo(String sheetId) {
         return sheetRepository.findById(sheetId);
     }
+
     @Override
     public Boolean addSong2Sheet(String sheetId, String songId) {
         Sheet sheet = sheetRepository.findById(sheetId);
