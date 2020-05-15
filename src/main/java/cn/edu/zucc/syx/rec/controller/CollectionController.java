@@ -2,7 +2,8 @@ package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.KeyArtists;
 import cn.edu.zucc.syx.rec.entity.KeySong;
-import cn.edu.zucc.syx.rec.impl.CollectServiceImpl;
+import cn.edu.zucc.syx.rec.service.CollectService;
+import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,13 @@ import java.util.List;
 @RequestMapping("/api/collection")
 public class CollectionController {
     @Autowired
-    private CollectServiceImpl collectService;
+    private CollectService collectService;
+
+    @Autowired
+    private RecommendService recommendService;
+
+    @Autowired
+    private RecommendService recommandService;
 
     private JsonUtil util = new JsonUtil();
 
@@ -27,6 +34,13 @@ public class CollectionController {
         List<KeySong> keySongList = collectService.listSongsCollection(host);
         JSONObject ret  = util.userSongs2Json(keySongList);
         return ret;
+    }
+
+    @GetMapping("/{host}/recommandbyDl")
+        public JSONObject recommandSongByDl(@PathVariable("host") String host){
+            List<KeySong> recommendDLsongs = recommandService.recommandSongByDl(host);
+            JSONObject ret  = util.userSongs2Json(recommendDLsongs);
+            return ret;
     }
 
     /**
