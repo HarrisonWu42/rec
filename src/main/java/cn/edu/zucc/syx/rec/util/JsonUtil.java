@@ -59,7 +59,15 @@ public class JsonUtil {
     }
     public JSONObject Sheets2Json(List<Sheet> sheetList){
         JSONObject tmp = new JSONObject();
-        tmp.put("songs",sheetList);
+        tmp.put("sheets",sheetList);
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
+    public JSONObject Sheet2Json(Sheet sheet){
+        JSONObject tmp = new JSONObject();
+        tmp.put("sheet",sheet);
         JSONObject ret = new JSONObject();
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);

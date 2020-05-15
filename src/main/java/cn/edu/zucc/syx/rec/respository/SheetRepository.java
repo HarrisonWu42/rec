@@ -9,6 +9,5 @@ public interface SheetRepository extends ElasticsearchRepository<Sheet, Integer>
     Sheet findById(String sheetId);
     Integer deleteById(String sheetId);
     List<Sheet> findByNameLike(String name);
-
 }
 

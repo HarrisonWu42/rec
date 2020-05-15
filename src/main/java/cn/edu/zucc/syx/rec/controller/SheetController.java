@@ -58,8 +58,11 @@ public class SheetController {
     @GetMapping("/get_info")
     public JSONObject getInfo(String sheetId){
         JSONObject ret = new JSONObject();
+        Sheet sheet = sheetService.SheetInfo(sheetId);
+        ret = util.Sheet2Json(sheet);
         return ret;
     }
+
 
     // 查询所有歌单
     @GetMapping("/{host}/list")

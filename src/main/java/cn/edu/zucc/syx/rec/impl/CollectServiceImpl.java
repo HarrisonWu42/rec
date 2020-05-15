@@ -43,6 +43,10 @@ public class CollectServiceImpl implements CollectService {
         User user = userRepository.findUserByHost(host);
         return user.getCollection().getArtists();
     }
+    public List<KeyArtists> ifExsitSong(String host) {
+        User user = userRepository.findUserByHost(host);
+        return user.getCollection().getArtists();
+    }
 
     @Override
     public KeySong deleteSong(String host, String song_id) {
@@ -58,10 +62,12 @@ public class CollectServiceImpl implements CollectService {
             }
         }
         userCollection.setSongs(keySongList);
-        IndexRequest indexRequest = new IndexRequest();
-        indexRequest.source("collection", userCollection);
-        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
-        elasticsearchTemplate.update(updateQuery);
+//        IndexRequest indexRequest = new IndexRequest();
+//        indexRequest.source("collection", userCollection);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
+        user.setCollection(userCollection);
+        userRepository.save(user);
         return deleted_song;
     }
 
@@ -80,11 +86,14 @@ public class CollectServiceImpl implements CollectService {
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
 
         keySongList.add(keySong);
+//        userCollection.setSongs(keySongList);
+//        IndexRequest indexRequest = new IndexRequest();
+//        indexRequest.source("collection", userCollection);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
         userCollection.setSongs(keySongList);
-        IndexRequest indexRequest = new IndexRequest();
-        indexRequest.source("collection", userCollection);
-        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
-        elasticsearchTemplate.update(updateQuery);
+        user.setCollection(userCollection);
+        userRepository.save(user);
         return keySong;
     }
     @Override
@@ -101,10 +110,12 @@ public class CollectServiceImpl implements CollectService {
             }
         }
         userCollection.setArtists(keyArtistsList);
-        IndexRequest indexRequest = new IndexRequest();
-        indexRequest.source("collection", userCollection);
-        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
-        elasticsearchTemplate.update(updateQuery);
+//        IndexRequest indexRequest = new IndexRequest();
+//        indexRequest.source("collection", userCollection);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
+        user.setCollection(userCollection);
+        userRepository.save(user);
         return deleted_artist;
     }
 

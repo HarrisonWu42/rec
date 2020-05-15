@@ -26,6 +26,7 @@ public class CollectionController {
         ret  = util.userSongs2Json(keySongList);
         return ret;
     }
+
     @GetMapping("/artists/{host}")
     public JSONObject listArtistsCollection(@PathVariable("host") String host){
         JSONObject ret = new JSONObject();
@@ -48,13 +49,14 @@ public class CollectionController {
         return ret;
     }
 
-    @PostMapping("/add_song/{host}/song_id")
+    @PostMapping("/add_song/{host}/{song_id}")
     public JSONObject addSong(@PathVariable("host") String host, @PathVariable("song_id") String song_id){
         JSONObject ret = new JSONObject();
         try {
             KeySong keySong = collectService.addSong(host, song_id);
             ret = util.userSong2Json(keySong);
         } catch (Exception e){
+            System.out.println(e);
             ret.put("code", "error");
             ret.put("msg", "add favorate song failed");
         }

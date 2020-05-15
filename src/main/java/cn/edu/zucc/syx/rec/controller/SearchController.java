@@ -44,7 +44,7 @@ public class SearchController {
         ret  = util.Sheets2Json(sheetList);
         return ret;
     }
-    @GetMapping("/sheets/{artist_name}")
+    @GetMapping("/artists/{artist_name}")
     public JSONObject searchArtist(@PathVariable("sheet_name") String sheet_name){
         List<Artist> artistList =  artistService.findByArtistName(sheet_name);
         JSONObject ret = new JSONObject();

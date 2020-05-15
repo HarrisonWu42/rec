@@ -57,7 +57,7 @@ public class SheetServiceImpl implements SheetService {
         userSheet.setDescription(description);
         userSheet.setIs_open(false);
         userSheet.setSheet_id(s);
-        userSheet.setUsersheet_name(sheetName);
+        userSheet.setSheet_name(sheetName);
 
         userSheets.add(userSheet);
 
@@ -122,7 +122,16 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
+    public List<UserSheets> listAll(String host) {
+        return null;
+    }
+
+    @Override
     public List<Sheet> findByName(String name){
         return sheetRepository.findByNameLike("%"+name+"%");
     }
+    public Sheet SheetInfo(String sheetId){
+        return sheetRepository.findById(sheetId);
+    }
+
 }

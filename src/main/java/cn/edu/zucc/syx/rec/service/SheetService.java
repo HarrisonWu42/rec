@@ -15,5 +15,6 @@ public interface SheetService {
     Boolean open(String sheetId);
     Boolean close(String sheetId);
     List<UserSheets> listAll(String host);
+    Sheet SheetInfo(String sheetId);
 
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ArtistRepository extends ElasticsearchRepository<Artist,Integer> {
 //    public Sheet
-    List<Artist> queryByNameLike(String artist_id);
+    List<Artist> queryByNameLike(String artist_name);
+    Artist queryById(String artist_name);
 }
 
