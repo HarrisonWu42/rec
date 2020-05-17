@@ -5,8 +5,12 @@ import cn.edu.zucc.syx.rec.entity.KeySong;
 import cn.edu.zucc.syx.rec.service.CollectService;
 import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
+import cn.edu.zucc.syx.rec.util.PageUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,43 +31,46 @@ public class CollectionController {
     private JsonUtil util = new JsonUtil();
 
     /**
-     * 查看收藏夹（歌曲）（待修改，分页）
+     * 查看收藏夹（歌曲）
      */
     @GetMapping("/{host}/songs")
-    public JSONObject listSongsCollection(@PathVariable("host") String host){
+    public JSONObject listSongsCollection(@PathVariable("host") String host,
+                                          @RequestParam("page_num") int pageNum,
+                                          @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-//        try{
-//            List<KeySong> keySongList = collectService.listSongsCollection(host);
-//
-//
-//        }
-
-
-
-
-//        JSONObject ret  = util.userSongs2Json(keySongList);
-
-
+        try{
+            List<KeySong> songs = collectService.listSongsCollection(host);
+            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+            Page<KeySong> page = PageUtil.createPageFromList(songs, pageable);
+            ret = util.collectionSongPage2Json(page);
+        } catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
 
         return ret;
     }
 
-    // syx 推荐
-    @GetMapping("/{host}/recommandbyDl")
-        public JSONObject recommandSongByDl(@PathVariable("host") String host){
-            List<KeySong> recommendDLsongs = recommandService.recommandSongByDl(host);
-            JSONObject ret  = util.userSongs2Json(recommendDLsongs);
-            return ret;
-    }
-
     /**
-     * 查看收藏夹（歌手）(待修改，分页)
+     * 查看收藏夹（歌手）
      */
     @GetMapping("/{host}/artists")
-    public JSONObject listArtistsCollection(@PathVariable("host") String host){
-        List<KeyArtists> keyArtistsList = collectService.listArtistsCollection(host);
-        JSONObject ret  = util.userArtist2Json(keyArtistsList);
+    public JSONObject listArtistsCollection(@PathVariable("host") String host,
+                                            @RequestParam("page_num") int pageNum,
+                                            @RequestParam("page_size") int pageSize){
+        JSONObject ret = new JSONObject();
+
+        try{
+            List<KeyArtists> artists = collectService.listArtistsCollection(host);
+            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+            Page<KeyArtists> page = PageUtil.createPageFromList(artists, pageable);
+            ret = util.collectionArtistPage2Json(page);
+        } catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
+
         return ret;
     }
 
@@ -136,5 +143,12 @@ public class CollectionController {
         return ret;
     }
 
+    // 推荐1, deeplearning
+    @GetMapping("/{host}/recommandbyDl")
+    public JSONObject recommandSongByDl(@PathVariable("host") String host){
+        List<KeySong> recommendDLsongs = recommandService.recommandSongByDl(host);
+        JSONObject ret  = util.userSongs2Json(recommendDLsongs);
+        return ret;
+    }
 
 }
