@@ -28,22 +28,25 @@ public class SearchController {
     private SheetService sheetService;
     @Autowired
     private ArtistService artistService;
+
     private JsonUtil util = new JsonUtil();
+
     @GetMapping("/songs/{song_name}")
-    public JSONObject searchSong(@PathVariable("song_name") String song_name){
-        List<Song> songList =  songService.searchByName(song_name);
+    public JSONObject searchSong(@PathVariable("song_name") String songName){
+        List<Song> songList =  songService.searchByName(songName);
         JSONObject ret = new JSONObject();
         ret  = util.Songs2Json(songList);
         return ret;
     }
 
     @GetMapping("/sheets/{sheet_name}")
-    public JSONObject searchSheet(@PathVariable("sheet_name") String sheet_name){
-        List<Sheet> sheetList =  sheetService.findByName(sheet_name);
+    public JSONObject searchSheet(@PathVariable("sheet_name") String sheetName){
+        List<Sheet> sheetList =  sheetService.findByName(sheetName);
         JSONObject ret = new JSONObject();
         ret  = util.Sheets2Json(sheetList);
         return ret;
     }
+
     @GetMapping("/artists/{artist_name}")
     public JSONObject searchArtist(@PathVariable("sheet_name") String sheet_name){
         List<Artist> artistList =  artistService.findByArtistName(sheet_name);
@@ -51,6 +54,4 @@ public class SearchController {
         ret  = util.Artistss2Json(artistList);
         return ret;
     }
-
-
 }

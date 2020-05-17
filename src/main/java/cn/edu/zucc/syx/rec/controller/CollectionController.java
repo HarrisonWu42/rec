@@ -58,7 +58,7 @@ public class CollectionController {
     }
 
     /**
-     * 取消收藏歌曲（有bug）
+     * 取消收藏歌曲
      */
     @PostMapping("/{host}/delete_song")
     public JSONObject deleteSong(@PathVariable("host") String host,
@@ -92,7 +92,7 @@ public class CollectionController {
     }
 
     /**
-     * 取消收藏歌手（有bug）
+     * 取消收藏歌手
      */
     @PostMapping("/{host}/delete_artist")
     public JSONObject deleteArtist(@PathVariable("host") String host,
