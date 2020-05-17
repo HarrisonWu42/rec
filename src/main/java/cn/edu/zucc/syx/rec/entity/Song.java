@@ -45,6 +45,16 @@ public class Song {
 
     @Field(type = FieldType.Nested)
     private List<Similar> similar;
+    @Field(type = FieldType.Nested)
+    private List<String> similar_dl;
+
+    public List<String> getSimilar_dl() {
+        return similar_dl;
+    }
+
+    public void setSimilar_dl(List<String> similar_dl) {
+        this.similar_dl = similar_dl;
+    }
 
     @Field(type = FieldType.Integer)
     private Integer key;
@@ -204,14 +214,7 @@ public class Song {
         return end_of_fade_in;
     }
 
-    public void setEnd_of_fade_in(Float end_of_fade_in) {
-        this.end_of_fade_in = end_of_fade_in;
-    }
-
-    public Song() {
-    }
-
-    public Song(String id, String name, Float song_hotttnesss, String release, Integer year, String pic_url, String artist_id, String artist_name, Float artist_hotttnesss, Float artist_familiarity, List<KeyTags> tags, List<Similar> similar, Integer key, Float loudness, Float tempo, Integer time_signature, Float duration, Float end_of_fade_in) {
+    public Song(String id, String name, Float song_hotttnesss, String release, Integer year, String pic_url, String artist_id, String artist_name, Float artist_hotttnesss, Float artist_familiarity, List<KeyTags> tags, List<Similar> similar, List<String> similar_dl, Integer key, Float loudness, Float tempo, Integer time_signature, Float duration, Float end_of_fade_in) {
         this.id = id;
         this.name = name;
         this.song_hotttnesss = song_hotttnesss;
@@ -224,6 +227,7 @@ public class Song {
         this.artist_familiarity = artist_familiarity;
         this.tags = tags;
         this.similar = similar;
+        this.similar_dl = similar_dl;
         this.key = key;
         this.loudness = loudness;
         this.tempo = tempo;
@@ -231,4 +235,13 @@ public class Song {
         this.duration = duration;
         this.end_of_fade_in = end_of_fade_in;
     }
+
+    public void setEnd_of_fade_in(Float end_of_fade_in) {
+        this.end_of_fade_in = end_of_fade_in;
+    }
+
+    public Song() {
+    }
+
+
 }
