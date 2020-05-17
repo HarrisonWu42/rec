@@ -12,4 +12,10 @@ public interface CollectService {
     KeySong addSong(String  host, String song_id);
     KeyArtists deleteArtist(String  host, String artist_id);
     KeyArtists addArtist(String  host, String artist_id);
+
+//    // 分页查询收藏夹歌曲
+//    Page<KeySong> listSongsCollection(String host, Pageable pageable);
+//    // 分页查询收藏夹歌手
+//    Page<KeyArtists>  listArtistsCollection(String host, Pageable pageable);
+
 }

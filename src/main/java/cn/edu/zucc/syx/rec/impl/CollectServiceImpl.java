@@ -8,6 +8,8 @@ import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.CollectService;
 import org.elasticsearch.action.index.IndexRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
@@ -43,6 +45,20 @@ public class CollectServiceImpl implements CollectService {
         User user = userRepository.findUserByHost(host);
         return user.getCollection().getArtists();
     }
+
+//    @Override
+//    public Page<KeySong> listSongsCollection(String host, Pageable pageable) {
+//        User user = userRepository.findUserByHost(host);
+//
+//
+//        return ;
+//    }
+//
+//    @Override
+//    public Page<KeyArtists> listArtistsCollection(String host, Pageable pageable) {
+//        return artistRepository.;
+//    }
+
     public List<KeyArtists> ifExsitSong(String host) {
         User user = userRepository.findUserByHost(host);
         return user.getCollection().getArtists();
@@ -146,4 +162,5 @@ public class CollectServiceImpl implements CollectService {
 //        elasticsearchTemplate.update(updateQuery);
         return add_artist;
     }
+
 }

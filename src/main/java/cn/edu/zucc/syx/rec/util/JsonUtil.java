@@ -3,6 +3,7 @@ package cn.edu.zucc.syx.rec.util;
 import cn.edu.zucc.syx.rec.entity.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,10 +137,24 @@ public class JsonUtil {
         return ret;
     }
 
-    // 要写分页
-    public JSONObject sheetInfo2Json(Sheet sheet){
+    public JSONObject sheetInfoPage2Json(Sheet sheet, Page<KeySong> page){
         JSONObject ret = new JSONObject();
+
+
+        JSONObject tmp = new JSONObject();
+        tmp.put("sheet_id", sheet.getId());
+        tmp.put("sheet_name", sheet.getName());
+        tmp.put("description", sheet.getDescription());
+        tmp.put("page_total", page.getTotalPages());
+        tmp.put("page_num", page.getNumber()+1);
+        tmp.put("page_size", page.getSize());
+        List<KeySong> songs = page.getContent();
+        tmp.put("songs", songs);
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+
         return ret;
     }
+
 
 }

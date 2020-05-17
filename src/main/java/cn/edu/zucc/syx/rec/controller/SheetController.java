@@ -1,13 +1,18 @@
 package cn.edu.zucc.syx.rec.controller;
 
+import cn.edu.zucc.syx.rec.entity.KeySong;
 import cn.edu.zucc.syx.rec.entity.Sheet;
 import cn.edu.zucc.syx.rec.entity.UserSheets;
 import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
+import cn.edu.zucc.syx.rec.util.PageUtil;
 import cn.edu.zucc.syx.rec.util.Statue;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -165,17 +170,26 @@ public class SheetController {
         return ret;
     }
 
-    // 查看歌单详情(没写完)
+    /**
+     * 查看歌单详情(含分页)
+     */
     @GetMapping("/get_info")
-    public JSONObject getInfo(@RequestParam("sheet_id") String sheetId){
+    public JSONObject getsth(@RequestParam("sheet_id") String sheetId,
+                                @RequestParam("page_num") int pageNum,
+                                @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
+
         try {
             Sheet sheet = sheetService.getInfo(sheetId);
-            ret = util.sheetInfo2Json(sheet);
+            List<KeySong> songs = sheet.getSongs();
+            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+            Page<KeySong> page = PageUtil.createPageFromList(songs, pageable);
+            ret = util.sheetInfoPage2Json(sheet, page);
         }catch (Exception e){
             ret.put("code", "error");
             ret.put("msg", "failed");
         }
+
         return ret;
     }
 }

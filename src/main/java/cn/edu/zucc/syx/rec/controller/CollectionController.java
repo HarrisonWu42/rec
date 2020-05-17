@@ -31,11 +31,25 @@ public class CollectionController {
      */
     @GetMapping("/{host}/songs")
     public JSONObject listSongsCollection(@PathVariable("host") String host){
-        List<KeySong> keySongList = collectService.listSongsCollection(host);
-        JSONObject ret  = util.userSongs2Json(keySongList);
+        JSONObject ret = new JSONObject();
+
+//        try{
+//            List<KeySong> keySongList = collectService.listSongsCollection(host);
+//
+//
+//        }
+
+
+
+
+//        JSONObject ret  = util.userSongs2Json(keySongList);
+
+
+
         return ret;
     }
 
+    // syx 推荐
     @GetMapping("/{host}/recommandbyDl")
         public JSONObject recommandSongByDl(@PathVariable("host") String host){
             List<KeySong> recommendDLsongs = recommandService.recommandSongByDl(host);

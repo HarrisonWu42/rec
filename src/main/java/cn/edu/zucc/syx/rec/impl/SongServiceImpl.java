@@ -25,9 +25,6 @@ public class SongServiceImpl implements SongService {
     public List<Song> searchByName(String name) {
         return songRepository.queryByNameLike("%"+name+"%");
     }
-//
-//    @Override
-//    public Song searchSong(String song_id) {
-//        return  songRepository.queryBySong_id(song_id);
-//    }
+
+
 }
