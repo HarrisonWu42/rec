@@ -182,36 +182,16 @@ public class JsonUtil {
         return ret;
     }
 
-    public JSONObject searchSongs2Json(List<Song> songList, List<KeySong> userSongList){
-        List<String> userSongs = new ArrayList<>();
-        for (KeySong us:userSongList){
-            userSongs.add(us.getSong_id());
-        }
-
+    public JSONObject searchSongPage2Json(Page<SearchSongResult> page){
         JSONObject tmp = new JSONObject();
-        List<SearchSongResult> songs = new ArrayList<>();
-        for (Song s:songList){
-            SearchSongResult songResult = new SearchSongResult();
-            songResult.setSong_id(s.getId());
-            songResult.setSong_name(s.getName());
-            songResult.setArtist_id(s.getArtist_id());
-            songResult.setArtist_name(s.getArtist_name());
-            songResult.setRelease(s.getRelease());
-            songResult.setDuration(s.getDuration());
-            if (userSongs.contains(s.getId())){
-                songResult.setIs_collected(true);
-            }else {
-                songResult.setIs_collected(false);
-            }
-            songs.add(songResult);
-        }
+        tmp.put("page_total", page.getTotalPages());
+        tmp.put("page_num", page.getNumber()+1);
+        tmp.put("page_size", page.getSize());
+        List<SearchSongResult> songs = page.getContent();
         tmp.put("songs", songs);
-        tmp.put("size", songs.size());
-
         JSONObject ret = new JSONObject();
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);
-
         return ret;
     }
 }

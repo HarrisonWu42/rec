@@ -5,7 +5,7 @@ import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
-import cn.edu.zucc.syx.rec.util.Tool;
+import cn.edu.zucc.syx. rec.util.Tool;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

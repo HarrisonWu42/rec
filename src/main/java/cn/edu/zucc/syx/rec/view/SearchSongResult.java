@@ -6,7 +6,6 @@ public class SearchSongResult {
     private String artist_id;
     private String artist_name;
     private String release;
-    private Float duration;
     private Boolean is_collected;
 
     public String getSong_id() {
@@ -57,24 +56,15 @@ public class SearchSongResult {
         this.release = release;
     }
 
-    public Float getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Float duration) {
-        this.duration = duration;
-    }
-
     public SearchSongResult() {
     }
 
-    public SearchSongResult(String song_id, String song_name, String artist_id, String artist_name, String release, Float duration, Boolean is_collected) {
+    public SearchSongResult(String song_id, String song_name, String artist_id, String artist_name, String release, Boolean is_collected) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.artist_id = artist_id;
         this.artist_name = artist_name;
         this.release = release;
-        this.duration = duration;
         this.is_collected = is_collected;
     }
 }
