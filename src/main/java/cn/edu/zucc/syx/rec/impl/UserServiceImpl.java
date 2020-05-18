@@ -73,20 +73,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Song addRecordSong(String host, String song_id) {
+    public RecordSong addRecordSong(String host, String song_id) {
         User user = userRepository.findUserByHost(host);
         Song song  = songRepository.queryById(song_id);
         RecordSong recordSong  = new RecordSong();
         recordSong.setSong_id(song_id);
+        recordSong.setSong_name(song.getName());
+        recordSong.setArtist_name(song.getArtist_name());
+        recordSong.setRelease(song.getRelease());
+        recordSong.setArtist_id(song.getArtist_id());
         recordSong.setDate(new Date());
 
         UserRecord userRecord = user.getRecord();
         List<RecordSong> recordSongList = userRecord.getSongs();
-        for(RecordSong recordtmpSong : recordSongList){
-            if(recordtmpSong.getSong_id().equals(song_id)){
-                recordSongList.remove(recordtmpSong);
-                break;
+
+
+        if(recordSongList!=null && !recordSongList.isEmpty()) {
+            for (RecordSong recordtmpSong : recordSongList) {
+                if (recordtmpSong.getSong_id().equals(song_id)) {
+                    recordSongList.remove(recordtmpSong);
+                    break;
+                }
             }
+        }
+        else {
+            List<RecordSong> tmprecordSongList = new ArrayList<>();
+            recordSongList = tmprecordSongList;
         }
         recordSongList.add(recordSong);
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
@@ -98,21 +110,21 @@ public class UserServiceImpl implements UserService {
         userRecord.setSongs(recordSongList);
         user.setRecord(userRecord);
         userRepository.save(user);
-        return song;
+        return recordSong;
     }
 
     @Override
-    public List<Song> listRecordSongs(String host) {
+    public List<RecordSong> listRecordSongs(String host) {
         User user = userRepository.findUserByHost(host);
         List<RecordSong> recordSongList = user.getRecord().getSongs();
         sortClass sort = new sortClass();
         Collections.sort(recordSongList,sort);
 //        recordSongList.sort(Da);
-        List<Song> songList = new ArrayList<>();
-        for(RecordSong recordSong:recordSongList){
-            songList.add(songRepository.queryById(recordSong.getSong_id()));
-        }
-        return  songList;
+//        List<Song> songList = new ArrayList<>();
+//        for(RecordSong recordSong:recordSongList){
+//            songList.add(songRepository.queryById(recordSong.getSong_id()));
+//        }
+        return  recordSongList;
 //        return null;
     }
 

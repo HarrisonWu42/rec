@@ -26,10 +26,10 @@ class RecApplicationTests {
 
     @Test
     public  void  createIndex(){
-//        // 创建索引，会根据Item类的@Document注解信息来创建
-//        esTemplate.createIndex(User.class);
-//        // 配置映射，会根据Item类中的@Id、@Field等字段来自动完成映射
-//        esTemplate.putMapping(User.class);
+        // 创建索引，会根据Item类的@Document注解信息来创建
+        esTemplate.createIndex(User.class);
+        // 配置映射，会根据Item类中的@Id、@Field等字段来自动完成映射
+        esTemplate.putMapping(User.class);
 //
 //        esTemplate.createIndex(Song.class);
 //        esTemplate.putMapping(Song.class);
@@ -40,8 +40,8 @@ class RecApplicationTests {
 //        esTemplate.createIndex(Sheet.class);
 //        esTemplate.putMapping(Sheet.class);
 
-        esTemplate.createIndex(Table01.class);
-        esTemplate.putMapping(Table01.class);
+//        esTemplate.createIndex(Table01.class);
+//        esTemplate.putMapping(Table01.class);
 
     }
 

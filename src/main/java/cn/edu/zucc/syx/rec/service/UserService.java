@@ -1,5 +1,6 @@
 package cn.edu.zucc.syx.rec.service;
 
+import cn.edu.zucc.syx.rec.entity.RecordSong;
 import cn.edu.zucc.syx.rec.entity.Song;
 import cn.edu.zucc.syx.rec.entity.User;
 import cn.edu.zucc.syx.rec.form.UserEditForm;
@@ -24,7 +25,7 @@ public interface UserService {
     User queryUser(String host);
 
     User editUser(UserEditForm user);
-    Song addRecordSong(String host, String song_id);
-    List<Song> listRecordSongs(String host);
+    RecordSong addRecordSong(String host, String song_id);
+    List<RecordSong> listRecordSongs(String host);
 
 }

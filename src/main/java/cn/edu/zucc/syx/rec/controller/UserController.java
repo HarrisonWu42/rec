@@ -5,9 +5,13 @@ import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
+import cn.edu.zucc.syx.rec.util.PageUtil;
 import cn.edu.zucc.syx. rec.util.Tool;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -104,16 +108,25 @@ public class UserController {
     @PostMapping("/{host}/add_record")
     public JSONObject addRecord(@PathVariable String host,
                                 @RequestParam("song_id") String songId){
-        Song song  = userService.addRecordSong(host, songId);
-        JSONObject ret = util.Song2Json(song);
+        RecordSong recordSong  = userService.addRecordSong(host, songId);
+        JSONObject ret = util.RecordSong2Json(recordSong);
 
         return ret;
     }
 
     @GetMapping("/{host}/list_record")
-    public JSONObject listRecord(@PathVariable String host){
-        List<Song> songList  = userService.listRecordSongs(host);
-        JSONObject ret = util.Songs2Json(songList);
+    public JSONObject listRecord(@PathVariable String host,@RequestParam("page_num") int pageNum,
+                                 @RequestParam("page_size") int pageSize){
+        JSONObject ret = new JSONObject();
+        try{
+            List<RecordSong> recordSongList  = userService.listRecordSongs(host);
+            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+            Page<RecordSong> page = PageUtil.createPageFromList(recordSongList, pageable);
+            ret = util.usrRecordSongPage2Json(page);
+        } catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 

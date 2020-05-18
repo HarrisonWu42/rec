@@ -9,7 +9,7 @@ public class UserRecord {
     @Field(type = FieldType.Nested)
     private List<RecordSong> songs;
 
-    public List<RecordSong> getSongs() {
+    public List<RecordSong>  getSongs() {
         return songs;
     }
 
