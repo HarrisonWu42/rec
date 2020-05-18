@@ -100,6 +100,19 @@ public class UserController {
         return ret;
     }
 
+    @PostMapping("/{host}/add_record")
+    public JSONObject addRecord(@PathVariable String host,
+                                @RequestParam("song_id") String songId){
+        JSONObject ret = new JSONObject();
 
+        return ret;
+    }
+
+    @GetMapping("/{host}/list_record")
+    public JSONObject listRecord(@PathVariable String host){
+        JSONObject ret = new JSONObject();
+
+        return ret;
+    }
 
 }
