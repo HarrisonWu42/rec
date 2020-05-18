@@ -7,6 +7,7 @@ import cn.edu.zucc.syx.rec.impl.SongServiceImpl;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
+import cn.edu.zucc.syx.rec.view.SearchArtistResult;
 import cn.edu.zucc.syx.rec.view.SearchSheetResult;
 import cn.edu.zucc.syx.rec.view.SearchSongResult;
 import com.alibaba.fastjson.JSONObject;
@@ -113,9 +114,26 @@ public class SearchController {
         User user = userService.queryUser(host);
         List<KeyArtists> userArtistsList = user.getCollection().getArtists();
 
+        List<String> userArtists = new ArrayList<>();
+        for (KeyArtists ua:userArtistsList){
+            userArtists.add(ua.getArtist_id());
+        }
 
-
-        JSONObject ret = util.Artistss2Json(artistList);
+        List<SearchArtistResult> artists = new ArrayList<>();
+        for (Artist a:artistList){
+            SearchArtistResult artistResult = new SearchArtistResult();
+            artistResult.setArtist_id(a.getId());
+            artistResult.setArtist_name(a.getName());
+            if (userArtists.contains(a.getId())){
+                artistResult.setIs_collected(true);
+            }else {
+                artistResult.setIs_collected(false);
+            }
+            artists.add(artistResult);
+        }
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<SearchArtistResult> page = PageUtil.createPageFromList(artists, pageable);
+        JSONObject ret = util.searchArtistPage2Json(page);
         return ret;
     }
 }
