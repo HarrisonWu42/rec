@@ -1,11 +1,10 @@
 package cn.edu.zucc.syx.rec.controller;
 
-import cn.edu.zucc.syx.rec.entity.Artist;
-import cn.edu.zucc.syx.rec.entity.Sheet;
-import cn.edu.zucc.syx.rec.entity.Song;
-import cn.edu.zucc.syx.rec.service.ArtistService;
-import cn.edu.zucc.syx.rec.service.SheetService;
-import cn.edu.zucc.syx.rec.service.SongService;
+import cn.edu.zucc.syx.rec.entity.*;
+import cn.edu.zucc.syx.rec.impl.ArtistServiceImpl;
+import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
+import cn.edu.zucc.syx.rec.impl.SongServiceImpl;
+import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +16,23 @@ import java.util.List;
 @RequestMapping("/api/search")
 public class SearchController {
     @Autowired
-    private SongService songService;
+    private SongServiceImpl songService;
     @Autowired
-    private SheetService sheetService;
+    private SheetServiceImpl sheetService;
     @Autowired
-    private ArtistService artistService;
+    private ArtistServiceImpl artistService;
+    @Autowired
+    private UserServiceImpl userService;
 
     private JsonUtil util = new JsonUtil();
 
     @GetMapping("/songs")
-    public JSONObject searchSong(@RequestParam("song_name") String songName){
+    public JSONObject searchSong(@RequestParam("song_name") String songName,
+                                 @RequestParam("host") String host){
         List<Song> songList =  songService.searchByName(songName);
-        JSONObject ret = new JSONObject();
-        ret  = util.Songs2Json(songList);
+        User user = userService.queryUser(host);
+        List<KeySong> userSongsList = user.getCollection().getSongs();
+        JSONObject ret = util.searchSongs2Json(songList, userSongsList);
         return ret;
     }
 
@@ -42,8 +45,8 @@ public class SearchController {
     }
 
     @GetMapping("/artists")
-    public JSONObject searchArtist(@RequestParam("artists_name") String sheet_name){
-        List<Artist> artistList =  artistService.findByArtistName(sheet_name);
+    public JSONObject searchArtist(@RequestParam("artists_name") String sheetName){
+        List<Artist> artistList =  artistService.findByArtistName(sheetName);
         JSONObject ret = new JSONObject();
         ret  = util.Artistss2Json(artistList);
         return ret;

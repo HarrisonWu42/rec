@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface SongService {
 //    public Song searchSongByid(String song_id);
-    public List<Song> searchByName(String name);
+    List<Song> searchByName(String name);
 
 }

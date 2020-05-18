@@ -207,7 +207,7 @@ public class SheetServiceImpl implements SheetService {
 
     @Override
     public List<Sheet> findByName(String name){
-        return sheetRepository.findByNameLike("%"+name+"%");
+        return sheetRepository.findByNameLike(name);
     }
 
     @Override
