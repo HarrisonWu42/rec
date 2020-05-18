@@ -20,12 +20,9 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<Artist> findByArtistName(String artistName) {
-        return artistRepository.queryByNameLike("%"+artistName+"%");
+    public List<Artist> searchByName(String artistName) {
+//        return artistRepository.queryByNameLike(artistName);
+        return artistRepository.queryByNameContains(artistName);
     }
-//
-//    @Override
-//    public Song searchSong(String song_id) {
-//        return  songRepository.queryBySong_id(song_id);
-//    }
+
 }

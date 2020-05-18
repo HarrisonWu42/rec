@@ -1,6 +1,7 @@
 package cn.edu.zucc.syx.rec.util;
 
 import cn.edu.zucc.syx.rec.entity.*;
+import cn.edu.zucc.syx.rec.view.SearchSheetResult;
 import cn.edu.zucc.syx.rec.view.SearchSongResult;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
@@ -189,6 +190,19 @@ public class JsonUtil {
         tmp.put("page_size", page.getSize());
         List<SearchSongResult> songs = page.getContent();
         tmp.put("songs", songs);
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
+
+    public JSONObject searchSheetPage2Json(Page<SearchSheetResult> page){
+        JSONObject tmp = new JSONObject();
+        tmp.put("page_total", page.getTotalPages());
+        tmp.put("page_num", page.getNumber()+1);
+        tmp.put("page_size", page.getSize());
+        List<SearchSheetResult> sheets = page.getContent();
+        tmp.put("sheets", sheets);
         JSONObject ret = new JSONObject();
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);

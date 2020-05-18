@@ -7,6 +7,7 @@ import cn.edu.zucc.syx.rec.impl.SongServiceImpl;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
+import cn.edu.zucc.syx.rec.view.SearchSheetResult;
 import cn.edu.zucc.syx.rec.view.SearchSongResult;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +74,33 @@ public class SearchController {
                                   @RequestParam("host") String host,
                                   @RequestParam("page_num") int pageNum,
                                   @RequestParam("page_size") int pageSize){
-        List<Sheet> sheetList =  sheetService.findByName(sheetName);
-        JSONObject ret = new JSONObject();
-        ret  = util.Sheets2Json(sheetList);
+        List<Sheet> sheetList =  sheetService.searchByName(sheetName);
+        User user = userService.queryUser(host);
+        List<UserSheets> userSheetsList = user.getCollection().getSheets();
+        List<String> userSheets = new ArrayList<>();
+        for (UserSheets us:userSheetsList){
+            userSheets.add(us.getSheet_id());
+        }
+
+        List<SearchSheetResult> sheets = new ArrayList<>();
+        for (Sheet s:sheetList){
+            SearchSheetResult sheetResult = new SearchSheetResult();
+            sheetResult.setCreator_id(s.getCreator_id());
+            sheetResult.setCreator_name(s.getCreator_name());
+            sheetResult.setDescripiton(s.getDescription());
+            sheetResult.setSheet_id(s.getId());
+            sheetResult.setSheet_name(s.getName());
+            if (userSheets.contains(s.getId())){
+                sheetResult.setIs_collected(true);
+            }else{
+                sheetResult.setIs_collected(false);
+            }
+            sheets.add(sheetResult);
+        }
+
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<SearchSheetResult> page = PageUtil.createPageFromList(sheets, pageable);
+        JSONObject ret = util.searchSheetPage2Json(page);
         return ret;
     }
 
@@ -84,9 +109,13 @@ public class SearchController {
                                    @RequestParam("host") String host,
                                    @RequestParam("page_num") int pageNum,
                                    @RequestParam("page_size") int pageSize){
-        List<Artist> artistList =  artistService.findByArtistName(sheetName);
-        JSONObject ret = new JSONObject();
-        ret  = util.Artistss2Json(artistList);
+        List<Artist> artistList =  artistService.searchByName(sheetName);
+        User user = userService.queryUser(host);
+        List<KeyArtists> userArtistsList = user.getCollection().getArtists();
+
+
+
+        JSONObject ret = util.Artistss2Json(artistList);
         return ret;
     }
 }

@@ -206,8 +206,18 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
-    public List<Sheet> findByName(String name){
-        return sheetRepository.findByNameLike(name);
+    public List<Sheet> searchByName(String name){
+//        return sheetRepository.queryByNameLike("%"+name+"%");
+//        return sheetRepository.queryByNameLike(name);
+        List<Sheet> sheetList = sheetRepository.queryByNameContains(name);
+        List<Sheet> sheets = new ArrayList<>();
+        for (Sheet s:sheetList){
+            if (s.getIs_open()){
+                sheets.add(s);
+            }
+        }
+
+        return sheets;
     }
 
     @Override

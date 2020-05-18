@@ -9,7 +9,7 @@ import java.util.List;
 public interface SheetRepository extends ElasticsearchRepository<Sheet, Integer> {
     Sheet findById(String sheetId);
     Integer deleteById(String sheetId);
-    List<Sheet> findByNameLike(String name);
+    List<Sheet> queryByNameContains(String sheetName);
 
 }
 
