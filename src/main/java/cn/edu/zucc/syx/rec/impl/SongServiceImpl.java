@@ -22,6 +22,4 @@ public class SongServiceImpl implements SongService {
     public List<Song> searchByName(String name) {
         return songRepository.queryByNameContains(name);
     }
-
-
 }
