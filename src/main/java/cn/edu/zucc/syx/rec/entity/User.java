@@ -39,7 +39,7 @@ public class User {
     private UserRec rec;
 
     @Field(type = FieldType.Nested)
-    private List<UserRecord> record;
+    private UserRecord record;
 
     public String getHost() {
         return host;
@@ -113,18 +113,18 @@ public class User {
         this.rec = rec;
     }
 
-    public List<UserRecord> getRecord() {
+    public UserRecord getRecord() {
         return record;
     }
 
-    public void setRecord(List<UserRecord> record) {
+    public void setRecord(UserRecord record) {
         this.record = record;
     }
 
     public User() {
     }
 
-    public User(String host, String password, String name, String sex, Integer age, String email, String phone, UserCollection collection, UserRec rec, List<UserRecord> record) {
+    public User(String host, String password, String name, String sex, Integer age, String email, String phone, UserCollection collection, UserRec rec, UserRecord record) {
         this.host = host;
         this.password = password;
         this.name = name;

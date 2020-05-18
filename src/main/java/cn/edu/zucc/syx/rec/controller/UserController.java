@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
@@ -103,15 +104,16 @@ public class UserController {
     @PostMapping("/{host}/add_record")
     public JSONObject addRecord(@PathVariable String host,
                                 @RequestParam("song_id") String songId){
-        JSONObject ret = new JSONObject();
+        Song song  = userService.addRecordSong(host, songId);
+        JSONObject ret = util.Song2Json(song);
 
         return ret;
     }
 
     @GetMapping("/{host}/list_record")
     public JSONObject listRecord(@PathVariable String host){
-        JSONObject ret = new JSONObject();
-
+        List<Song> songList  = userService.listRecordSongs(host);
+        JSONObject ret = util.Songs2Json(songList);
         return ret;
     }
 

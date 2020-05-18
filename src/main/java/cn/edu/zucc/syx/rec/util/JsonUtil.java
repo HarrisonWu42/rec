@@ -64,7 +64,14 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
-
+    public JSONObject Song2Json(Song song){
+        JSONObject tmp = new JSONObject();
+        tmp.put("song",song);
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
     public JSONObject Sheets2Json(List<Sheet> sheetList){
         JSONObject tmp = new JSONObject();
         tmp.put("sheets",sheetList);

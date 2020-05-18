@@ -7,20 +7,20 @@ import java.util.List;
 
 public class UserRecord {
     @Field(type = FieldType.Nested)
-    private List<KeySong> songs;
+    private List<RecordSong> songs;
 
-    public List<KeySong> getSongs() {
+    public List<RecordSong> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<KeySong> songs) {
+    public void setSongs(List<RecordSong> songs) {
         this.songs = songs;
     }
 
     public UserRecord() {
     }
 
-    public UserRecord(List<KeySong> songs) {
+    public UserRecord(List<RecordSong> songs) {
         this.songs = songs;
     }
 }

@@ -3,23 +3,25 @@ package cn.edu.zucc.syx.rec.impl;
 import cn.edu.zucc.syx.rec.entity.*;
 import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
+import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final SongRepository songRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, SongRepository songRepository) {
         this.userRepository = userRepository;
+        this.songRepository = songRepository;
     }
 
     @Override
@@ -49,10 +51,11 @@ public class UserServiceImpl implements UserService {
         user.setRec(rec);
 
         UserRecord record = new UserRecord();
-        List<KeySong> recordSongs = new ArrayList<>();
+        List<RecordSong> recordSongs = new ArrayList<>();
         record.setSongs(recordSongs);
-        List<UserRecord> records = new ArrayList<>();
-        records.add(record);
+        UserRecord records = new UserRecord();
+
+//        records.add(record);
         user.setRecord(records);
         userRepository.save(user);
         return user;
@@ -70,6 +73,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Song addRecordSong(String host, String song_id) {
+        User user = userRepository.findUserByHost(host);
+        Song song  = songRepository.queryById(song_id);
+        RecordSong recordSong  = new RecordSong();
+        recordSong.setSong_id(song_id);
+        recordSong.setDate(new Date());
+
+        UserRecord userRecord = user.getRecord();
+        List<RecordSong> recordSongList = userRecord.getSongs();
+        for(RecordSong recordtmpSong : recordSongList){
+            if(recordtmpSong.getSong_id().equals(song_id)){
+                recordSongList.remove(recordtmpSong);
+                break;
+            }
+        }
+        recordSongList.add(recordSong);
+//        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
+//        userCollection.setSongs(keySongList);
+//        IndexRequest indexRequest = new IndexRequest();
+//        indexRequest.source("collection", userCollection);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
+        userRecord.setSongs(recordSongList);
+        user.setRecord(userRecord);
+        userRepository.save(user);
+        return song;
+    }
+
+    @Override
+    public List<Song> listRecordSongs(String host) {
+        User user = userRepository.findUserByHost(host);
+        List<RecordSong> recordSongList = user.getRecord().getSongs();
+        sortClass sort = new sortClass();
+        Collections.sort(recordSongList,sort);
+//        recordSongList.sort(Da);
+        List<Song> songList = new ArrayList<>();
+        for(RecordSong recordSong:recordSongList){
+            songList.add(songRepository.queryById(recordSong.getSong_id()));
+        }
+        return  songList;
+//        return null;
+    }
+
+    @Override
     public String update(User user){
         try {
             userRepository.save(user);
@@ -79,7 +126,6 @@ public class UserServiceImpl implements UserService {
             return "defeated";
         }
     }
-
     @Override
     public User queryUser(String host){
         return userRepository.findUserByHost(host);
@@ -111,6 +157,15 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-
+    public class sortClass implements Comparator {
+        public int compare(Object arg0,Object arg1){
+            RecordSong recordSong = (RecordSong) arg0;
+            RecordSong recordSong1 = (RecordSong) arg1;
+           if(recordSong.getDate().compareTo(recordSong1.getDate())==1)
+               return -1;
+           else return 1;
+//            return flag;
+        }
+    }
 }
 
