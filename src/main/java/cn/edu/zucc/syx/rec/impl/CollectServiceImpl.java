@@ -98,6 +98,7 @@ public class CollectServiceImpl implements CollectService {
         keySong.setArtist_name(song.getArtist_name());
         keySong.setRelease(song.getRelease());
         keySong.setArtist_id(song.getArtist_id());
+        keySong.setPic_url(song.getPic_url());
         UserCollection userCollection = user.getCollection();
         List<KeySong> keySongList = userCollection.getSongs();
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));

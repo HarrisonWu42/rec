@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         recordSong.setRelease(song.getRelease());
         recordSong.setArtist_id(song.getArtist_id());
         recordSong.setDate(new Date());
+        recordSong.setPic_url(song.getPic_url());
 
         UserRecord userRecord = user.getRecord();
         List<RecordSong> recordSongList = userRecord.getSongs();

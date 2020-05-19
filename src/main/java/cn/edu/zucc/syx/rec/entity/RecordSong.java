@@ -20,13 +20,25 @@ public class RecordSong {
     @Field(type = FieldType.Date)
     private Date date;
 
-    public RecordSong(String song_id, String song_name, String artist_id, String artist_name, String release, Date date) {
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
+    }
+
+    @Field(type = FieldType.Keyword)
+    private String pic_url;
+
+    public RecordSong(String song_id, String song_name, String artist_id, String artist_name, String release, Date date, String pic_url) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.artist_id = artist_id;
         this.artist_name = artist_name;
         this.release = release;
         this.date = date;
+        this.pic_url = pic_url;
     }
 
     public RecordSong() {

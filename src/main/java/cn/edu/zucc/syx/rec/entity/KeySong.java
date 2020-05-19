@@ -10,10 +10,21 @@ public class KeySong {
     private String song_name;
     @Field(type = FieldType.Keyword)
     private String artist_id;
+
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
+    }
+
     @Field(type = FieldType.Keyword)
     private String artist_name;
     @Field(type = FieldType.Keyword)
     private String release;
+    @Field(type = FieldType.Keyword)
+    private String pic_url;
 
     public String getSong_id() {
         return song_id;
@@ -55,14 +66,17 @@ public class KeySong {
         this.release = release;
     }
 
-    public KeySong() {
-    }
-
-    public KeySong(String song_id, String song_name, String artist_id, String artist_name, String release) {
+    public KeySong(String song_id, String song_name, String artist_id, String artist_name, String release, String pic_url) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.artist_id = artist_id;
         this.artist_name = artist_name;
         this.release = release;
+        this.pic_url = pic_url;
     }
+
+    public KeySong() {
+    }
+
+
 }

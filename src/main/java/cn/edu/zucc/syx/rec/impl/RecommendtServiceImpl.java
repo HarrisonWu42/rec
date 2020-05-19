@@ -51,6 +51,7 @@ public class RecommendtServiceImpl implements RecommendService {
                 tmpKeySong.setArtist_name(songTmp.getArtist_name());
                 tmpKeySong.setRelease(songTmp.getRelease());
                 tmpKeySong.setArtist_id(songTmp.getArtist_id());
+                tmpKeySong.setPic_url(songTmp.getPic_url());
                 recommendSongs.add(keySong);
             }
         }
