@@ -53,6 +53,24 @@ public class CollectionController {
     }
 
     /**
+     * 查看收藏夹（歌曲）(全部)
+     */
+    @GetMapping("/{host}/songsAll")
+    public JSONObject listSongsCollectionAll(@PathVariable("host") String host){
+        JSONObject ret = new JSONObject();
+
+        try{
+            List<KeySong> songs = collectService.listSongsCollection(host);
+            ret = util.userSongs2Json(songs);
+        } catch (Exception e){
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
+
+        return ret;
+    }
+
+    /**
      * 查看收藏夹（歌手）
      */
     @GetMapping("/{host}/artists")
