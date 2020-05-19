@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,21 +34,30 @@ public class RecommendtServiceImpl implements RecommendService {
     public List<KeySong> recommandSongByDl(String host) {
         User user = userRepository.findUserByHost(host);
         List<KeySong> keySongList = user.getCollection().getSongs();
-        List<KeySong> recommendSongs = user.getCollection().getSongs();
+        List<KeySong> recommendSongs = new ArrayList<>();
+        if(keySongList.isEmpty()){
+            return recommendSongs;
+        }
+
         for(KeySong keySong : keySongList){
             Song song = songRepository.queryById(keySong.getSong_id());
             List<String> songlist = song.getSimilar_dl();
-            for(String song_id: songlist){
+            for(int i =0 ; i < songlist.size();i++){
+                String song_id = songlist.get(i);
                 Song songTmp = songRepository.queryById(song_id);
                 KeySong tmpKeySong = new KeySong();
                 tmpKeySong.setSong_id(song_id);
-                tmpKeySong.setSong_name(song.getName());
-                tmpKeySong.setArtist_name(song.getArtist_name());
-                tmpKeySong.setRelease(song.getRelease());
-                tmpKeySong.setArtist_id(song.getArtist_id());
+                tmpKeySong.setSong_name(songTmp.getName());
+                tmpKeySong.setArtist_name(songTmp.getArtist_name());
+                tmpKeySong.setRelease(songTmp.getRelease());
+                tmpKeySong.setArtist_id(songTmp.getArtist_id());
                 recommendSongs.add(keySong);
             }
         }
+//        UserRec userRec = user.getRec();
+//        userRec.setSongs(recommendSongs);
+//        user.setRec(userRec);
+//        userRepository.save(user);
         return recommendSongs;
     }
 
