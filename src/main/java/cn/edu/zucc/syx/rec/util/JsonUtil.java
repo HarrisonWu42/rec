@@ -64,6 +64,22 @@ public class JsonUtil {
         ret.put("data", tmp);
         return ret;
     }
+    public JSONObject RecordSongs2Json(List<RecordSong> recordSongList){
+        JSONObject tmp = new JSONObject();
+        tmp.put("recordSongs",recordSongList);
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
+    public JSONObject RecordSong2Json(RecordSong recordSongList){
+        JSONObject tmp = new JSONObject();
+        tmp.put("recordSong",recordSongList);
+        JSONObject ret = new JSONObject();
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+        return ret;
+    }
     public JSONObject Song2Json(Song song){
         JSONObject tmp = new JSONObject();
         tmp.put("song",song);
@@ -184,6 +200,19 @@ public class JsonUtil {
         tmp.put("page_num", page.getNumber()+1);
         tmp.put("page_size", page.getSize());
         List<KeyArtists> artists = page.getContent();
+        tmp.put("artists", artists);
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+
+        return ret;
+    }
+    public JSONObject usrRecordSongPage2Json(Page<RecordSong> page){
+        JSONObject ret = new JSONObject();
+        JSONObject tmp = new JSONObject();
+        tmp.put("page_total", page.getTotalPages());
+        tmp.put("page_num", page.getNumber()+1);
+        tmp.put("page_size", page.getSize());
+        List<RecordSong> artists = page.getContent();
         tmp.put("artists", artists);
         ret.put("code", Statue.SUCCESS);
         ret.put("data", tmp);
