@@ -45,7 +45,7 @@ public class Song {
 
     @Field(type = FieldType.Nested)
     private List<Similar> similar;
-    @Field(type = FieldType.Nested)
+    @Field(type = FieldType.Keyword)
     private List<String> similar_dl;
 
     public List<String> getSimilar_dl() {
