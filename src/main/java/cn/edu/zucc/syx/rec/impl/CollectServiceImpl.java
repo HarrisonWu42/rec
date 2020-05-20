@@ -15,6 +15,7 @@ import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,6 +163,36 @@ public class CollectServiceImpl implements CollectService {
 //        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
 //        elasticsearchTemplate.update(updateQuery);
         return add_artist;
+    }
+
+    @Override
+    public Boolean isSongExist(String host, String songId){
+        User user = userRepository.findUserByHost(host);
+        List<KeySong> songs = user.getCollection().getSongs();
+        List<String> existSongs = new ArrayList<>();
+        for (KeySong s:songs){
+            existSongs.add(s.getSong_id());
+        }
+        if (existSongs.contains(songId)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean isArtistExist(String host, String artistId){
+        User user = userRepository.findUserByHost(host);
+        List<KeyArtists> artists = user.getCollection().getArtists();
+        List<String> existArtists = new ArrayList<>();
+        for (KeyArtists a:artists){
+            existArtists.add(a.getArtist_id());
+        }
+        if (existArtists.contains(artistId)){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 }

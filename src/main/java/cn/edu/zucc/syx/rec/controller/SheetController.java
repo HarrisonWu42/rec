@@ -3,8 +3,10 @@ package cn.edu.zucc.syx.rec.controller;
 import cn.edu.zucc.syx.rec.entity.KeySong;
 import cn.edu.zucc.syx.rec.entity.Sheet;
 import cn.edu.zucc.syx.rec.entity.UserSheets;
+import cn.edu.zucc.syx.rec.impl.CollectServiceImpl;
 import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
+import cn.edu.zucc.syx.rec.service.CollectService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
 import cn.edu.zucc.syx.rec.util.Statue;
@@ -25,6 +27,8 @@ public class SheetController {
     private SheetServiceImpl sheetService;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private CollectServiceImpl collectService;
 
     private JsonUtil util = new JsonUtil();
 
@@ -165,6 +169,7 @@ public class SheetController {
     @PostMapping("/{host}/collect")
     public JSONObject collect(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
+
         try {
             Sheet sheet = sheetService.collect(host, sheetId);
             ret = util.sheetBrief2Json(sheet);

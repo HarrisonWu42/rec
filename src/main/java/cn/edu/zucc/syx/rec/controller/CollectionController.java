@@ -2,6 +2,7 @@ package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.KeyArtists;
 import cn.edu.zucc.syx.rec.entity.KeySong;
+import cn.edu.zucc.syx.rec.entity.User;
 import cn.edu.zucc.syx.rec.service.CollectService;
 import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
@@ -102,6 +103,12 @@ public class CollectionController {
     public JSONObject addSong(@PathVariable("host") String host,
                               @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
+        if (collectService.isSongExist(host, songId)){
+            ret.put("code", "error");
+            ret.put("msg", "exist");
+            return ret;
+        }
+
         try {
             KeySong keySong = collectService.addSong(host, songId);
             ret = util.userSong2Json(keySong);
@@ -137,6 +144,13 @@ public class CollectionController {
     public JSONObject addArtist(@PathVariable("host") String host,
                                 @RequestParam("artist_id") String artistId){
         JSONObject ret = new JSONObject();
+
+        if (collectService.isArtistExist(host, artistId)){
+            ret.put("code", "error");
+            ret.put("msg", "exist");
+            return ret;
+        }
+
         try {
             KeyArtists artist = collectService.addArtist(host, artistId);
             ret = util.userArtist2Json(artist);
