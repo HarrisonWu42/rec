@@ -39,14 +39,19 @@ public class RecommendtServiceImpl implements RecommendService {
             return recommendSongs;
         }
 
-        for(KeySong keySong : keySongList){
+        for(KeySong keySong:keySongList){
             Song song = songRepository.queryById(keySong.getSong_id());
             List<String> songlist = song.getSimilar_dl();
-            for(int i =0 ; i < songlist.size();i++){
-                String song_id = songlist.get(i);
-                Song songTmp = songRepository.queryById(song_id);
+            if (songlist == null){
+                continue;
+            }
+            for(String s:songlist){
+                Song songTmp = songRepository.findById(s);
+                if (songTmp == null){
+                    continue;
+                }
                 KeySong tmpKeySong = new KeySong();
-                tmpKeySong.setSong_id(song_id);
+                tmpKeySong.setSong_id(s);
                 tmpKeySong.setSong_name(songTmp.getName());
                 tmpKeySong.setArtist_name(songTmp.getArtist_name());
                 tmpKeySong.setRelease(songTmp.getRelease());
