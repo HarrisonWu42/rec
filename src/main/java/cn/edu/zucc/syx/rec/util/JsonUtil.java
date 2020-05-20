@@ -172,6 +172,7 @@ public class JsonUtil {
         tmp.put("page_total", page.getTotalPages());
         tmp.put("page_num", page.getNumber()+1);
         tmp.put("page_size", page.getSize());
+        tmp.put("is_open", sheet.getIs_open());
         List<KeySong> songs = page.getContent();
         tmp.put("songs", songs);
         ret.put("code", Statue.SUCCESS);

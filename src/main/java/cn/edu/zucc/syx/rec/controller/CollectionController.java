@@ -55,6 +55,9 @@ public class CollectionController {
     /**
      * 查看收藏夹（歌曲）(全部)
      */
+
+
+
     @GetMapping("/{host}/songsAll")
     public JSONObject listSongsCollectionAll(@PathVariable("host") String host){
         JSONObject ret = new JSONObject();
