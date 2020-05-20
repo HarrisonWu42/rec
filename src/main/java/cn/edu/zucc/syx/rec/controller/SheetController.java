@@ -86,6 +86,11 @@ public class SheetController {
     public JSONObject addSong(@RequestParam("sheet_id") String sheetId,
                               @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
+        if (sheetService.isExist(sheetId, songId)){
+            ret.put("code", "error");
+            ret.put("msg", "exist");
+            return ret;
+        }
 
         try {
             Boolean ok = sheetService.addSong2Sheet(sheetId, songId);

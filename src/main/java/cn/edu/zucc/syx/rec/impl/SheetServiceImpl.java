@@ -6,6 +6,7 @@ import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.SheetService;
 import cn.edu.zucc.syx.rec.util.Tool;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -223,5 +224,20 @@ public class SheetServiceImpl implements SheetService {
     @Override
     public Sheet getInfo(String sheetId) {
         return sheetRepository.findById(sheetId);
+    }
+
+    @Override
+    public Boolean isExist(String sheetId, String songId){
+        Sheet sheet= sheetRepository.findById(sheetId);
+        List<KeySong> songs = sheet.getSongs();
+        List<String> songExist = new ArrayList<>();
+        for (KeySong s:songs){
+            songExist.add(s.getSong_id());
+        }
+        if (songExist.contains(songId)){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

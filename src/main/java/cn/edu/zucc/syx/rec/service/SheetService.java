@@ -16,5 +16,5 @@ public interface SheetService {
     Boolean deleteSongFromSheet(String sheetId, String songId);
     Sheet collect(String host, String sheedId);
     Sheet getInfo(String sheetId);
-
+    Boolean isExist(String sheetId, String songId);
 }
