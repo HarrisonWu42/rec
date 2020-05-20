@@ -27,5 +27,6 @@ public interface UserService {
     User editUser(UserEditForm user);
     RecordSong addRecordSong(String host, String song_id);
     List<RecordSong> listRecordSongs(String host);
+    User deleteInfo(String host);
 
 }

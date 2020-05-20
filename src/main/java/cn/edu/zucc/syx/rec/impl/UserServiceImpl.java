@@ -130,6 +130,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User deleteInfo(String host) {
+        User user = userRepository.findUserByHost(host);
+        UserCollection collection = new UserCollection();
+        List<KeySong> collectSongs = new ArrayList<>();
+        List<KeyArtists> collectArtists = new ArrayList<>();
+        List<UserSheets> collectSheets = new ArrayList<>();
+        collection.setArtists(collectArtists);
+        collection.setSheets(collectSheets);
+        collection.setSongs(collectSongs);
+        user.setCollection(collection);
+
+        UserRec rec = new UserRec();
+        List<KeySong> recSongs = new ArrayList<>();
+        List<KeyArtists> recArtists = new ArrayList<>();
+        rec.setSongs(recSongs);
+        rec.setArtists(recArtists);
+        user.setRec(rec);
+
+        UserRecord record = new UserRecord();
+        List<RecordSong> recordSongs = new ArrayList<>();
+        record.setSongs(recordSongs);
+
+//        records.add(record);
+        user.setRecord(record);
+        userRepository.save(user);
+        return user;
+    }
+
+
+    @Override
     public String update(User user){
         try {
             userRepository.save(user);
