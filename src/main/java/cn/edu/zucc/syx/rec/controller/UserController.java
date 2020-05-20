@@ -129,5 +129,11 @@ public class UserController {
         }
         return ret;
     }
+    @GetMapping("/{host}/delete_info")
+    public JSONObject deleteInfo(@PathVariable String host){
+        User user = userService.deleteInfo(host);
+        JSONObject ret = util.userInfo2Json(user);
+        return ret;
+    }
 
 }

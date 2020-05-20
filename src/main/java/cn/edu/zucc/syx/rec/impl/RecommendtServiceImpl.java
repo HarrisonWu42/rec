@@ -52,7 +52,7 @@ public class RecommendtServiceImpl implements RecommendService {
                 tmpKeySong.setRelease(songTmp.getRelease());
                 tmpKeySong.setArtist_id(songTmp.getArtist_id());
                 tmpKeySong.setPic_url(songTmp.getPic_url());
-                recommendSongs.add(keySong);
+                recommendSongs.add(tmpKeySong);
             }
         }
 //        UserRec userRec = user.getRec();
