@@ -38,26 +38,33 @@ public class RecommendtServiceImpl implements RecommendService {
         if(keySongList.isEmpty()){
             return recommendSongs;
         }
-
-        for(KeySong keySong:keySongList){
+        List<String> userSongs = new ArrayList<>();
+        for (KeySong keySong:keySongList){
+            userSongs.add(keySong.getSong_id());
+        }
+        for(KeySong keySong : keySongList){
+//        for(int j = 0 ;j<keySongList.size();j++){
             Song song = songRepository.queryById(keySong.getSong_id());
             List<String> songlist = song.getSimilar_dl();
-            if (songlist == null){
-                continue;
-            }
-            for(String s:songlist){
-                Song songTmp = songRepository.findById(s);
-                if (songTmp == null){
+            if(songlist==null) continue;
+            for(int i =0 ; i < songlist.size();i++){
+                String song_id = songlist.get(i);
+                if(userSongs.contains(song_id)){
                     continue;
                 }
+                Song songTmp = songRepository.queryById(song_id);
+                if(songTmp==null) continue;
                 KeySong tmpKeySong = new KeySong();
-                tmpKeySong.setSong_id(s);
+                tmpKeySong.setSong_id(song_id);
                 tmpKeySong.setSong_name(songTmp.getName());
                 tmpKeySong.setArtist_name(songTmp.getArtist_name());
                 tmpKeySong.setRelease(songTmp.getRelease());
                 tmpKeySong.setArtist_id(songTmp.getArtist_id());
                 tmpKeySong.setPic_url(songTmp.getPic_url());
                 recommendSongs.add(tmpKeySong);
+                if(i == songlist.size()-1){
+                    break;
+                }
             }
         }
 //        UserRec userRec = user.getRec();

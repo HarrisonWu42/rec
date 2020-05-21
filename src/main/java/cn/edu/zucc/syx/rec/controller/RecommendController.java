@@ -1,7 +1,6 @@
 package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.KeySong;
-import cn.edu.zucc.syx.rec.impl.RecommendtServiceImpl;
 import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
@@ -21,7 +20,7 @@ public class RecommendController {
 
     private JsonUtil util = new JsonUtil();
     @Autowired
-    private RecommendtServiceImpl recommendService;
+    private RecommendService recommendService;
 
     // 推荐1, deeplearning
     @GetMapping("/{host}/recommandbyDl")
@@ -29,15 +28,16 @@ public class RecommendController {
                                         @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-//        try{
-        List<KeySong> recommendDLsongs = recommendService.recommandSongByDl(host);
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
-        ret = util.collectionSongPage2Json(page);
-//        } catch (Exception e){
-//            ret.put("code", "error");
-//            ret.put("msg", "failed");
-//        }
+        try{
+            List<KeySong> recommendDLsongs = recommendService.recommandSongByDl(host);
+            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+            Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
+            ret = util.collectionSongPage2Json(page);
+        } catch (Exception e){
+            System.out.println(e);
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
         return ret;
     }
 }
