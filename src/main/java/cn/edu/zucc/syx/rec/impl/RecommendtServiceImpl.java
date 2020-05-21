@@ -43,7 +43,6 @@ public class RecommendtServiceImpl implements RecommendService {
             userSongs.add(keySong.getSong_id());
         }
         for(KeySong keySong : keySongList){
-//        for(int j = 0 ;j<keySongList.size();j++){
             Song song = songRepository.queryById(keySong.getSong_id());
             List<String> songlist = song.getSimilar_dl();
             if(songlist==null) continue;
