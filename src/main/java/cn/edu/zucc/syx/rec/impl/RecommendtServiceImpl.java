@@ -43,15 +43,17 @@ public class RecommendtServiceImpl implements RecommendService {
             userSongs.add(keySong.getSong_id());
         }
         for(KeySong keySong : keySongList){
+//        for(int j = 0 ;j<keySongList.size();j++){
             Song song = songRepository.queryById(keySong.getSong_id());
             List<String> songlist = song.getSimilar_dl();
+            if(songlist==null) continue;
             for(int i =0 ; i < songlist.size();i++){
                 String song_id = songlist.get(i);
                 if(userSongs.contains(song_id)){
                     continue;
                 }
                 Song songTmp = songRepository.queryById(song_id);
-                
+                if(songTmp==null) continue;
                 KeySong tmpKeySong = new KeySong();
                 tmpKeySong.setSong_id(song_id);
                 tmpKeySong.setSong_name(songTmp.getName());
@@ -60,6 +62,9 @@ public class RecommendtServiceImpl implements RecommendService {
                 tmpKeySong.setArtist_id(songTmp.getArtist_id());
                 tmpKeySong.setPic_url(songTmp.getPic_url());
                 recommendSongs.add(tmpKeySong);
+                if(i == songlist.size()-1){
+                    break;
+                }
             }
         }
 //        UserRec userRec = user.getRec();

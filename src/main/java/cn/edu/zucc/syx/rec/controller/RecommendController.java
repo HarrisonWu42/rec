@@ -34,6 +34,7 @@ public class RecommendController {
             Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
             ret = util.collectionSongPage2Json(page);
         } catch (Exception e){
+            System.out.println(e);
             ret.put("code", "error");
             ret.put("msg", "failed");
         }
