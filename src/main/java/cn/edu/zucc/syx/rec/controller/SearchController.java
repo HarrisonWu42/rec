@@ -58,6 +58,7 @@ public class SearchController {
             songResult.setArtist_id(s.getArtist_id());
             songResult.setArtist_name(s.getArtist_name());
             songResult.setRelease(s.getRelease());
+            songResult.setPic_url(s.getPic_url());
             if (userSongs.contains(s.getId())){
                 songResult.setIs_collected(true);
             }else {

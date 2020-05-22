@@ -190,6 +190,7 @@ public class SheetServiceImpl implements SheetService {
         keySong.setRelease(song.getRelease());
         keySong.setSong_id(song.getId());
         keySong.setSong_name(song.getName());
+        keySong.setPic_url(song.getPic_url());
         songs.add(keySong);
         sheet.setSongs(songs);
         sheetRepository.save(sheet);

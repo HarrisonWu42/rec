@@ -7,6 +7,15 @@ public class SearchSongResult {
     private String artist_name;
     private String release;
     private Boolean is_collected;
+    private String pic_url;
+
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
+    }
 
     public String getSong_id() {
         return song_id;
@@ -44,6 +53,16 @@ public class SearchSongResult {
         return artist_name;
     }
 
+    public SearchSongResult(String song_id, String song_name, String artist_id, String artist_name, String release, Boolean is_collected, String pic_url) {
+        this.song_id = song_id;
+        this.song_name = song_name;
+        this.artist_id = artist_id;
+        this.artist_name = artist_name;
+        this.release = release;
+        this.is_collected = is_collected;
+        this.pic_url = pic_url;
+    }
+
     public void setArtist_name(String artist_name) {
         this.artist_name = artist_name;
     }
@@ -59,12 +78,4 @@ public class SearchSongResult {
     public SearchSongResult() {
     }
 
-    public SearchSongResult(String song_id, String song_name, String artist_id, String artist_name, String release, Boolean is_collected) {
-        this.song_id = song_id;
-        this.song_name = song_name;
-        this.artist_id = artist_id;
-        this.artist_name = artist_name;
-        this.release = release;
-        this.is_collected = is_collected;
-    }
 }
