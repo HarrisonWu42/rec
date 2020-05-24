@@ -1,10 +1,22 @@
 package cn.edu.zucc.syx.rec;
 
+import cn.edu.zucc.syx.rec.entity.Song;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.WrapperQueryBuilder;
+import org.elasticsearch.index.search.MatchQuery;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.engine.support.discovery.SelectorResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;//导入包
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
+
+import java.util.List;
 
 
 @SpringBootTest
@@ -106,6 +118,32 @@ class RecApplicationTests {
 //        System.out.println("从1970年1月1日 早上8点0分0秒 开始经历了5秒的时间");
 //        System.out.println(d2);
 //    }
+
+//    @Test
+//    public void testtest() {
+//        SearchRequestBuilder searchRequestBuilder;
+////        String query = " { \"query\":{\"match_all\" : {\"boost\" : 1.0}}}";
+//        String query = "{ \"match\": { \"lyric\": \"him departure\" } }";
+//        WrapperQueryBuilder wrapperQueryBuilder = QueryBuilders.wrapperQuery(query);
+//        searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
+//        searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
+//        SearchResponse response = searchRequestBuilder.execute().actionGet();
+//        response.getHits()
+//    }
+    @Test
+
+    public  void  test3(){
+        String lyric = "him departure";
+//        MatchQuery matchQuery = new MatchQuery(1);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(matchQuery("title", articleTitle).minimumShouldMatch("75%"))
+                .withQuery(QueryBuilders.matchQuery("lyric", lyric).minimumShouldMatch("75%"))
+                .build();
+
+        List<Song> songList = esTemplate.queryForList(searchQuery, Song.class);
+        System.out.println(songList);
+    }
+
 
 
 }
