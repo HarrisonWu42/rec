@@ -119,7 +119,7 @@ public class SearchController {
 
         List<String> userArtists = new ArrayList<>();
         for (KeyArtists ua:userArtistsList){
-            userArtists.add(ua.getArtist_id());
+             userArtists.add(ua.getArtist_id());
         }
 
         List<SearchArtistResult> artists = new ArrayList<>();

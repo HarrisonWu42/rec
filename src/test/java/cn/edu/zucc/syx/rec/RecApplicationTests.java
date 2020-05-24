@@ -1,16 +1,10 @@
 package cn.edu.zucc.syx.rec;
 
-import cn.edu.zucc.syx.rec.demo.Table01;
-import cn.edu.zucc.syx.rec.entity.*;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;//导入包
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 @SpringBootTest
@@ -112,4 +106,6 @@ class RecApplicationTests {
 //        System.out.println("从1970年1月1日 早上8点0分0秒 开始经历了5秒的时间");
 //        System.out.println(d2);
 //    }
+
+
 }
