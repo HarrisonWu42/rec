@@ -73,5 +73,26 @@ public class RecommendtServiceImpl implements RecommendService {
         return recommendSongs;
     }
 
+    public List<KeySong> recommandSongByItemcf(String host) {
+        User user = userRepository.findUserByHost(host);
+        List<RecordSong> keySongList = user.getRecord().getSongs();
+        List<KeySong> recommendSongs = new ArrayList<>();
+        if(keySongList.isEmpty()){
+            return recommendSongs;
+        }
+        List<String> userSongs = new ArrayList<>();
+//        for (KeySong keySong:keySongList){
+//            userSongs.add(keySong.getSong_id());
+//        }
+//
+//        for(KeySong keySong : keySongList){
+//            Song song = songRepository.queryById(keySong.getSong_id());
+//            List<Similar> songlist = song.getItemcf_w();
+//
+//            }
+//        }
 
+
+        return recommendSongs;
+    }
 }

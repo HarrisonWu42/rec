@@ -23,9 +23,28 @@ public class RecommendController {
     @Autowired
     private RecommendService recommendService;
 
-    // 推荐1, deeplearning
+    // 推荐1,deeplearning
     @GetMapping("/{host}/recommandbyDl")
     public JSONObject recommandSongByDl(@PathVariable("host") String host, @RequestParam("page_num") int pageNum,
+                                        @RequestParam("page_size") int pageSize){
+        JSONObject ret = new JSONObject();
+
+        try{
+            List<KeySong> recommendDLsongs = recommendService.recommandSongByDl(host);
+            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+            Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
+            ret = util.collectionSongPage2Json(page);
+        } catch (Exception e){
+            System.out.println(e);
+            ret.put("code", "error");
+            ret.put("msg", "failed");
+        }
+        return ret;
+    }
+
+    // 推荐2,itemcf
+    @GetMapping("/{host}/recommandbyItemcf")
+    public JSONObject recommandSongByItemcf(@PathVariable("host") String host, @RequestParam("page_num") int pageNum,
                                         @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 

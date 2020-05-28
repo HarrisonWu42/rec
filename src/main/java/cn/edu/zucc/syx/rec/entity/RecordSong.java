@@ -19,6 +19,7 @@ public class RecordSong {
     @Field(type = FieldType.Date)
     private Date date;
 
+
     public String getPic_url() {
         return pic_url;
     }
@@ -90,4 +91,5 @@ public class RecordSong {
     public void setDate(Date date) {
         this.date = date;
     }
+
 }
