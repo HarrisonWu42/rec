@@ -18,6 +18,8 @@ public class RecordSong {
     private String release;
     @Field(type = FieldType.Date)
     private Date date;
+    @Field(type = FieldType.Integer)
+    private Integer cnt;
 
 
     public String getPic_url() {
