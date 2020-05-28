@@ -75,11 +75,12 @@ public class RecommendtServiceImpl implements RecommendService {
 
     public List<KeySong> recommandSongByItemcf(String host) {
         User user = userRepository.findUserByHost(host);
-        List<RecordSong> keySongList = user.getRecord().getSongs();
+        List<RecordSong> recordSongs = user.getRecord().getSongs();
         List<KeySong> recommendSongs = new ArrayList<>();
-        if(keySongList.isEmpty()){
+        if(recordSongs.isEmpty()){
             return recommendSongs;
         }
+
         List<String> userSongs = new ArrayList<>();
 //        for (KeySong keySong:keySongList){
 //            userSongs.add(keySong.getSong_id());

@@ -76,23 +76,18 @@ public class UserServiceImpl implements UserService {
     public RecordSong addRecordSong(String host, String song_id) {
         User user = userRepository.findUserByHost(host);
         Song song  = songRepository.queryById(song_id);
-        RecordSong recordSong  = new RecordSong();
-        recordSong.setSong_id(song_id);
-        recordSong.setSong_name(song.getName());
-        recordSong.setArtist_name(song.getArtist_name());
-        recordSong.setRelease(song.getRelease());
-        recordSong.setArtist_id(song.getArtist_id());
-        recordSong.setDate(new Date());
-        recordSong.setPic_url(song.getPic_url());
 
         UserRecord userRecord = user.getRecord();
         List<RecordSong> recordSongList = userRecord.getSongs();
-
+        Boolean isExist = false;
+        RecordSong recordSong = new RecordSong();
 
         if(recordSongList!=null && !recordSongList.isEmpty()) {
             for (RecordSong recordtmpSong : recordSongList) {
                 if (recordtmpSong.getSong_id().equals(song_id)) {
                     recordSongList.remove(recordtmpSong);
+                    isExist = true;
+                    recordSong = recordtmpSong;
                     break;
                 }
             }
@@ -101,6 +96,22 @@ public class UserServiceImpl implements UserService {
             List<RecordSong> tmprecordSongList = new ArrayList<>();
             recordSongList = tmprecordSongList;
         }
+
+        if (isExist == true){
+            recordSong.setCnt(recordSong.getCnt()+1);
+            recordSong.setDate(new Date());
+        }else {
+            recordSong.setSong_id(song_id);
+            recordSong.setSong_name(song.getName());
+            recordSong.setArtist_name(song.getArtist_name());
+            recordSong.setRelease(song.getRelease());
+            recordSong.setArtist_id(song.getArtist_id());
+            recordSong.setDate(new Date());
+            recordSong.setPic_url(song.getPic_url());
+            recordSong.setCnt(1);
+        }
+
+
         recordSongList.add(recordSong);
 //        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
 //        userCollection.setSongs(keySongList);

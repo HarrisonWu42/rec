@@ -21,7 +21,6 @@ public class RecordSong {
     @Field(type = FieldType.Integer)
     private Integer cnt;
 
-
     public String getPic_url() {
         return pic_url;
     }
@@ -33,7 +32,7 @@ public class RecordSong {
     @Field(type = FieldType.Keyword)
     private String pic_url;
 
-    public RecordSong(String song_id, String song_name, String artist_id, String artist_name, String release, Date date, String pic_url) {
+    public RecordSong(String song_id, String song_name, String artist_id, String artist_name, String release, Date date, String pic_url, int cnt) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.artist_id = artist_id;
@@ -41,6 +40,7 @@ public class RecordSong {
         this.release = release;
         this.date = date;
         this.pic_url = pic_url;
+        this.cnt = cnt;
     }
 
     public RecordSong() {
@@ -93,5 +93,14 @@ public class RecordSong {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public Integer getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(Integer cnt) {
+        this.cnt = cnt;
+    }
+
 
 }
