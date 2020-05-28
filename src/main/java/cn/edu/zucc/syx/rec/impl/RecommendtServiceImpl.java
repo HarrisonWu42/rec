@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RecommendtServiceImpl implements RecommendService {
@@ -81,19 +80,45 @@ public class RecommendtServiceImpl implements RecommendService {
             return recommendSongs;
         }
 
-        List<String> userSongs = new ArrayList<>();
-//        for (KeySong keySong:keySongList){
-//            userSongs.add(keySong.getSong_id());
-//        }
-//
-//        for(KeySong keySong : keySongList){
-//            Song song = songRepository.queryById(keySong.getSong_id());
-//            List<Similar> songlist = song.getItemcf_w();
-//
-//            }
-//        }
+        Map<String, Integer> ru = new HashMap<>();
+        for (RecordSong r:recordSongs){
+            ru.put(r.getSong_id(), r.getCnt());
+        }
 
+        Map<String, Float> p = new HashMap<>();
+        for (Map.Entry<String, Integer> entry: ru.entrySet()){
+            String song_id = entry.getKey();
+            int r = entry.getValue();
+            Song song = songRepository.queryById(song_id);
+            List<Similar> items = song.getItemcf_w();
+            for (Similar i:items){
+                String itemid = i.getSong_id();
+                float pi = r * i.getValue();
+                p.put(itemid, pi);
+            }
+        }
 
+        List<Map.Entry<String, Float>> list = new ArrayList<Map.Entry<String, Float>>(p.entrySet());
+        list.sort(new Comparator<Map.Entry<String, Float>>() {
+            public int compare(Map.Entry<String, Float> o1, Map.Entry<String, Float> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        for(Map.Entry<String, Float> i:list){
+            if (i.getValue() > 0.1){ // 阈值
+                Song song = songRepository.queryById(i.getKey());
+
+                KeySong tmpKeySong = new KeySong();
+                tmpKeySong.setSong_id(song.getId());
+                tmpKeySong.setSong_name(song.getName());
+                tmpKeySong.setArtist_name(song.getArtist_name());
+                tmpKeySong.setRelease(song.getRelease());
+                tmpKeySong.setArtist_id(song.getArtist_id());
+                tmpKeySong.setPic_url(song.getPic_url());
+                recommendSongs.add(tmpKeySong);
+            }
+        }
         return recommendSongs;
     }
 }

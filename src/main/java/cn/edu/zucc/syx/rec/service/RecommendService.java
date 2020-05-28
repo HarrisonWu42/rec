@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface RecommendService {
     List<KeySong> recommandSongByDl(String  host);
+    List<KeySong> recommandSongByItemcf(String  host);
 }
