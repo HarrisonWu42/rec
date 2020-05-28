@@ -1,7 +1,9 @@
 package cn.edu.zucc.syx.rec;
 
+import cn.edu.zucc.syx.rec.entity.RecordSong;
 import cn.edu.zucc.syx.rec.entity.Song;
 import cn.edu.zucc.syx.rec.entity.User;
+import cn.edu.zucc.syx.rec.entity.UserRecord;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -17,6 +19,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;//å¯¼å…
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -143,6 +147,39 @@ class RecApplicationTests {
 
         List<Song> songList = esTemplate.queryForList(searchQuery, Song.class);
         System.out.println(songList);
+    }
+
+    @Test
+
+    public  void  test4(){
+        User user = userRepository.findUserByHost("31701282");
+
+
+        UserRecord userRecord = user.getRecord();
+        List<RecordSong> recordSongList = userRecord.getSongs();
+        List<RecordSong> newRecordSongList = new ArrayList<>();
+        Boolean isExist = false;
+        RecordSong recordSong = new RecordSong();
+
+
+        for (RecordSong recordtmpSong : recordSongList) {
+
+                recordSong = recordtmpSong;
+                recordSong.setCnt((int)(Math.random()*100)+1);
+                newRecordSongList.add(recordSong);
+
+        }
+
+
+//        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
+//        userCollection.setSongs(keySongList);
+//        IndexRequest indexRequest = new IndexRequest();
+//        indexRequest.source("collection", userCollection);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
+        userRecord.setSongs(newRecordSongList);
+        user.setRecord(userRecord);
+        userRepository.save(user);
     }
 
 
