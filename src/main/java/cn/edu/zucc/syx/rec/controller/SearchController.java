@@ -9,6 +9,7 @@ import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
 import cn.edu.zucc.syx.rec.view.SearchArtistResult;
+import cn.edu.zucc.syx.rec.view.SearchLyricResult;
 import cn.edu.zucc.syx.rec.view.SearchSheetResult;
 import cn.edu.zucc.syx.rec.view.SearchSongResult;
 import com.alibaba.fastjson.JSONObject;
@@ -28,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@CrossOrigin(origins = "http://39.101.189.21:8888", maxAge = 3600)
-//@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
+//@CrossOrigin(origins = "http://39.101.189.21:8888", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
 @RequestMapping("/api/search")
 public class SearchController {
@@ -104,15 +105,16 @@ public class SearchController {
             userSongs.add(us.getSong_id());
         }
 
-        List<SearchSongResult> songs = new ArrayList<>();
+        List<SearchLyricResult> songs = new ArrayList<>();
         for (Song s:songList){
-            SearchSongResult songResult = new SearchSongResult();
+            SearchLyricResult songResult = new SearchLyricResult();
             songResult.setSong_id(s.getId());
             songResult.setSong_name(s.getName());
             songResult.setArtist_id(s.getArtist_id());
             songResult.setArtist_name(s.getArtist_name());
             songResult.setRelease(s.getRelease());
             songResult.setPic_url(s.getPic_url());
+//            songResult.setLyric();
             if (userSongs.contains(s.getId())){
                 songResult.setIs_collected(true);
             }else {
@@ -122,8 +124,8 @@ public class SearchController {
         }
 
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<SearchSongResult> page = PageUtil.createPageFromList(songs, pageable);
-        JSONObject ret = util.searchSongPage2Json(page);
+        Page<SearchLyricResult> page = PageUtil.createPageFromList(songs, pageable);
+        JSONObject ret = util.searchLyricPage2Json(page);
         return ret;
     }
 
