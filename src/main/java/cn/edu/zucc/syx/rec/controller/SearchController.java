@@ -9,12 +9,17 @@ import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
 import cn.edu.zucc.syx.rec.view.SearchArtistResult;
+import cn.edu.zucc.syx.rec.view.SearchLyricResult;
 import cn.edu.zucc.syx.rec.view.SearchSheetResult;
 import cn.edu.zucc.syx.rec.view.SearchSongResult;
 import com.alibaba.fastjson.JSONObject;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.WrapperQueryBuilder;
+import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +29,10 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-@CrossOrigin(origins = "http://39.101.189.21:8888", maxAge = 3600)
-//@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
+//@CrossOrigin(origins = "http://39.101.189.21:8888", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8888", maxAge = 3600)
 @RestController
 @RequestMapping("/api/search")
 public class SearchController {
@@ -84,8 +87,8 @@ public class SearchController {
         JSONObject ret = util.searchSongPage2Json(page);
         return ret;
     }
-    @GetMapping("/lyrics")
-    public JSONObject searchSongLric(@RequestParam("lyric") String lyric,
+    @GetMapping("/lyrics1")
+    public JSONObject searchSongLric1(@RequestParam("lyric") String lyric,
                                  @RequestParam("host") String host,
                                  @RequestParam("page_num") int pageNum,
                                  @RequestParam("page_size") int pageSize){
@@ -104,15 +107,16 @@ public class SearchController {
             userSongs.add(us.getSong_id());
         }
 
-        List<SearchSongResult> songs = new ArrayList<>();
+        List<SearchLyricResult> songs = new ArrayList<>();
         for (Song s:songList){
-            SearchSongResult songResult = new SearchSongResult();
+            SearchLyricResult songResult = new SearchLyricResult();
             songResult.setSong_id(s.getId());
             songResult.setSong_name(s.getName());
             songResult.setArtist_id(s.getArtist_id());
             songResult.setArtist_name(s.getArtist_name());
             songResult.setRelease(s.getRelease());
             songResult.setPic_url(s.getPic_url());
+//            songResult.setLyric();
             if (userSongs.contains(s.getId())){
                 songResult.setIs_collected(true);
             }else {
@@ -122,8 +126,56 @@ public class SearchController {
         }
 
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<SearchSongResult> page = PageUtil.createPageFromList(songs, pageable);
-        JSONObject ret = util.searchSongPage2Json(page);
+        Page<SearchLyricResult> page = PageUtil.createPageFromList(songs, pageable);
+        JSONObject ret = util.searchLyricPage2Json(page);
+        return ret;
+    }
+    @GetMapping("/lyrics")
+    public JSONObject searchSongLric(@RequestParam("lyric") String lyric,
+                                     @RequestParam("host") String host,
+                                     @RequestParam("page_num") int pageNum,
+                                     @RequestParam("page_size") int pageSize){
+
+        SearchRequestBuilder searchRequestBuilder;
+        //        String query = " { \"query\":{\"match_all\" : {\"boost\" : 1.0}}}";
+        String query = "{ \"match\": { \"lyric\": \""+lyric+"\" } }";
+        WrapperQueryBuilder wrapperQueryBuilder = QueryBuilders.wrapperQuery(query);
+        searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
+        searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
+        SearchResponse response = searchRequestBuilder.execute().actionGet();
+        SearchHit[] result    = response.getHits().getHits();
+        System.out.println(1);
+        User user = userService.queryUser(host);
+        List<KeySong> userSongsList = user.getCollection().getSongs();
+
+        List<String> userSongs = new ArrayList<>();
+        for (KeySong us:userSongsList){
+            userSongs.add(us.getSong_id());
+        }
+
+        List<SearchLyricResult> songs = new ArrayList<>();
+        for ( SearchHit searchHit: result){
+            SearchLyricResult songResult = new SearchLyricResult();
+            Map<String,Object> maphit  = searchHit.getSourceAsMap();
+            songResult.setScore(searchHit.getScore());
+            songResult.setSong_id((String) maphit.get("id"));
+            songResult.setSong_name((String) maphit.get("name"));
+            songResult.setArtist_id((String) maphit.get("artist_id"));
+            songResult.setArtist_name((String) maphit.get("artist_name"));
+            songResult.setRelease((String) maphit.get("release"));
+            songResult.setPic_url((String) maphit.get("pic_url"));
+//            songResult.setLyric();
+            if (userSongs.contains((String) maphit.get("id"))){
+                songResult.setIs_collected(true);
+            }else {
+                songResult.setIs_collected(false);
+            }
+            songs.add(songResult);
+        }
+
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<SearchLyricResult> page = PageUtil.createPageFromList(songs, pageable);
+        JSONObject ret = util.searchLyricPage2Json(page);
         return ret;
     }
 
