@@ -200,14 +200,15 @@ class RecApplicationTests {
     @Test
     public void test5() throws IOException {
         List<String> str1 = new ArrayList<>();
-        str1.add("rock");
-        str1.add("pop");
-        str1.add("hip hop");
-        str1.add("electronic");
-        str1.add("jazz");
-        str1.add("metal");
-        str1.add("latin");
-        str1.add("dance");
+//        str1.add("rock");
+//        str1.add("pop");
+//        str1.add("hip hop");
+//        str1.add("electronic");
+//        str1.add("jazz");
+//        str1.add("metal");
+//        str1.add("latin");
+//        str1.add("dance");
+        str1.add("all");
         for (String i : str1){
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("D:\\孙宇轩\\workshop\\pycharm\\music_recommend\\deal_with_data\\"+i+".txt")),
                     "UTF-8"));

@@ -89,18 +89,35 @@ public class SearchController {
     }
     @GetMapping("/song_type")
     public JSONObject searchSongType(@RequestParam("song_type") String tag,
+                                     @RequestParam("host") String host,
                                  @RequestParam("page_num") int pageNum,
                                  @RequestParam("page_size") int pageSize){
         Prank prank =  prankService.searchByTag(tag);
         List<KeySong> keySongList = prank.getSongs();
-//        User user = userService.queryUser(host);
-//        List<KeySong> userSongsList = user.getCollection().getSongs();
+        User user = userService.queryUser(host);
+        List<KeySong> userSongsList = user.getCollection().getSongs();
 
-//        List<String> userSongs = new ArrayList<>();
-//        for (KeySong us:userSongsList){
-//            userSongs.add(us.getSong_id());
-//        }
-
+        List<String> userSongs = new ArrayList<>();
+        for (KeySong us:userSongsList){
+            userSongs.add(us.getSong_id());
+        }
+        List<SearchSongResult> songs = new ArrayList<>();
+        for (KeySong s:keySongList){
+            SearchSongResult songResult = new SearchSongResult();
+            songResult.setSong_id(s.getSong_id());
+            songResult.setSong_name(s.getSong_name());
+            songResult.setArtist_id(s.getArtist_id());
+            songResult.setArtist_name(s.getArtist_name());
+            songResult.setRelease(s.getRelease());
+            songResult.setPic_url(s.getPic_url());
+//            songResult.setLyric();
+            if (userSongs.contains(s.getSong_id())){
+                songResult.setIs_collected(true);
+            }else {
+                songResult.setIs_collected(false);
+            }
+            songs.add(songResult);
+        }
 //        List<SearchSongResult> songs = new ArrayList<>();
 //        for (KeySong s:keySongList){
 //            SearchSongResult songResult = new SearchSongResult();
@@ -115,8 +132,8 @@ public class SearchController {
 //        }
 
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<KeySong> page = PageUtil.createPageFromList(keySongList, pageable);
-        JSONObject ret = util.KeySongPage2Json(page);
+        Page<SearchSongResult> page = PageUtil.createPageFromList(songs, pageable);
+        JSONObject ret = util.searchSongPage2Json(page);
         return ret;
     }
     @GetMapping("/lyrics1")
