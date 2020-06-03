@@ -1,11 +1,9 @@
 package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.*;
-import cn.edu.zucc.syx.rec.impl.ArtistServiceImpl;
-import cn.edu.zucc.syx.rec.impl.SheetServiceImpl;
-import cn.edu.zucc.syx.rec.impl.SongServiceImpl;
-import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
+import cn.edu.zucc.syx.rec.impl.*;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
+import cn.edu.zucc.syx.rec.service.PrankService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
 import cn.edu.zucc.syx.rec.view.SearchArtistResult;
@@ -48,6 +46,8 @@ public class SearchController {
     private ArtistServiceImpl artistService;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private PrankServiceImpl prankService;
 
     private JsonUtil util = new JsonUtil();
 
@@ -85,6 +85,38 @@ public class SearchController {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         Page<SearchSongResult> page = PageUtil.createPageFromList(songs, pageable);
         JSONObject ret = util.searchSongPage2Json(page);
+        return ret;
+    }
+    @GetMapping("/song_type")
+    public JSONObject searchSongType(@RequestParam("song_type") String tag,
+                                 @RequestParam("page_num") int pageNum,
+                                 @RequestParam("page_size") int pageSize){
+        Prank prank =  prankService.searchByTag(tag);
+        List<KeySong> keySongList = prank.getSongs();
+//        User user = userService.queryUser(host);
+//        List<KeySong> userSongsList = user.getCollection().getSongs();
+
+//        List<String> userSongs = new ArrayList<>();
+//        for (KeySong us:userSongsList){
+//            userSongs.add(us.getSong_id());
+//        }
+
+//        List<SearchSongResult> songs = new ArrayList<>();
+//        for (KeySong s:keySongList){
+//            SearchSongResult songResult = new SearchSongResult();
+//            songResult.setSong_id(s.getSong_id());
+//            songResult.setSong_name(s.getSong_name());
+//            songResult.setArtist_id(s.getArtist_id());
+//            songResult.setArtist_name(s.getArtist_name());
+//            songResult.setRelease(s.getRelease());
+//            songResult.setPic_url(s.getPic_url());
+//
+//            songs.add(songResult);
+//        }
+
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<KeySong> page = PageUtil.createPageFromList(keySongList, pageable);
+        JSONObject ret = util.KeySongPage2Json(page);
         return ret;
     }
     @GetMapping("/lyrics1")

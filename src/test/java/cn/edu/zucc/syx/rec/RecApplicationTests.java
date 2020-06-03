@@ -1,6 +1,7 @@
 package cn.edu.zucc.syx.rec;
 
 import cn.edu.zucc.syx.rec.entity.*;
+import cn.edu.zucc.syx.rec.respository.PrankRepository;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -32,6 +33,8 @@ class RecApplicationTests {
     private UserRepository userRepository;
     @Autowired
     private SongRepository songRepository;
+    @Autowired
+    private PrankRepository prankRepository;
     RecApplicationTests() throws UnsupportedEncodingException, FileNotFoundException {
     }
 
@@ -196,14 +199,41 @@ class RecApplicationTests {
 
     @Test
     public void test5() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("D:\\孙宇轩\\workshop\\pycharm\\music_recommend\\deal_with_data\\blues.txt")),
-                "UTF-8"));
-        String lineTxt = null;
-        ArrayList<String>  arrayList = new ArrayList<>();
-        while ((lineTxt = br.readLine()) != null) {
-            if(!lineTxt.equals("")){
-                Song  song = songRepository.queryById(lineTxt);
-            }
+        List<String> str1 = new ArrayList<>();
+        str1.add("rock");
+        str1.add("pop");
+        str1.add("hip hop");
+        str1.add("electronic");
+        str1.add("jazz");
+        str1.add("metal");
+        str1.add("latin");
+        str1.add("dance");
+        for (String i : str1){
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("D:\\孙宇轩\\workshop\\pycharm\\music_recommend\\deal_with_data\\"+i+".txt")),
+                    "UTF-8"));
+            String lineTxt = null;
+            List<String>  arrayList = new ArrayList<>();
+            List<KeySong> keySongList = new ArrayList<>();
+            int cnt =0;
+            while ((lineTxt = br.readLine()) != null && cnt<=30) {
+                cnt+=1;
+                if(!lineTxt.equals("")){
+                    Song  song = songRepository.queryById(lineTxt);
+                    KeySong keySong = new KeySong();
+                    keySong.setPic_url(song.getPic_url());
+                    keySong.setArtist_id(song.getArtist_id());
+                    keySong.setRelease(song.getRelease());
+                    keySong.setSong_name(song.getName());
+                    keySong.setSong_id(song.getId());
+                    keySong.setArtist_name(song.getArtist_name());
+                    keySongList.add(keySong);
+                }
+                Prank prank = new Prank();
+                prank.setTag(i);
+                prank.setSongs(keySongList);
+                prankRepository.save(prank);
+        }
+
 
 //            System.out.println(lineTxt);
         }

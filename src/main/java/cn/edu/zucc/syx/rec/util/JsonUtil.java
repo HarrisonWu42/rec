@@ -192,6 +192,19 @@ public class JsonUtil {
 
         return ret;
     }
+    public JSONObject KeySongPage2Json(Page<KeySong> page){
+        JSONObject ret = new JSONObject();
+        JSONObject tmp = new JSONObject();
+        tmp.put("page_total", page.getTotalPages());
+        tmp.put("page_num", page.getNumber()+1);
+        tmp.put("page_size", page.getSize());
+        List<KeySong> songs = page.getContent();
+        tmp.put("songs", songs);
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+
+        return ret;
+    }
 
     public JSONObject collectionArtistPage2Json(Page<KeyArtists> page){
         JSONObject ret = new JSONObject();
