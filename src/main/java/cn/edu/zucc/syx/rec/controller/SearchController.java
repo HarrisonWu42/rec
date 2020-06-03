@@ -1,6 +1,9 @@
 package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.*;
+import cn.edu.zucc.syx.rec.form.SearchArtistForm;
+import cn.edu.zucc.syx.rec.form.SearchLyricForm;
+import cn.edu.zucc.syx.rec.form.SearchSheetForm;
 import cn.edu.zucc.syx.rec.form.SearchSongForm;
 import cn.edu.zucc.syx.rec.impl.*;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
@@ -52,7 +55,7 @@ public class SearchController {
 
     private JsonUtil util = new JsonUtil();
 
-    @GetMapping("/songs")
+    @PostMapping("/songs")
     public JSONObject searchSong(@RequestBody SearchSongForm form){
         List<Song> songList =  songService.searchByName(form.getSongName());
         User user = userService.queryUser(form.getHost());
@@ -85,6 +88,7 @@ public class SearchController {
         JSONObject ret = util.searchSongPage2Json(page);
         return ret;
     }
+
     @GetMapping("/song_type")
     public JSONObject searchSongType(@RequestParam("song_type") String tag,
                                      @RequestParam("host") String host,
@@ -134,6 +138,7 @@ public class SearchController {
         JSONObject ret = util.searchSongPage2Json(page);
         return ret;
     }
+
     @GetMapping("/lyrics1")
     public JSONObject searchSongLric1(@RequestParam("lyric") String lyric,
                                  @RequestParam("host") String host,
@@ -177,22 +182,20 @@ public class SearchController {
         JSONObject ret = util.searchLyricPage2Json(page);
         return ret;
     }
-    @GetMapping("/lyrics")
-    public JSONObject searchSongLric(@RequestParam("lyric") String lyric,
-                                     @RequestParam("host") String host,
-                                     @RequestParam("page_num") int pageNum,
-                                     @RequestParam("page_size") int pageSize){
+
+    @PostMapping("/lyrics")
+    public JSONObject searchSongLric(@RequestBody SearchLyricForm form){
 
         SearchRequestBuilder searchRequestBuilder;
         //        String query = " { \"query\":{\"match_all\" : {\"boost\" : 1.0}}}";
-        String query = "{ \"match\": { \"lyric\": \""+lyric+"\" } }";
+        String query = "{ \"match\": { \"lyric\": \""+ form.getLyric() +"\" } }";
         WrapperQueryBuilder wrapperQueryBuilder = QueryBuilders.wrapperQuery(query);
         searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
         searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
         SearchResponse response = searchRequestBuilder.execute().actionGet();
         SearchHit[] result    = response.getHits().getHits();
         System.out.println(1);
-        User user = userService.queryUser(host);
+        User user = userService.queryUser(form.getHost());
         List<KeySong> userSongsList = user.getCollection().getSongs();
 
         List<String> userSongs = new ArrayList<>();
@@ -220,19 +223,16 @@ public class SearchController {
             songs.add(songResult);
         }
 
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Pageable pageable = PageRequest.of(form.getPageNum()-1, form.getPageSize());
         Page<SearchLyricResult> page = PageUtil.createPageFromList(songs, pageable);
         JSONObject ret = util.searchLyricPage2Json(page);
         return ret;
     }
 
-    @GetMapping("/sheets")
-    public JSONObject searchSheet(@RequestParam("sheet_name") String sheetName,
-                                  @RequestParam("host") String host,
-                                  @RequestParam("page_num") int pageNum,
-                                  @RequestParam("page_size") int pageSize){
-        List<Sheet> sheetList =  sheetService.searchByName(sheetName);
-        User user = userService.queryUser(host);
+    @PostMapping("/sheets")
+    public JSONObject searchSheet(@RequestBody SearchSheetForm form){
+        List<Sheet> sheetList =  sheetService.searchByName(form.getSheetName());
+        User user = userService.queryUser(form.getHost());
         List<UserSheets> userSheetsList = user.getCollection().getSheets();
         List<String> userSheets = new ArrayList<>();
         for (UserSheets us:userSheetsList){
@@ -255,19 +255,16 @@ public class SearchController {
             sheets.add(sheetResult);
         }
 
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Pageable pageable = PageRequest.of(form.getPageNum()-1, form.getPageSize());
         Page<SearchSheetResult> page = PageUtil.createPageFromList(sheets, pageable);
         JSONObject ret = util.searchSheetPage2Json(page);
         return ret;
     }
 
-    @GetMapping("/artists")
-    public JSONObject searchArtist(@RequestParam("artists_name") String sheetName,
-                                   @RequestParam("host") String host,
-                                   @RequestParam("page_num") int pageNum,
-                                   @RequestParam("page_size") int pageSize){
-        List<Artist> artistList =  artistService.searchByName(sheetName);
-        User user = userService.queryUser(host);
+    @PostMapping("/artists")
+    public JSONObject searchArtist(@RequestBody SearchArtistForm form){
+        List<Artist> artistList =  artistService.searchByName(form.getArtistName());
+        User user = userService.queryUser(form.getHost());
         List<KeyArtists> userArtistsList = user.getCollection().getArtists();
 
         List<String> userArtists = new ArrayList<>();
@@ -287,11 +284,12 @@ public class SearchController {
             }
             artists.add(artistResult);
         }
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Pageable pageable = PageRequest.of(form.getPageNum()-1, form.getPageSize());
         Page<SearchArtistResult> page = PageUtil.createPageFromList(artists, pageable);
         JSONObject ret = util.searchArtistPage2Json(page);
         return ret;
     }
+
     @GetMapping("/ll")
     public Iterable<Song> fuzzyPersons(@RequestParam("ll") String a){
         String[] name = a.split(" ");
