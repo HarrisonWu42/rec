@@ -74,13 +74,13 @@ public class RecommendtServiceImpl implements RecommendService {
 
     public List<KeySong> recommandSongByItemcf(String host) {
         User user = userRepository.findUserByHost(host);
-        List<RecordSong> recordSongs = user.getRecord().getSongs();
+        List<RecordSong> recordSongs = user.getRecord().getSongs();     // 播放历史作为偏好
         List<KeySong> recommendSongs = new ArrayList<>();
         if(recordSongs.isEmpty()){
             return recommendSongs;
         }
 
-        Map<String, Integer> ru = new HashMap<>();
+        Map<String, Integer> ru = new HashMap<>();  // item-playcount
         for (RecordSong r:recordSongs){
             ru.put(r.getSong_id(), r.getCnt());
         }

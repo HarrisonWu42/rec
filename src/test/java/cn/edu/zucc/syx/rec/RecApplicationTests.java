@@ -124,17 +124,17 @@ class RecApplicationTests {
 //        System.out.println(d2);
 //    }
 
-//    @Test
-//    public void testtest() {
-//        SearchRequestBuilder searchRequestBuilder;
-////        String query = " { \"query\":{\"match_all\" : {\"boost\" : 1.0}}}";
-//        String query = "{ \"match\": { \"lyric\": \"him departure\" } }";
-//        WrapperQueryBuilder wrapperQueryBuilder = QueryBuilders.wrapperQuery(query);
-//        searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
-//        searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
-//        SearchResponse response = searchRequestBuilder.execute().actionGet();
-//        response.getHits()
-//    }
+    @Test
+    public void testtest() {
+        SearchRequestBuilder searchRequestBuilder;
+//        String query = " { \"query\":{\"match_all\" : {\"boost\" : 1.0}}}";
+        String query = "{ \"match\": { \"lyric\": \"him departure\" } }";
+        WrapperQueryBuilder wrapperQueryBuilder = QueryBuilders.wrapperQuery(query);
+        searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
+        searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
+        SearchResponse response = searchRequestBuilder.execute().actionGet();
+        response.getHits();
+    }
     @Test
 
     public  void  test3(){
