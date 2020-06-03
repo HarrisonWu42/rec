@@ -4,6 +4,7 @@ import cn.edu.zucc.syx.rec.entity.KeySong;
 import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
+import cn.edu.zucc.syx.rec.view.ItemcfResult;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,10 +50,10 @@ public class RecommendController {
         JSONObject ret = new JSONObject();
 
         try{
-            List<KeySong> recommendDLsongs = recommendService.recommandSongByItemcf(host);
+            List<ItemcfResult> recommendDLsongs = recommendService.recommandSongByItemcf(host);
             Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
-            ret = util.collectionSongPage2Json(page);
+            Page<ItemcfResult> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
+            ret = util.recPage2Json(page);
         } catch (Exception e){
             System.out.println(e);
             ret.put("code", "error");
