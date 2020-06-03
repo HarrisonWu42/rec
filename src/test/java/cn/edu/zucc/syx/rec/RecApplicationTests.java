@@ -1,9 +1,7 @@
 package cn.edu.zucc.syx.rec;
 
-import cn.edu.zucc.syx.rec.entity.RecordSong;
-import cn.edu.zucc.syx.rec.entity.Song;
-import cn.edu.zucc.syx.rec.entity.User;
-import cn.edu.zucc.syx.rec.entity.UserRecord;
+import cn.edu.zucc.syx.rec.entity.*;
+import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -20,6 +18,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;//导�
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,17 +26,22 @@ import java.util.List;
 
 @SpringBootTest
 class RecApplicationTests {
-    @Autowired(required=false)
+    @Autowired(required = false)
     private ElasticsearchTemplate esTemplate;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SongRepository songRepository;
+    RecApplicationTests() throws UnsupportedEncodingException, FileNotFoundException {
+    }
+
     @Test
     void contextLoads() {
     }
 
 
     @Test
-    public  void  createIndex(){
+    public void createIndex() {
         // 创建索引，会根据Item类的@Document注解信息来创建
 //        esTemplate.createIndex(User.class);
 //         配置映射，会根据Item类中的@Id、@Field等字段来自动完成映射
@@ -54,6 +58,8 @@ class RecApplicationTests {
 
 //        esTemplate.createIndex(Table01.class);
 //        esTemplate.putMapping(Table01.class);
+        esTemplate.createIndex(Prank.class);
+        esTemplate.putMapping(Prank.class);
 
     }
 //
@@ -134,14 +140,15 @@ class RecApplicationTests {
         searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
         searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
         SearchResponse response = searchRequestBuilder.execute().actionGet();
-        SearchHit[] result    = response.getHits().getHits();
+        SearchHit[] result = response.getHits().getHits();
         System.out.println(1);
 
 
     }
+
     @Test
 
-    public  void  test3(){
+    public void test3() {
         String lyric = "him departure";
 //        MatchQuery matchQuery = new MatchQuery(1);
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
@@ -155,7 +162,7 @@ class RecApplicationTests {
 
     @Test
 
-    public  void  test4(){
+    public void test4() {
         User user = userRepository.findUserByHost("31701282");
 
 
@@ -168,9 +175,9 @@ class RecApplicationTests {
 
         for (RecordSong recordtmpSong : recordSongList) {
 
-                recordSong = recordtmpSong;
-                recordSong.setCnt((int)(Math.random()*100)+1);
-                newRecordSongList.add(recordSong);
+            recordSong = recordtmpSong;
+            recordSong.setCnt((int) (Math.random() * 100) + 1);
+            newRecordSongList.add(recordSong);
 
         }
 
@@ -183,9 +190,23 @@ class RecApplicationTests {
 //        elasticsearchTemplate.update(updateQuery);
         userRecord.setSongs(newRecordSongList);
         user.setRecord(userRecord);
+
         userRepository.save(user);
     }
 
+    @Test
+    public void test5() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("D:\\孙宇轩\\workshop\\pycharm\\music_recommend\\deal_with_data\\blues.txt")),
+                "UTF-8"));
+        String lineTxt = null;
+        ArrayList<String>  arrayList = new ArrayList<>();
+        while ((lineTxt = br.readLine()) != null) {
+            if(!lineTxt.equals("")){
+                Song  song = songRepository.queryById(lineTxt);
+            }
 
+//            System.out.println(lineTxt);
+        }
 
+    }
 }
