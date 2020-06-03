@@ -53,7 +53,7 @@ public class SearchController {
     private JsonUtil util = new JsonUtil();
 
     @GetMapping("/songs")
-    public JSONObject searchSong(SearchSongForm form){
+    public JSONObject searchSong(@RequestBody SearchSongForm form){
         List<Song> songList =  songService.searchByName(form.getSongName());
         User user = userService.queryUser(form.getHost());
         List<KeySong> userSongsList = user.getCollection().getSongs();
