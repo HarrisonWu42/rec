@@ -134,7 +134,7 @@ public class RecommendtServiceImpl implements RecommendService {
                 String recReason = "";
                 for (String r:reasons){
                     int num = ru.get(r);
-                    recReason = recReason + "播放" + songRepository.queryById(r).getName() + num + " 次，";
+                    recReason = recReason + "播放 " + songRepository.queryById(r).getName() + num + " 次\n";
                 }
                 recReason = recReason.substring(0,recReason.length()-1);
                 tmp.setReason(recReason);
