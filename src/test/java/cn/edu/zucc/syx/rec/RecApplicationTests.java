@@ -11,6 +11,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.WrapperQueryBuilder;
 import org.elasticsearch.index.search.MatchQuery;
+import org.elasticsearch.search.SearchHit;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.support.discovery.SelectorResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +134,9 @@ class RecApplicationTests {
         searchRequestBuilder = esTemplate.getClient().prepareSearch("song");
         searchRequestBuilder.setQuery(QueryBuilders.wrapperQuery(query));
         SearchResponse response = searchRequestBuilder.execute().actionGet();
-        response.getHits();
+        SearchHit[] result    = response.getHits().getHits();
+        System.out.println(1);
+
 
     }
     @Test

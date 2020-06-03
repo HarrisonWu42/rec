@@ -7,17 +7,27 @@ public class SearchLyricResult {
     private String artist_name;
     private String release;
 
-    public String getLyric() {
-        return lyric;
+    public float getScore() {
+        return score;
     }
 
-    public void setLyric(String lyric) {
-        this.lyric = lyric;
+    public void setScore(float score) {
+        this.score = score;
     }
+
+    private  float score;
+
+//    public String getLyric() {
+//        return lyric;
+//    }
+
+//    public void setLyric(String lyric) {
+//        this.lyric = lyric;
+//    }
 
     private Boolean is_collected;
     private String pic_url;
-    private String lyric;
+//    private String lyric;
 
     public String getPic_url() {
         return pic_url;
@@ -51,15 +61,16 @@ public class SearchLyricResult {
         this.artist_id = artist_id;
     }
 
-    public SearchLyricResult(String song_id, String song_name, String artist_id, String artist_name, String release, Boolean is_collected, String pic_url, String lyric) {
+    public SearchLyricResult(String song_id, String song_name, String artist_id, String artist_name, String release, float score, Boolean is_collected, String pic_url) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.artist_id = artist_id;
         this.artist_name = artist_name;
         this.release = release;
+        this.score = score;
         this.is_collected = is_collected;
         this.pic_url = pic_url;
-        this.lyric = lyric;
+//        this.lyric = lyric;
     }
 
     public void setIs_collected(Boolean is_collected) {
