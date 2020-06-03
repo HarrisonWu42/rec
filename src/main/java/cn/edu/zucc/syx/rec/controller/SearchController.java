@@ -1,6 +1,7 @@
 package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.*;
+import cn.edu.zucc.syx.rec.form.SearchSongForm;
 import cn.edu.zucc.syx.rec.impl.*;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.service.PrankService;
@@ -52,12 +53,9 @@ public class SearchController {
     private JsonUtil util = new JsonUtil();
 
     @GetMapping("/songs")
-    public JSONObject searchSong(@RequestParam("song_name") String songName,
-                                 @RequestParam("host") String host,
-                                 @RequestParam("page_num") int pageNum,
-                                 @RequestParam("page_size") int pageSize){
-        List<Song> songList =  songService.searchByName(songName);
-        User user = userService.queryUser(host);
+    public JSONObject searchSong(SearchSongForm form){
+        List<Song> songList =  songService.searchByName(form.getSongName());
+        User user = userService.queryUser(form.getHost());
         List<KeySong> userSongsList = user.getCollection().getSongs();
 
         List<String> userSongs = new ArrayList<>();
@@ -82,7 +80,7 @@ public class SearchController {
             songs.add(songResult);
         }
 
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Pageable pageable = PageRequest.of(form.getPageNum()-1, form.getPageSize());
         Page<SearchSongResult> page = PageUtil.createPageFromList(songs, pageable);
         JSONObject ret = util.searchSongPage2Json(page);
         return ret;
