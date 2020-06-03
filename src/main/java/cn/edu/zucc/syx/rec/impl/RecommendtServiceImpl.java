@@ -2,12 +2,11 @@ package cn.edu.zucc.syx.rec.impl;
 
 
 import cn.edu.zucc.syx.rec.entity.*;
-import cn.edu.zucc.syx.rec.respository.ArtistRepository;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.RecommendService;
+import cn.edu.zucc.syx.rec.view.ItemcfResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -72,10 +71,10 @@ public class RecommendtServiceImpl implements RecommendService {
         return recommendSongs;
     }
 
-    public List<KeySong> recommandSongByItemcf(String host) {
+    public List<ItemcfResult> recommandSongByItemcf(String host) {
         User user = userRepository.findUserByHost(host);
         List<RecordSong> recordSongs = user.getRecord().getSongs();     // 播放历史作为偏好
-        List<KeySong> recommendSongs = new ArrayList<>();
+        List<ItemcfResult> recommendSongs = new ArrayList<>();
         if(recordSongs.isEmpty()){
             return recommendSongs;
         }
@@ -85,19 +84,33 @@ public class RecommendtServiceImpl implements RecommendService {
             ru.put(r.getSong_id(), r.getCnt());
         }
 
-        Map<String, Float> p = new HashMap<>();
+        Map<String, Float> p = new HashMap<>(); // 兴趣度
+        Map<String, List<String>> reasonMap = new HashMap<>(); // 推荐理由
+
         for (Map.Entry<String, Integer> entry: ru.entrySet()){
-            String song_id = entry.getKey();
+            String song_id = entry.getKey();    // item(播放记录里面的)
             int r = entry.getValue();
             Song song = songRepository.queryById(song_id);
+
             List<Similar> items = song.getItemcf_w();
             for (Similar i:items){
                 String itemid = i.getSong_id();
                 float pi = r * i.getValue();
-                p.put(itemid, pi);
+                List<String> reasons = new ArrayList<>();
+                if(p.containsKey(itemid)){
+                    reasons = reasonMap.get(itemid);
+                    reasons.add(song_id);
+                    pi = pi + p.get(itemid);
+                    p.put(itemid, pi);
+                }else {
+                    reasons.add(song_id);
+                    p.put(itemid, pi);
+                }
+                reasonMap.put(itemid, reasons);
             }
         }
 
+        // 排序
         List<Map.Entry<String, Float>> list = new ArrayList<Map.Entry<String, Float>>(p.entrySet());
         list.sort(new Comparator<Map.Entry<String, Float>>() {
             public int compare(Map.Entry<String, Float> o1, Map.Entry<String, Float> o2) {
@@ -105,18 +118,28 @@ public class RecommendtServiceImpl implements RecommendService {
             }
         });
 
+        // 返回5*5
+        int retNum = 25;
         for(Map.Entry<String, Float> i:list){
-            if (i.getValue() > 0.1){ // 阈值
+            if (retNum > 0){
                 Song song = songRepository.queryById(i.getKey());
-
-                KeySong tmpKeySong = new KeySong();
-                tmpKeySong.setSong_id(song.getId());
-                tmpKeySong.setSong_name(song.getName());
-                tmpKeySong.setArtist_name(song.getArtist_name());
-                tmpKeySong.setRelease(song.getRelease());
-                tmpKeySong.setArtist_id(song.getArtist_id());
-                tmpKeySong.setPic_url(song.getPic_url());
-                recommendSongs.add(tmpKeySong);
+                ItemcfResult tmp = new ItemcfResult();
+                tmp.setSong_id(song.getId());
+                tmp.setSong_name(song.getName());
+                tmp.setArtist_name(song.getArtist_name());
+                tmp.setRelease(song.getRelease());
+                tmp.setArtist_id(song.getArtist_id());
+                tmp.setPic_url(song.getPic_url());
+                List<String> reasons = reasonMap.get(song.getId());
+                String recReason = "";
+                for (String r:reasons){
+                    int num = ru.get(r);
+                    recReason = recReason + "播放" + songRepository.queryById(r).getName() + num + " 次，";
+                }
+                recReason = recReason.substring(0,recReason.length()-1);
+                tmp.setReason(recReason);
+                recommendSongs.add(tmp);
+                retNum = retNum - 1;
             }
         }
         return recommendSongs;
