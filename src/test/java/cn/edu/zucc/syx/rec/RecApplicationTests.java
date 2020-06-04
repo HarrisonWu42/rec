@@ -6,9 +6,7 @@ import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.WrapperQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.search.MatchQuery;
 import org.elasticsearch.search.SearchHit;
 import org.junit.jupiter.api.Test;
@@ -16,6 +14,7 @@ import org.junit.platform.engine.support.discovery.SelectorResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;//导入包
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
@@ -240,4 +239,67 @@ class RecApplicationTests {
         }
 
     }
+
+    @Test
+    public void test6() {
+        String host="31701282";
+        User user = userRepository.findUserByHost(host);
+//        Song song  = songRepository.queryById(song_id);
+
+        UserRecord userRecord = user.getRecord();
+        List<RecordSong> recordSongList = new ArrayList<>();
+
+
+
+//        recordSongList.add(recordSong);
+//        keySongList.removeIf(song -> song.getSong_id().equals(song_id));
+//        userCollection.setSongs(keySongList);
+//        IndexRequest indexRequest = new IndexRequest();
+//        indexRequest.source("collection", userCollection);
+//        UpdateQuery updateQuery = new UpdateQueryBuilder().withId(user.getHost()).withClass(User.class).withIndexRequest(indexRequest).build();
+//        elasticsearchTemplate.update(updateQuery);
+        userRecord.setSongs(recordSongList);
+        user.setRecord(userRecord);
+        userRepository.save(user);
+//        return recordSong;
+    }
+
+    @Test
+    public  void  test7(){
+//        NativeSearchQueryBuilder aNativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+////        aNativeSearchQueryBuilder.withIndices(indexName).withTypes(type);
+//        WildcardQueryBuilder queryBuilder = QueryBuilders.wildcardQuery("name",
+//                "*jack*");//搜索名字中含有jack文档（name中只要包含jack即可）
+//
+////        aQuery.must(QueryBuilders.queryStringQuery("Two Tickets").defaultField("name")).;
+//        SearchResponse searchResponse = es.searcher(indexName, typeName,
+//                queryBuilder);
+//        SearchHits hits = searchResponse.getHits();
+//        SearchHit[] searchHits = hits.getHits();
+////        aQuery.
+//        NativeSearchQuery nativeSearchQuery = aNativeSearchQueryBuilder.withQuery(aQuery).build();
+//        List<Song> aDatas = esTemplate.queryForList(nativeSearchQuery, Song.class);
+//        System.out.println(1);
+//        String lyric = "Two Tickets";
+////        MatchQuery matchQuery = new MatchQuery(1);
+//        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+////                .withQuery(matchQuery("title", articleTitle).minimumShouldMatch("75%"))
+//                .withQuery(QueryBuilders.matchQuery("name", lyric).minimumShouldMatch("75%"))
+//                .build();
+//
+//        List<Song> songList = esTemplate.queryForList(searchQuery, Song.class);
+//        System.out.println(songList);
+        String  name = "*Answer In*";
+//        MatchQuery matchQuery = new MatchQuery(1);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(matchQuery("title", articleTitle).minimumShouldMatch("75%"))
+                .withQuery(QueryBuilders.wildcardQuery("name", name))
+                .build();
+
+        List<Song> songList = esTemplate.queryForList(searchQuery, Song.class);
+        System.out.println(songList);
+
+    }
+
+
 }

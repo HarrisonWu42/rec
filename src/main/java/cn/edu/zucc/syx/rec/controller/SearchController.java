@@ -57,7 +57,7 @@ public class SearchController {
 
     @PostMapping("/songs")
     public JSONObject searchSong(@RequestBody SearchSongForm form){
-        List<Song> songList =  songService.searchByName(form.getSongName());
+        List<Song> songList =  songService.searchByNameContain("*"+form.getSongName()+"*");
         User user = userService.queryUser(form.getHost());
         List<KeySong> userSongsList = user.getCollection().getSongs();
 

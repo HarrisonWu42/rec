@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface SongService {
 //    public Song searchSongByid(String song_id);
-    List<Song> searchByName(String name);
+    List<Song> searchByNameContain(String name);
     List<Song> searchByLric(String name);
     List<Song> searchByLric1(String name);
+
 
 }

@@ -3,10 +3,14 @@ package cn.edu.zucc.syx.rec.impl;
 import cn.edu.zucc.syx.rec.entity.Song;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.service.SongService;
+//import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +19,8 @@ import java.util.List;
 public class SongServiceImpl implements SongService {
 
     private final SongRepository songRepository;
+    @Autowired
+    private ElasticsearchTemplate esTemplate;
 
     @Autowired
     public SongServiceImpl(SongRepository songRepository) {
@@ -22,8 +28,16 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<Song> searchByName(String name) {
-        return songRepository.queryByNameContains(name);
+    public List<Song> searchByNameContain(String name) {
+//        MatchQuery matchQuery = new MatchQuery(1);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(matchQuery("title", articleTitle).minimumShouldMatch("75%"))
+                .withQuery(QueryBuilders.wildcardQuery("name", name))
+                .build();
+        List<Song> songList = esTemplate.queryForList(searchQuery, Song.class);
+        System.out.println(1);
+        return esTemplate.queryForList(searchQuery, Song.class);
+//        return songRepository.findByName("*"+name+"*");
     }
     @Override
     public List<Song> searchByLric(String name) {
