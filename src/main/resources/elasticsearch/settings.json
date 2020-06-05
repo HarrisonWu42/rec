@@ -1,0 +1,13 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "caseSensitive": {
+                    "filter": "lowercase",
+                    "type": "custom",
+                    "tokenizer": "keyword"
+                }
+            }
+        }
+    }
+}

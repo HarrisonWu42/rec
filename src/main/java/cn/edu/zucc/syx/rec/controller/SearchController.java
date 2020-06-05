@@ -231,7 +231,7 @@ public class SearchController {
 
     @PostMapping("/sheets")
     public JSONObject searchSheet(@RequestBody SearchSheetForm form){
-        List<Sheet> sheetList =  sheetService.searchByName(form.getSheetName());
+        List<Sheet> sheetList =  sheetService.searchByNameContain("*"+form.getSheetName()+"*");
         User user = userService.queryUser(form.getHost());
         List<UserSheets> userSheetsList = user.getCollection().getSheets();
         List<String> userSheets = new ArrayList<>();
@@ -263,7 +263,7 @@ public class SearchController {
 
     @PostMapping("/artists")
     public JSONObject searchArtist(@RequestBody SearchArtistForm form){
-        List<Artist> artistList =  artistService.searchByName(form.getArtistName());
+        List<Artist> artistList =  artistService.searchByNameContain("*"+form.getArtistName()+"*");
         User user = userService.queryUser(form.getHost());
         List<KeyArtists> userArtistsList = user.getCollection().getArtists();
 

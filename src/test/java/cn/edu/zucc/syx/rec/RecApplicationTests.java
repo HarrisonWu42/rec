@@ -60,8 +60,9 @@ class RecApplicationTests {
 
 //        esTemplate.createIndex(Table01.class);
 //        esTemplate.putMapping(Table01.class);
-        esTemplate.createIndex(Prank.class);
-        esTemplate.putMapping(Prank.class);
+        esTemplate.createIndex(Testcase.class);
+//        esTemplate.createIndex()
+        esTemplate.putMapping(Testcase.class);
 
     }
 //

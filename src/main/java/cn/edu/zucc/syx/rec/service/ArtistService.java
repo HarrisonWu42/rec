@@ -5,7 +5,7 @@ import cn.edu.zucc.syx.rec.entity.Artist;
 import java.util.List;
 
 public interface ArtistService {
-    List<Artist> searchByName(String artistName);
+    List<Artist> searchByNameContain(String artistName);
 
 
 

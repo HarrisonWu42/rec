@@ -34,8 +34,6 @@ public class SongServiceImpl implements SongService {
 //                .withQuery(matchQuery("title", articleTitle).minimumShouldMatch("75%"))
                 .withQuery(QueryBuilders.wildcardQuery("name", name))
                 .build();
-        List<Song> songList = esTemplate.queryForList(searchQuery, Song.class);
-        System.out.println(1);
         return esTemplate.queryForList(searchQuery, Song.class);
 //        return songRepository.findByName("*"+name+"*");
     }

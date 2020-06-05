@@ -7,7 +7,11 @@ import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.SheetService;
 import cn.edu.zucc.syx.rec.util.Tool;
 //import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +22,8 @@ public class SheetServiceImpl implements SheetService {
     private final SheetRepository sheetRepository;
     private final UserRepository userRepository;
     private final SongRepository songRepository;
-
+    @Autowired
+    private ElasticsearchTemplate esTemplate;
     @Autowired
     public SheetServiceImpl(SheetRepository sheetRepository, UserRepository userRepository, SongRepository songRepository) {
         this.sheetRepository = sheetRepository;
@@ -208,10 +213,15 @@ public class SheetServiceImpl implements SheetService {
     }
 
     @Override
-    public List<Sheet> searchByName(String name){
+    public List<Sheet> searchByNameContain(String name){
 //        return sheetRepository.queryByNameLike("%"+name+"%");
 //        return sheetRepository.queryByNameLike(name);
-        List<Sheet> sheetList = sheetRepository.queryByNameContains(name);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(matchQuery("title", articleTitle).minimumShouldMatch("75%"))
+                .withQuery(QueryBuilders.wildcardQuery("name", name))
+                .build();
+        List<Sheet> sheetList = esTemplate.queryForList(searchQuery, Sheet.class);
+
         List<Sheet> sheets = new ArrayList<>();
         for (Sheet s:sheetList){
             if (s.getIs_open()){
