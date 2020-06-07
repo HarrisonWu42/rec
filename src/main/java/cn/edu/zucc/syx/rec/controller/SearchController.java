@@ -204,7 +204,10 @@ public class SearchController {
         }
 
         List<SearchLyricResult> songs = new ArrayList<>();
+        int cnt = 0;
         for ( SearchHit searchHit: result){
+            if(cnt>20) break;
+            cnt+=1;
             SearchLyricResult songResult = new SearchLyricResult();
             Map<String,Object> maphit  = searchHit.getSourceAsMap();
             songResult.setScore(searchHit.getScore());
