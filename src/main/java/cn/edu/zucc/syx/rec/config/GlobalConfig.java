@@ -9,8 +9,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class GlobalConfig {
     /**
      * 默认线程池线程池
-     *
-     * @return Executor
      */
     @Bean
     public ThreadPoolTaskExecutor defaultThreadPool() {
@@ -22,7 +20,7 @@ public class GlobalConfig {
         //队列中最大的数目
         executor.setQueueCapacity(50);
         //线程名称前缀
-        executor.setThreadNamePrefix("defaultThreadPool_");
+        executor.setThreadNamePrefix("defaultThreadPool");
         //rejection-policy：当pool已经达到max size的时候，如何处理新任务
         //CALLER_RUNS：不在新线程中执行任务，而是由调用者所在的线程来执行
         //对拒绝task的处理策略

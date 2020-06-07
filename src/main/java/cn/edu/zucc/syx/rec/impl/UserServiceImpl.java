@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
     public RecordSong addRecordSong(String host, String song_id) {
         User user = userRepository.findUserByHost(host);
@@ -162,8 +163,6 @@ public class UserServiceImpl implements UserService {
         UserRecord record = new UserRecord();
         List<RecordSong> recordSongs = new ArrayList<>();
         record.setSongs(recordSongs);
-
-//        records.add(record);
         user.setRecord(record);
         userRepository.save(user);
         return user;
@@ -218,7 +217,6 @@ public class UserServiceImpl implements UserService {
            if(recordSong.getDate().compareTo(recordSong1.getDate())==1)
                return -1;
            else return 1;
-//            return flag;
         }
     }
 }

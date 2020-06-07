@@ -29,7 +29,7 @@ public class UserController {
 
     /**
      *  注册
-     */
+     */ 
     @PostMapping("/register")
     public JSONObject register(@RequestBody UserForm userForm) {
         JSONObject ret = new JSONObject();
@@ -107,6 +107,7 @@ public class UserController {
         return ret;
     }
 
+
     @PostMapping("/{host}/add_record")
     public JSONObject addRecord(@PathVariable String host,
                                 @RequestParam("song_id") String songId){
@@ -131,6 +132,7 @@ public class UserController {
         }
         return ret;
     }
+
     @GetMapping("/{host}/delete_info")
     public JSONObject deleteInfo(@PathVariable String host){
         User user = userService.deleteInfo(host);

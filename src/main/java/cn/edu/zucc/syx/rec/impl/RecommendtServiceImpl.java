@@ -16,7 +16,7 @@ public class RecommendtServiceImpl implements RecommendService {
     private final UserRepository userRepository;
     private final SongRepository songRepository;
 
-    @Autowired
+    @Autowired  
     public RecommendtServiceImpl(UserRepository userRepository, SongRepository songRepository) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
@@ -134,7 +134,7 @@ public class RecommendtServiceImpl implements RecommendService {
                 String recReason = "";
                 for (String r:reasons){
                     int num = ru.get(r);
-                    recReason = recReason + "播放 " + songRepository.queryById(r).getName() + num + " 次\n";
+                    recReason = recReason + "You have played " + songRepository.queryById(r).getName() + num + " times\n";
                 }
                 recReason = recReason.substring(0,recReason.length()-1);
                 tmp.setReason(recReason);
