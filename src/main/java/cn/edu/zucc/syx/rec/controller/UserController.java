@@ -4,10 +4,10 @@ import cn.edu.zucc.syx.rec.entity.*;
 import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
-import cn.edu.zucc.syx.rec.util.JsonUtil;
-import cn.edu.zucc.syx.rec.util.PageUtil;
-import cn.edu.zucc.syx. rec.util.Tool;
+import cn.edu.zucc.syx.rec.util.*;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -137,6 +137,28 @@ public class UserController {
     public JSONObject deleteInfo(@PathVariable String host){
         User user = userService.deleteInfo(host);
         JSONObject ret = util.userInfo2Json(user);
+        return ret;
+    }
+
+    /**
+     * 发送邮件，获取邮箱验证码
+     */
+    @PostMapping("/send_email")
+    public JSONObject sendEmail(@RequestParam String address) throws EmailException {
+        JSONObject ret = new JSONObject();
+
+        try {
+            EmailUtil emailUtil = new EmailUtil();
+            String vc = emailUtil.sendEmail(address);
+            ret.put("code", Statue.SUCCESS);
+            JSONObject tmp = new JSONObject();
+            tmp.put("vc", vc);
+            ret.put("data", tmp);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("data", "failed");
+        }
+
         return ret;
     }
 

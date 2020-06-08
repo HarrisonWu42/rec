@@ -8,6 +8,7 @@ import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.*;
 
@@ -26,9 +27,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserForm userForm){
+
         User user = new User();
         user.setHost(userForm.getHost());
-        user.setPassword(userForm.getPassword());
+        String md5Str = DigestUtils.md5DigestAsHex(userForm.getPassword().getBytes());
+        user.setPassword(md5Str);
         user.setName(userForm.getName());
         user.setAge(0);
         user.setPhone(userForm.getPhone());
@@ -199,7 +202,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String host, String pwd){
-        return userRepository.queryUserByHostAndPassword(host, pwd);
+        String md5Str = DigestUtils.md5DigestAsHex(pwd.getBytes());
+        return userRepository.queryUserByHostAndPassword(host, md5Str);
     }
 
     @Override
