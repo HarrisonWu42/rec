@@ -60,7 +60,7 @@ public class UserController {
      * 登陆
      */
     @PostMapping("/login/{host}")
-    public JSONObject login(@PathVariable("host") String host, @PathParam("password") String pwd) throws Exception {
+    public JSONObject login(@PathVariable("host") String host, @RequestParam("password") String pwd) throws Exception {
         JSONObject ret = new JSONObject();
 
         if (userService.isUserExist(host) == false){
