@@ -5,7 +5,6 @@ import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
 import cn.edu.zucc.syx.rec.impl.UserServiceImpl;
 import cn.edu.zucc.syx.rec.util.*;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import javax.websocket.server.PathParam;
+
 import java.util.List;
 
 
@@ -162,4 +161,25 @@ public class UserController {
         return ret;
     }
 
+    /**
+     * 发送邮件，获取邮箱验证码
+     */
+    @PostMapping("/send_msg")
+    public JSONObject sendMsg(@RequestParam String phone) throws EmailException {
+        JSONObject ret = new JSONObject();
+
+        try {
+            MsgUtil msgUtil = new MsgUtil();
+            String vc = msgUtil.send(phone);
+            ret.put("code", Statue.SUCCESS);
+            JSONObject tmp = new JSONObject();
+            tmp.put("vc", vc);
+            ret.put("data", tmp);
+        }catch (Exception e){
+            ret.put("code", "error");
+            ret.put("data", "failed");
+        }
+
+        return ret;
+    }
 }
