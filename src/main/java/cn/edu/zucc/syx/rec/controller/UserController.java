@@ -60,7 +60,7 @@ public class UserController {
      * 登陆
      */
     @PostMapping("/login/{host}")
-    public JSONObject login(@PathVariable("host") String host, @RequestParam("password") String pwd) throws Exception {
+    public JSONObject login(@PathVariable("host") String host, String password) throws Exception {
         JSONObject ret = new JSONObject();
 
         if (userService.isUserExist(host) == false){
@@ -70,7 +70,7 @@ public class UserController {
         }
 
         try {
-            User user = userService.login(host, pwd);
+            User user = userService.login(host, password);
             if (user == null) {
                 ret.put("code", "error");
                 ret.put("msg", "密码错误");
