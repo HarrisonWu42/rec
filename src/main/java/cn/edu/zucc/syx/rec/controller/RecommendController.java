@@ -1,6 +1,7 @@
 package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.KeySong;
+import cn.edu.zucc.syx.rec.impl.RecommendtServiceImpl;
 import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
@@ -22,7 +23,7 @@ public class RecommendController {
 
     private JsonUtil util = new JsonUtil();
     @Autowired
-    private RecommendService recommendService;
+    private RecommendtServiceImpl recommendService;
 
     // 推荐1,deeplearning
     @GetMapping("/{host}/recommandbyDl")
@@ -50,9 +51,9 @@ public class RecommendController {
         JSONObject ret = new JSONObject();
 
         try{
-            List<ItemcfResult> recommendDLsongs = recommendService.recommandSongByItemcf(host);
+            List<ItemcfResult> recommendsongs = recommendService.recommandSongByItemcf(host);
             Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<ItemcfResult> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
+            Page<ItemcfResult> page = PageUtil.createPageFromList(recommendsongs, pageable);
             ret = util.recPage2Json(page);
         } catch (Exception e){
             System.out.println(e);
