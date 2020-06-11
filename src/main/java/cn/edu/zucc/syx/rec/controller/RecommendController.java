@@ -30,8 +30,6 @@ public class RecommendController {
     public JSONObject recommandSongByDl(@PathVariable("host") String host, @RequestParam("page_num") int pageNum,
                                         @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
-
-
         List<KeySong> recommendDLsongs = recommendService.recommandSongByDl(host);
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
@@ -45,8 +43,6 @@ public class RecommendController {
     public JSONObject recommandSongByItemcf(@PathVariable("host") String host, @RequestParam("page_num") int pageNum,
                                         @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
-
-
         List<ItemcfResult> recommendsongs = recommendService.recommandSongByItemcf(host);
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         Page<ItemcfResult> page = PageUtil.createPageFromList(recommendsongs, pageable);

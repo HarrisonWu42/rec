@@ -80,15 +80,16 @@ public class UserController {
      */
     @GetMapping("/{host}/get_personal_info")
     public JSONObject getPersonalInfo(@PathVariable("host") String host) {
+        JSONObject ret = new JSONObject();
         User user = userService.queryUser(host);
-        JSONObject ret = util.userInfo2Json(user);
+        ret = util.userInfo2Json(user);
         return ret;
     }
 
     @PostMapping("/{host}/edit_pwd")
     public JSONObject editPwd(@PathVariable("host") String host, String pwd1, String pwd2){
         JSONObject ret = new JSONObject();
-        if (pwd1 != pwd2){
+        if (!pwd1.equals(pwd2)){
             ret.put("code", "error");
             ret.put("msg", "");
         }
@@ -101,13 +102,14 @@ public class UserController {
     }
 
     /**
-     * 修改个人信息（待修改）
-     * 目前有个问题，就是个人创建的歌单中有个创建者的姓名，现在还没有同步把这个用户名下的所有歌单的创建者姓名同步更改过来
+     * 修改个人信息
      */
     @PostMapping("/edit_personal_info")
     public JSONObject editInfo(@RequestBody UserEditForm userEditForm) {
+        JSONObject ret = new JSONObject();
         User user = userService.editUser(userEditForm);
-        JSONObject ret = util.userInfo2Json(user);
+
+        ret = util.userInfo2Json(user);
         return ret;
     }
 
@@ -117,8 +119,9 @@ public class UserController {
     @PostMapping("/{host}/add_record")
     public JSONObject addRecord(@PathVariable String host,
                                 @RequestParam("song_id") String songId){
+        JSONObject ret = new JSONObject();
         RecordSong recordSong  = userService.addRecordSong(host, songId);
-        JSONObject ret = util.RecordSong2Json(recordSong);
+        ret = util.RecordSong2Json(recordSong);
 
         return ret;
     }
@@ -141,8 +144,9 @@ public class UserController {
 
     @GetMapping("/{host}/delete_info")
     public JSONObject deleteInfo(@PathVariable String host){
+        JSONObject ret = new JSONObject();
         User user = userService.deleteInfo(host);
-        JSONObject ret = util.userInfo2Json(user);
+        ret = util.userInfo2Json(user);
         return ret;
     }
 

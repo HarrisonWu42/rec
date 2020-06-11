@@ -3,6 +3,7 @@ package cn.edu.zucc.syx.rec.impl;
 import cn.edu.zucc.syx.rec.entity.*;
 import cn.edu.zucc.syx.rec.form.UserEditForm;
 import cn.edu.zucc.syx.rec.form.UserForm;
+import cn.edu.zucc.syx.rec.respository.SheetRepository;
 import cn.edu.zucc.syx.rec.respository.SongRepository;
 import cn.edu.zucc.syx.rec.respository.UserRepository;
 import cn.edu.zucc.syx.rec.service.UserService;
@@ -18,11 +19,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final SongRepository songRepository;
+    private final SheetRepository sheetRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, SongRepository songRepository) {
+    public UserServiceImpl(UserRepository userRepository, SongRepository songRepository, SheetRepository sheetRepository) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
+        this.sheetRepository = sheetRepository;
     }
 
     @Override
@@ -58,7 +61,6 @@ public class UserServiceImpl implements UserService {
         record.setSongs(recordSongs);
         UserRecord records = new UserRecord();
 
-//        records.add(record);
         user.setRecord(records);
         userRepository.save(user);
         return user;
@@ -190,6 +192,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(UserEditForm form) {
         User user = userRepository.findUserByHost(form.getHost());
+        // 姓名变化
+        if (!user.getName().equals(form.getName())) {
+            List<Sheet> sheetList = sheetRepository.queryByCreator_id(user.getHost());
+            for (Sheet s : sheetList) {
+                s.setCreator_name(form.getName());
+                sheetRepository.save(s);
+            }
+        }
         user.setHost(form.getHost());
         user.setName(form.getName());
         user.setAge(form.getAge());

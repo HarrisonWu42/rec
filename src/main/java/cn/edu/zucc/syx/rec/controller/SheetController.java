@@ -50,7 +50,6 @@ public class SheetController {
     @GetMapping("/{host}/delete")
     public JSONObject delete(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
-
         Sheet sheet = sheetService.delete(host, sheetId);
         ret = util.sheetBrief2Json(sheet);
 
@@ -58,7 +57,7 @@ public class SheetController {
     }
 
     /**
-     * 查询我的所有歌单
+     * 查询用户的所有歌单
      */
     @GetMapping("/{host}/list")
     public JSONObject listAll(@PathVariable String host){
@@ -150,7 +149,7 @@ public class SheetController {
     }
 
     /**
-     * 查看歌单详情(含分页)
+     * 查看单详情(含分页)歌
      */
     @GetMapping("/get_info")
     public JSONObject getsth(@RequestParam("sheet_id") String sheetId,

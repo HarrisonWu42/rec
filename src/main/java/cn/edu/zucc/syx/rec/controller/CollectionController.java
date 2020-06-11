@@ -3,7 +3,6 @@ package cn.edu.zucc.syx.rec.controller;
 import cn.edu.zucc.syx.rec.entity.KeyArtists;
 import cn.edu.zucc.syx.rec.entity.KeySong;
 import cn.edu.zucc.syx.rec.service.CollectService;
-import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
 import cn.edu.zucc.syx.rec.util.PageUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -23,12 +22,6 @@ import java.util.List;
 public class CollectionController {
     @Autowired
     private CollectService collectService;
-
-    @Autowired
-    private RecommendService recommendService;
-
-    @Autowired
-    private RecommendService recommandService;
 
     private JsonUtil util = new JsonUtil();
 
@@ -105,7 +98,6 @@ public class CollectionController {
     public JSONObject deleteSong(@PathVariable("host") String host,
                                  @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
-
         KeySong keySong = collectService.deleteSong(host, songId);
         ret = util.userSong2Json(keySong);
 
@@ -139,7 +131,6 @@ public class CollectionController {
     public JSONObject deleteArtist(@PathVariable("host") String host,
                                    @RequestParam("artist_id") String artistId){
         JSONObject ret = new JSONObject();
-
         KeyArtists artist = collectService.deleteArtist(host, artistId);
         ret = util.userArtist2Json(artist);
 
