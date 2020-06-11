@@ -41,15 +41,10 @@ public class CollectionController {
                                           @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-        try{
-            List<KeySong> songs = collectService.listSongsCollection(host);
-            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<KeySong> page = PageUtil.createPageFromList(songs, pageable);
-            ret = util.collectionSongPage2Json(page);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        List<KeySong> songs = collectService.listSongsCollection(host);
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<KeySong> page = PageUtil.createPageFromList(songs, pageable);
+        ret = util.collectionSongPage2Json(page);
 
         return ret;
     }
@@ -61,13 +56,8 @@ public class CollectionController {
     public JSONObject listSongsCollectionAll(@PathVariable("host") String host){
         JSONObject ret = new JSONObject();
 
-        try{
-            List<KeySong> songs = collectService.listSongsCollection(host);
-            ret = util.userSongs2Json(songs);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        List<KeySong> songs = collectService.listSongsCollection(host);
+        ret = util.userSongs2Json(songs);
 
         return ret;
     }
@@ -81,15 +71,10 @@ public class CollectionController {
                                             @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-        try{
-            List<KeyArtists> artists = collectService.listArtistsCollection(host);
-            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<KeyArtists> page = PageUtil.createPageFromList(artists, pageable);
-            ret = util.collectionArtistPage2Json(page);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        List<KeyArtists> artists = collectService.listArtistsCollection(host);
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<KeyArtists> page = PageUtil.createPageFromList(artists, pageable);
+        ret = util.collectionArtistPage2Json(page);
 
         return ret;
     }
@@ -107,14 +92,9 @@ public class CollectionController {
             return ret;
         }
 
-        try {
-            KeySong keySong = collectService.addSong(host, songId);
-            ret = util.userSong2Json(keySong);
-        } catch (Exception e){
-            System.out.println(e);
-            ret.put("code", "error");
-            ret.put("msg", "add favorate song failed");
-        }
+        KeySong keySong = collectService.addSong(host, songId);
+        ret = util.userSong2Json(keySong);
+
         return ret;
     }
 
@@ -125,13 +105,10 @@ public class CollectionController {
     public JSONObject deleteSong(@PathVariable("host") String host,
                                  @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
-        try {
-            KeySong keySong = collectService.deleteSong(host, songId);
-            ret = util.userSong2Json(keySong);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        KeySong keySong = collectService.deleteSong(host, songId);
+        ret = util.userSong2Json(keySong);
+
         return ret;
     }
 
@@ -149,13 +126,9 @@ public class CollectionController {
             return ret;
         }
 
-        try {
-            KeyArtists artist = collectService.addArtist(host, artistId);
-            ret = util.userArtist2Json(artist);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        KeyArtists artist = collectService.addArtist(host, artistId);
+        ret = util.userArtist2Json(artist);
+
         return ret;
     }
 
@@ -166,13 +139,10 @@ public class CollectionController {
     public JSONObject deleteArtist(@PathVariable("host") String host,
                                    @RequestParam("artist_id") String artistId){
         JSONObject ret = new JSONObject();
-        try {
-            KeyArtists artist = collectService.deleteArtist(host, artistId);
-            ret = util.userArtist2Json(artist);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        KeyArtists artist = collectService.deleteArtist(host, artistId);
+        ret = util.userArtist2Json(artist);
+
         return ret;
     }
 }

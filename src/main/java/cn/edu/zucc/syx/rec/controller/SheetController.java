@@ -27,10 +27,6 @@ import java.util.List;
 public class SheetController {
     @Autowired
     private SheetServiceImpl sheetService;
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private CollectServiceImpl collectService;
 
     private JsonUtil util = new JsonUtil();
 
@@ -42,13 +38,8 @@ public class SheetController {
                                   @RequestParam("sheet_name") String sheetName,
                                   @RequestParam("description") String description){
         JSONObject ret = new JSONObject();
-        try {
-            Sheet sheet = sheetService.create(sheetName, description, host);
-            ret = util.sheetBrief2Json(sheet);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        Sheet sheet = sheetService.create(sheetName, description, host);
+        ret = util.sheetBrief2Json(sheet);
 
         return ret;
     }
@@ -59,13 +50,10 @@ public class SheetController {
     @GetMapping("/{host}/delete")
     public JSONObject delete(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
-        try {
-            Sheet sheet = sheetService.delete(host, sheetId);
-            ret = util.sheetBrief2Json(sheet);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        Sheet sheet = sheetService.delete(host, sheetId);
+        ret = util.sheetBrief2Json(sheet);
+
         return ret;
     }
 
@@ -75,13 +63,9 @@ public class SheetController {
     @GetMapping("/{host}/list")
     public JSONObject listAll(@PathVariable String host){
         JSONObject ret = new JSONObject();
-        try {
-            List<UserSheets> sheetsList = sheetService.listAll(host);
-            ret = util.userSheets2Json(sheetsList);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        List<UserSheets> sheetsList = sheetService.listAll(host);
+        ret = util.userSheets2Json(sheetsList);
+
         return ret;
     }
 
@@ -98,17 +82,13 @@ public class SheetController {
             return ret;
         }
 
-        try {
-            Boolean ok = sheetService.addSong2Sheet(sheetId, songId);
-            JSONObject tmp = new JSONObject();
-            tmp.put("song_id", songId);
-            tmp.put("sheet_id", sheetId);
-            ret.put("code", Statue.SUCCESS);
-            ret.put("data", tmp);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        Boolean ok = sheetService.addSong2Sheet(sheetId, songId);
+        JSONObject tmp = new JSONObject();
+        tmp.put("song_id", songId);
+        tmp.put("sheet_id", sheetId);
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+
         return ret;
     }
 
@@ -119,17 +99,14 @@ public class SheetController {
     public JSONObject deleteSong(@RequestParam("sheet_id") String sheetId,
                                  @RequestParam("song_id") String songId){
         JSONObject ret = new JSONObject();
-        try {
-            Boolean ok = sheetService.deleteSongFromSheet(sheetId, songId);
-            JSONObject tmp = new JSONObject();
-            tmp.put("song_id", songId);
-            tmp.put("sheet_id", sheetId);
-            ret.put("code", Statue.SUCCESS);
-            ret.put("data", tmp);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        Boolean ok = sheetService.deleteSongFromSheet(sheetId, songId);
+        JSONObject tmp = new JSONObject();
+        tmp.put("song_id", songId);
+        tmp.put("sheet_id", sheetId);
+        ret.put("code", Statue.SUCCESS);
+        ret.put("data", tmp);
+
         return ret;
     }
 
@@ -139,13 +116,10 @@ public class SheetController {
     @PostMapping("/open")
     public JSONObject open(@RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
-        try {
-            Boolean ok = sheetService.open(sheetId);
-            ret.put("code", Statue.SUCCESS);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        Boolean ok = sheetService.open(sheetId);
+        ret.put("code", Statue.SUCCESS);
+
         return ret;
     }
 
@@ -155,13 +129,10 @@ public class SheetController {
     @PostMapping("/close")
     public JSONObject close(@RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
-        try {
-            Boolean ok = sheetService.close(sheetId);
-            ret.put("code", Statue.SUCCESS);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        Boolean ok = sheetService.close(sheetId);
+        ret.put("code", Statue.SUCCESS);
+
         return ret;
     }
 
@@ -172,13 +143,9 @@ public class SheetController {
     public JSONObject collect(@PathVariable String host, @RequestParam("sheet_id") String sheetId){
         JSONObject ret = new JSONObject();
 
-        try {
-            Sheet sheet = sheetService.collect(host, sheetId);
-            ret = util.sheetBrief2Json(sheet);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        Sheet sheet = sheetService.collect(host, sheetId);
+        ret = util.sheetBrief2Json(sheet);
+
         return ret;
     }
 
@@ -191,16 +158,11 @@ public class SheetController {
                                 @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-        try {
-            Sheet sheet = sheetService.getInfo(sheetId);
-            List<KeySong> songs = sheet.getSongs();
-            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<KeySong> page = PageUtil.createPageFromList(songs, pageable);
-            ret = util.sheetInfoPage2Json(sheet, page);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        Sheet sheet = sheetService.getInfo(sheetId);
+        List<KeySong> songs = sheet.getSongs();
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<KeySong> page = PageUtil.createPageFromList(songs, pageable);
+        ret = util.sheetInfoPage2Json(sheet, page);
 
         return ret;
     }

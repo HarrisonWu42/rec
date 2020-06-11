@@ -31,16 +31,12 @@ public class RecommendController {
                                         @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-        try{
-            List<KeySong> recommendDLsongs = recommendService.recommandSongByDl(host);
-            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
-            ret = util.collectionSongPage2Json(page);
-        } catch (Exception e){
-            System.out.println(e);
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        List<KeySong> recommendDLsongs = recommendService.recommandSongByDl(host);
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<KeySong> page = PageUtil.createPageFromList(recommendDLsongs, pageable);
+        ret = util.collectionSongPage2Json(page);
+
         return ret;
     }
 
@@ -50,16 +46,12 @@ public class RecommendController {
                                         @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
 
-        try{
-            List<ItemcfResult> recommendsongs = recommendService.recommandSongByItemcf(host);
-            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<ItemcfResult> page = PageUtil.createPageFromList(recommendsongs, pageable);
-            ret = util.recPage2Json(page);
-        } catch (Exception e){
-            System.out.println(e);
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        List<ItemcfResult> recommendsongs = recommendService.recommandSongByItemcf(host);
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<ItemcfResult> page = PageUtil.createPageFromList(recommendsongs, pageable);
+        ret = util.recPage2Json(page);
+
         return ret;
     }
 }

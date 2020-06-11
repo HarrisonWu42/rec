@@ -54,7 +54,7 @@ public class UserController {
      * 登陆
      */
     @PostMapping("/login/{host}")
-    public JSONObject login(@PathVariable("host") String host, String password) throws Exception {
+    public JSONObject login(@PathVariable("host") String host, String password){
         JSONObject ret = new JSONObject();
 
         if (userService.isUserExist(host) == false){
@@ -63,18 +63,13 @@ public class UserController {
             return ret;
         }
 
-        try {
-            User user = userService.login(host, password);
-            if (user == null) {
-                ret.put("code", "error");
-                ret.put("msg", "密码错误");
-                return ret;
-            } else {
-                ret = util.user2JSON(user);
-            }
-        } catch (Exception e) {
+        User user = userService.login(host, password);
+        if (user == null) {
             ret.put("code", "error");
-            ret.put("msg", "failed");
+            ret.put("msg", "密码错误");
+            return ret;
+        } else {
+            ret = util.user2JSON(user);
         }
 
         return ret;
@@ -135,15 +130,12 @@ public class UserController {
     public JSONObject listRecord(@PathVariable String host,@RequestParam("page_num") int pageNum,
                                  @RequestParam("page_size") int pageSize){
         JSONObject ret = new JSONObject();
-        try{
-            List<RecordSong> recordSongList  = userService.listRecordSongs(host);
-            Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-            Page<RecordSong> page = PageUtil.createPageFromList(recordSongList, pageable);
-            ret = util.usrRecordSongPage2Json(page);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+
+        List<RecordSong> recordSongList  = userService.listRecordSongs(host);
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<RecordSong> page = PageUtil.createPageFromList(recordSongList, pageable);
+        ret = util.usrRecordSongPage2Json(page);
+
         return ret;
     }
 
@@ -161,17 +153,12 @@ public class UserController {
     public JSONObject sendEmail(@RequestParam String address) throws EmailException {
         JSONObject ret = new JSONObject();
 
-        try {
-            EmailUtil emailUtil = new EmailUtil();
-            String vc = emailUtil.sendEmail(address);
-            ret.put("code", Statue.SUCCESS);
-            JSONObject tmp = new JSONObject();
-            tmp.put("vc", vc);
-            ret.put("data", tmp);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("data", "failed");
-        }
+        EmailUtil emailUtil = new EmailUtil();
+        String vc = emailUtil.sendEmail(address);
+        ret.put("code", Statue.SUCCESS);
+        JSONObject tmp = new JSONObject();
+        tmp.put("vc", vc);
+        ret.put("data", tmp);
 
         return ret;
     }
@@ -180,20 +167,16 @@ public class UserController {
      * 发送邮件，获取邮箱验证码
      */
     @PostMapping("/send_msg")
-    public JSONObject sendMsg(@RequestParam String phone) throws EmailException {
+    public JSONObject sendMsg(@RequestParam String phone) throws Exception {
         JSONObject ret = new JSONObject();
 
-        try {
-            MsgUtil msgUtil = new MsgUtil();
-            String vc = msgUtil.send(phone);
-            ret.put("code", Statue.SUCCESS);
-            JSONObject tmp = new JSONObject();
-            tmp.put("vc", vc);
-            ret.put("data", tmp);
-        }catch (Exception e){
-            ret.put("code", "error");
-            ret.put("data", "failed");
-        }
+        MsgUtil msgUtil = new MsgUtil();
+        String vc = msgUtil.send(phone);
+        ret.put("code", Statue.SUCCESS);
+        JSONObject tmp = new JSONObject();
+        tmp.put("vc", vc);
+        ret.put("data", tmp);
+
 
         return ret;
     }
