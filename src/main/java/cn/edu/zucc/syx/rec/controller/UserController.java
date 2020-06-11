@@ -181,7 +181,6 @@ public class UserController {
         tmp.put("vc", vc);
         ret.put("data", tmp);
 
-
         return ret;
     }
 }

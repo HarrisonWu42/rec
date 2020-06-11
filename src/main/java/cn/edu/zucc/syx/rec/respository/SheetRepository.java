@@ -11,6 +11,5 @@ public interface SheetRepository extends ElasticsearchRepository<Sheet, Integer>
     Sheet findById(String sheetId);
     Integer deleteById(String sheetId);
     List<Sheet> queryByNameContains(String sheetName);
-    List<Sheet> queryByCreator_id(String createId);
 }
 

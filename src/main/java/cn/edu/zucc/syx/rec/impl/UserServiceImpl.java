@@ -19,13 +19,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final SongRepository songRepository;
-    private final SheetRepository sheetRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, SongRepository songRepository, SheetRepository sheetRepository) {
+    public UserServiceImpl(UserRepository userRepository, SongRepository songRepository) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
-        this.sheetRepository = sheetRepository;
     }
 
     @Override
@@ -192,14 +190,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(UserEditForm form) {
         User user = userRepository.findUserByHost(form.getHost());
-        // 姓名变化
-        if (!user.getName().equals(form.getName())) {
-            List<Sheet> sheetList = sheetRepository.queryByCreator_id(user.getHost());
-            for (Sheet s : sheetList) {
-                s.setCreator_name(form.getName());
-                sheetRepository.save(s);
-            }
-        }
         user.setHost(form.getHost());
         user.setName(form.getName());
         user.setAge(form.getAge());
