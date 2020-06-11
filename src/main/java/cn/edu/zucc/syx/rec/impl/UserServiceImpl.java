@@ -214,6 +214,16 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public User editPwd(String host, String pwd) {
+        User user = userRepository.findUserByHost(host);
+        String md5Str = DigestUtils.md5DigestAsHex(pwd.getBytes());
+        user.setPassword(md5Str);
+        userRepository.save(user);
+        return user;
+    }
+
     public class sortClass implements Comparator {
         public int compare(Object arg0,Object arg1){
             RecordSong recordSong = (RecordSong) arg0;

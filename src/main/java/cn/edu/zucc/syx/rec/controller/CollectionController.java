@@ -2,7 +2,6 @@ package cn.edu.zucc.syx.rec.controller;
 
 import cn.edu.zucc.syx.rec.entity.KeyArtists;
 import cn.edu.zucc.syx.rec.entity.KeySong;
-import cn.edu.zucc.syx.rec.entity.User;
 import cn.edu.zucc.syx.rec.service.CollectService;
 import cn.edu.zucc.syx.rec.service.RecommendService;
 import cn.edu.zucc.syx.rec.util.JsonUtil;
@@ -58,9 +57,6 @@ public class CollectionController {
     /**
      * 查看收藏夹（歌曲）(全部)
      */
-
-
-
     @GetMapping("/{host}/songsAll")
     public JSONObject listSongsCollectionAll(@PathVariable("host") String host){
         JSONObject ret = new JSONObject();
@@ -179,13 +175,4 @@ public class CollectionController {
         }
         return ret;
     }
-
-    // 推荐1, deeplearning
-    @GetMapping("/{host}/recommandbyDl")
-    public JSONObject recommandSongByDl(@PathVariable("host") String host){
-        List<KeySong> recommendDLsongs = recommandService.recommandSongByDl(host);
-        JSONObject ret  = util.userSongs2Json(recommendDLsongs);
-        return ret;
-    }
-
 }

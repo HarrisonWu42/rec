@@ -28,5 +28,6 @@ public interface UserService {
     RecordSong addRecordSong(String host, String song_id);
     List<RecordSong> listRecordSongs(String host);
     User deleteInfo(String host);
+    User editPwd(String host, String pwd);
 
 }

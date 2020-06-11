@@ -118,7 +118,7 @@ public class RecommendtServiceImpl implements RecommendService {
             }
         });
 
-        // 返回5*5
+        // 返回3*4
         int retNum = 12;
         for(Map.Entry<String, Float> i:list){
             if (retNum > 0){

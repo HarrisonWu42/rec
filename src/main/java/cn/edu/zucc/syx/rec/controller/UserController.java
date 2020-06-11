@@ -44,13 +44,8 @@ public class UserController {
             userForm.setName(Tool.getRandomString(8));
         }
 
-        try {
-            User user = userService.create(userForm);
-            ret = util.user2JSON(user);
-        } catch (Exception e){
-            ret.put("code", "error");
-            ret.put("msg", "failed");
-        }
+        User user = userService.create(userForm);
+        ret = util.user2JSON(user);
 
         return ret;
     }
@@ -95,6 +90,21 @@ public class UserController {
         return ret;
     }
 
+    @PostMapping("/{host}/edit_pwd")
+    public JSONObject editPwd(@PathVariable("host") String host, String pwd1, String pwd2){
+        JSONObject ret = new JSONObject();
+        if (pwd1 != pwd2){
+            ret.put("code", "error");
+            ret.put("msg", "");
+        }
+
+        User user = userService.editPwd(host, pwd1);
+        ret = util.userInfo2Json(user);
+
+
+        return ret;
+    }
+
     /**
      * 修改个人信息（待修改）
      * 目前有个问题，就是个人创建的歌单中有个创建者的姓名，现在还没有同步把这个用户名下的所有歌单的创建者姓名同步更改过来
@@ -106,7 +116,9 @@ public class UserController {
         return ret;
     }
 
-
+    /**
+     * 添加播放记录
+     */
     @PostMapping("/{host}/add_record")
     public JSONObject addRecord(@PathVariable String host,
                                 @RequestParam("song_id") String songId){
@@ -116,6 +128,9 @@ public class UserController {
         return ret;
     }
 
+    /**
+     * 查询用户所有推荐历史
+     */
     @GetMapping("/{host}/list_record")
     public JSONObject listRecord(@PathVariable String host,@RequestParam("page_num") int pageNum,
                                  @RequestParam("page_size") int pageSize){
