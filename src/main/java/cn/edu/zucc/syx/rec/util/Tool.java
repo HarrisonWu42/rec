@@ -3,6 +3,9 @@ package cn.edu.zucc.syx.rec.util;
 import java.util.Random;
 
 public class Tool {
+    /**
+     * 获得随机length位字符串
+     */
     public static String getRandomString(int length) {
         StringBuffer valSb = new StringBuffer();
         Random random = new Random();
