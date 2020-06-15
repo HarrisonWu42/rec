@@ -7,6 +7,8 @@ public class EmailUtil {
    public String sendEmail(String addressee) throws EmailException {
        HtmlEmail email = new HtmlEmail();
        email.setHostName("smtp.qq.com");    // SMTP服务器
+       email.setSSLOnConnect(true);
+       email.setSslSmtpPort("465");
        email.setCharset("utf-8");           // 字符集
        email.addTo(addressee);              // 收件人
        email.setFrom("303235738@qq.com","COCO音乐");     //发送人的邮箱为自己的，用户名可以随便填
